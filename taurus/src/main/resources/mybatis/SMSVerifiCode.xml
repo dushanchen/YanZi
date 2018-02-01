@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.taurus.mysql.SMSVerifiCodeMapper">
+
+	<resultMap type="SMSVerifiCodeInfo" id="SMSInfo">
+		<result property="id" column="id" />
+		<result property="phoneNo" column="phoneNo" />
+		<result property="code" column="code" />
+		<result property="type" column="type" />
+		<result property="valid" column="valid" />
+		<result property="addTime" column="addTime" />
+	</resultMap>
+
+	<select id="selectByPhoneNoAndType" resultMap="SMSInfo">
+        <![CDATA[
+		SELECT id, `phoneNo`, `code`, `type`, `valid`, `addTime`
+		FROM
+		User.SMSVerificationCode
+		WHERE `phoneNo` = #{phoneNo}
+		AND `type` = #{type}
+		ORDER BY `addTime` DESC
+		LIMIT 1
+		]]>
+	</select>
+
+	<select id="selectCountByPhoneNoAndRangeTime" resultType="int">
+        <![CDATA[
+		SELECT count(*)
+		FROM
+		User.SMSVerificationCode
+		WHERE `phoneNo` = #{phoneNo}
+		AND addTime >= #{beginTime}
+		AND addTime < #{endTime}
+		]]>
+	</select>
+
+	<insert id="addNewRecord" useGeneratedKeys="true" keyProperty="verifiCode.id">
+        <![CDATA[
+        INSERT INTO
+        User.SMSVerificationCode (`phoneNo`, `code`, `type`)
+        VALUES (#{verifiCode.phoneNo},#{verifiCode.code}, #{verifiCode.type})
+		]]>
+	</insert>
+
+	<update id="updateInvalid">
+	    <![CDATA[
+	    UPDATE User.SMSVerificationCode
+	    SET `valid` = 1
+	    WHERE id = #{id}
+	    ]]>
+	</update>
+
+</mapper>

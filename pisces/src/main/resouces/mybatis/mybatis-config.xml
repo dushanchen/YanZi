@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias alias="CourseInfo" type="com.yanzi.common.entity.college.course.CourseInfo" />
+		<typeAlias alias="LessonInfo" type="com.yanzi.common.entity.college.lesson.LessonInfo" />
+		<typeAlias alias="LessonPrimer" type="com.yanzi.common.entity.college.lesson.LessonPrimer" />
+		<typeAlias alias="LessonSummary" type="com.yanzi.common.entity.college.lesson.LessonSummary" />
+		<typeAlias alias="Summary" type="com.yanzi.common.entity.college.lesson.Summary" />
+		<typeAlias alias="QuestionInfo" type="com.yanzi.common.entity.college.question.QuestionInfo" />
+		<typeAlias alias="QuestionTextInfo" type="com.yanzi.common.entity.college.question.QuestionTextInfo" />
+        <typeAlias alias="LevelInfo" type="com.yanzi.common.entity.college.level.LevelInfo" />
+
+	    <typeAlias alias="TermInfo" type="com.yanzi.common.entity.term.TermInfo" />
+	    <typeAlias alias="TermPrimer" type="com.yanzi.common.entity.term.TermPrimer" />
+	    <typeAlias alias="TermLesson" type="com.yanzi.common.entity.term.TermLesson" />
+	    <typeAlias alias="TermCourse" type="com.yanzi.common.entity.term.TermCourse" />
+	    
+	    <typeAlias alias="UserTermCourseEntity" type="com.yanzi.pisces.entity.UserTermCourseEntity" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="mybatis/Course.xml" />
+		<mapper resource="mybatis/Level.xml" />
+		<mapper resource="mybatis/Lesson.xml" />
+		<mapper resource="mybatis/Question.xml" />
+		<mapper resource="mybatis/Term.xml" />
+		<mapper resource="mybatis/UserCourseTerm.xml" />
+	</mappers>
+</configuration>

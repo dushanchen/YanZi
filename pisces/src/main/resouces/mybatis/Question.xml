@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.pisces.mysql.QuestionMapper">
+
+	<resultMap type="QuestionInfo" id="QuestionInfoMap">
+		<result property="id" column="id" />
+		<result property="lessonId" column="lessonId" />
+		<result property="type" column="type" />
+		<result property="index" column="index" />
+		<result property="valid" column="valid" />
+	</resultMap>
+
+	<select id="selectByRangTime" resultMap="QuestionInfoMap">
+        <![CDATA[
+		SELECT id, `lessonId`, `type`, `index`, `valid`
+		FROM
+		College.Question
+		WHERE updateTime >= #{beginTime}
+		AND updateTime < #{endTime}
+		]]>
+	</select>
+
+	<resultMap type="QuestionTextInfo" id="QuestionTextInfoMap">
+		<result property="id" column="id" />
+		<result property="questionId" column="questionId" />
+		<result property="parentId" column="parentId" />
+		<result property="block" column="block" />
+		<result property="type" column="type" />
+		<result property="userId" column="userId" />
+		<result property="text" column="text" />
+		<result property="image" column="image" />
+		<result property="brief" column="brief" />
+		<result property="correctId" column="correctId" />
+		<result property="index" column="index" />
+		<result property="valid" column="valid" />
+	</resultMap>
+
+	<select id="selectQuestionTextByQuestionId" resultMap="QuestionTextInfoMap">
+        <![CDATA[
+		SELECT id, `questionId`, `parentId`, `block`, `type`, `userId`,
+		       `text`, `image`, `brief`, `correctId`, `index`, `valid`
+		FROM
+		College.QuestionText
+		WHERE
+		`questionId` = #{questionId}
+		]]>
+	</select>
+</mapper>

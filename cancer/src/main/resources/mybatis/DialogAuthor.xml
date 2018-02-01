@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.cancer.mysql.DialogAuthorMapper">
+
+	<resultMap type="DialogAuthor" id="DialogAuthorMap">
+		<result property="id" column="id" />
+		<result property="dialogId" column="dialogId"/>
+		<result property="userId" column="userId" />
+		<result property="valid" column="valid" />
+	</resultMap>
+
+	<select id="selectTagsByRangTime" resultMap="DialogAuthorMap">
+        <![CDATA[
+		SELECT id, `dialogId`, `userId`, `valid`
+		FROM
+		Dialog.DialogAuthor
+		WHERE updateTime >= #{beginTime}
+		AND updateTime < #{endTime}
+		]]>
+	</select>
+
+</mapper>

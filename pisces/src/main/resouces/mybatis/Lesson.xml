@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.pisces.mysql.LessonMapper">
+
+	<resultMap type="LessonInfo" id="LessonInfoMap">
+		<result property="id" column="id" />
+		<result property="courseId" column="courseId" />
+		<result property="title" column="title" />
+		<result property="image" column="image" />
+		<result property="index" column="index" />
+		<result property="valid" column="valid" />
+	</resultMap>
+
+	<select id="selectByRangTime" resultMap="LessonInfoMap">
+        <![CDATA[
+		SELECT id, `courseId`, `title`, `image`, `index`, `valid`
+		FROM
+		College.Lesson
+		WHERE updateTime >= #{beginTime}
+		AND updateTime < #{endTime}
+		]]>
+	</select>
+
+	<resultMap type="LessonPrimer" id="LessonPrimerMap">
+		<result property="lessonId" column="id" />
+		<result property="title" column="PrimerTitle" />
+		<result property="brief" column="PrimerBrief" />
+		<result property="image" column="PrimerImage" />
+		<result property="content" column="PrimerContent" />
+	</resultMap>
+
+	<select id="selectPrimerById" resultMap="LessonPrimerMap">
+        <![CDATA[
+		SELECT id, `PrimerTitle`, `PrimerBrief`, `PrimerImage`, `PrimerContent`
+		FROM
+		College.Lesson
+		WHERE id = #{lessonId}
+		]]>
+	</select>
+
+	<resultMap type="LessonSummary" id="LessonSummaryMap">
+		<result property="lessonId" column="id" />
+		<result property="image" column="summaryImage" />
+	</resultMap>
+
+	<select id="selectSummaryBaseById" resultMap="LessonSummaryMap">
+        <![CDATA[
+		SELECT id, `summaryImage`
+		FROM
+		College.Lesson
+		WHERE id = #{lessonId}
+		]]>
+	</select>
+
+	<resultMap type="Summary" id="SummaryMap">
+		<result property="id" column="id" />
+		<result property="lessonId" column="lessonId" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="index" column="index" />
+	</resultMap>
+
+	<select id="selectSummaryDetailById" resultMap="SummaryMap">
+        <![CDATA[
+		SELECT id, `lessonId`, `title`, `content`, `index`
+		FROM
+		College.LessonSummary
+		WHERE lessonId = #{lessonId}
+		AND `valid` <= #{valid}
+		ORDER BY `index`
+		]]>
+	</select>
+
+</mapper>

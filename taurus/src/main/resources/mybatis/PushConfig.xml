@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.taurus.mysql.PushConfigMapper">
+
+	<resultMap type="PushConfig" id="PushConfigMap">
+		<result property="id" column="id" />
+		<result property="article" column="article" />
+		<result property="dialog" column="dialog" />
+		<result property="study" column="study" />
+	</resultMap>
+
+	<select id="selectById" resultMap="PushConfigMap">
+        <![CDATA[
+		SELECT id, `article`, `dialog`, `study`
+		FROM
+		User.UserPushConfig
+		WHERE `id` = #{id}
+		]]>
+	</select>
+
+	<insert id="insertOrUpdateById">
+        <![CDATA[
+        INSERT INTO
+        User.UserPushConfig (id, `article`, `dialog`, `study`)
+        VALUES 
+            (#{id},#{pushConfig.article},#{pushConfig.dialog},#{pushConfig.study})
+        ON DUPLICATE KEY UPDATE
+            `article` = #{pushConfig.article},dialog = #{pushConfig.dialog},
+            `study` = #{pushConfig.study}
+		]]>
+    </insert>
+
+</mapper>

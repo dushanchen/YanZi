@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.taurus.mysql.UserMapper">
+
+	<resultMap type="AccountInfo" id="AccountInfo">
+		<result property="id" column="id" />
+		<result property="phoneNo" column="phoneNo" />
+		<result property="password" column="password" />
+		<result property="token" column="token" />
+	</resultMap>
+
+	<resultMap type="UserInfo" id="UserInfo">
+		<result property="id" column="id" />
+		<result property="nickName" column="nickName" />
+		<result property="icon" column="icon" />
+		<result property="sex" column="sex" />
+		<result property="introduce" column="introduce" />
+		<result property="signature" column="signature" />
+		<result property="company" column="company" />
+		<result property="education" column="education" />
+	</resultMap>
+
+	<resultMap type="ThirdPartyInfo" id="ThirdPartyInfo">
+		<result property="userId" column="userId" />
+		<result property="thirdPartyId" column="thirdPartyId" />
+		<result property="source" column="source" />
+	</resultMap>
+
+    <insert id="insertAccountInfo" useGeneratedKeys="true"
+		keyProperty="accountInfo.id">
+        <![CDATA[
+        INSERT INTO
+        User.AccountInfo (`PhoneNo`, `password`, `token`)
+        VALUES (#{accountInfo.phoneNo}, #{accountInfo.password}, #{accountInfo.token})
+        ]]>
+    </insert>
+    
+    <insert id="insertOrUpdateUserInfo">
+        <![CDATA[
+		INSERT INTO User.BasicInfo (`id`, `nickName`, `icon`, `sex`, `introduce`, `signature`, `company`, `education`)
+		VALUES
+		(#{userInfo.id},#{userInfo.nickName},#{userInfo.icon},#{userInfo.sex},#{userInfo.introduce},#{userInfo.signature},#{userInfo.company},#{userInfo.education})
+		ON DUPLICATE KEY UPDATE 
+		   nickName = #{userInfo.nickName}, `icon` = #{userInfo.icon}, sex = #{userInfo.sex},introduce = #{userInfo.introduce},
+           signature = #{userInfo.signature},company = #{userInfo.company},education = #{userInfo.education}
+	    ]]>
+	</insert>
+
+	<insert id="insertOrUpdatePermissionInfo">
+        <![CDATA[
+        INSERT INTO User.PermissionInfo(`id`)
+        VALUES
+        (#{permissionInfo.userId})
+        ON DUPLICATE KEY UPDATE 
+            `id` = `id`
+        ]]>
+	</insert>
+
+    <insert id="insertOrUpdateDeviceInfo">
+        <![CDATA[
+        INSERT INTO User.DeviceInfo(`id`, `deviceId`)
+        VALUES
+        (#{deviceInfo.userId}, #{deviceInfo.deviceId})
+        ON DUPLICATE KEY UPDATE 
+            `deviceId` = #{deviceInfo.deviceId}
+        ]]>
+	</insert>
+
+	<insert id="insertOrUpdateThirdPartyInfo">
+		<![CDATA[
+		INSERT INTO User.ThirdPartyInfo(`userId`,`thirdPartyId`,`source`)
+		VALUES
+		(#{thirdPartyInfo.userId}, #{thirdPartyInfo.thirdPartyId}, #{thirdPartyInfo.source})
+		ON DUPLICATE KEY UPDATE 
+		    `thirdPartyId` = #{thirdPartyInfo.thirdPartyId}
+		]]>
+	</insert>
+
+	<update id="updateAccountInfo">
+	    <![CDATA[
+	    UPDATE User.AccountInfo
+	    SET `phoneNo` = #{accountInfo.phoneNo}, `password` = #{accountInfo.password}, `token` = #{accountInfo.token}
+	    WHERE id = #{accountInfo.id}
+	    ]]>
+	</update>
+
+	<select id="selectAccountInfoByPhoneNo" resultMap="AccountInfo">
+        <![CDATA[
+        SELECT `id`, `phoneNo`, `password`, `token`
+        FROM User.AccountInfo
+		WHERE `phoneNo` = #{phoneNo}
+		]]>
+	</select>
+	
+	<select id="selectAccountInfoByUserId" resultMap="AccountInfo">
+        <![CDATA[
+        SELECT `id`, `phoneNo`, `password`, `token`
+        FROM User.AccountInfo
+		WHERE `id` = #{userId}
+		]]>
+	</select>
+
+	<select id="selectAccountInfoByThirdPartyInfo" resultMap="AccountInfo">
+	    <![CDATA[
+	    SELECT ua.id, ua.phoneNo, ua.password, ua.token
+ 		FROM
+		User.AccountInfo ua, User.ThirdPartyInfo ut
+ 		WHERE ut.thirdPartyId = #{thirdPartyInfo.thirdPartyId}
+ 		AND ut.source = #{thirdPartyInfo.source}
+ 		AND ua.id = ut.userId
+        ]]>
+	</select>
+
+	<select id="selectThirdPartyInfoByUserId" resultMap="ThirdPartyInfo">
+	    <![CDATA[
+	    SELECT `userId`, `thirdPartyId`, `source` 
+	    FROM User.ThirdPartyInfo
+	    WHERE `userId` = #{userId}
+        ]]>
+	</select>
+
+	
+<!-- 	<sql id="select">   -->
+<!-- 		SELECT id, `phoneNo`, `password`, `deviceId`, `token` -->
+<!-- 		FROM -->
+<!-- 		User.UserInfo -->
+<!-- 	</sql> -->
+
+<!-- 	<select id="selectByPhoneNo" resultMap="UserInfoMap"> -->
+<!-- 	    <include refid="select"/>  -->
+<!--         <![CDATA[ -->
+<!-- 		WHERE `phoneNo` = #{phoneNo} -->
+<!-- 		]]> -->
+<!-- 	</select> -->
+
+<!-- 	<select id="selectByToken" resultMap="UserInfoMap"> -->
+<!-- 	    <include refid="select"/> -->
+<!--         <![CDATA[ -->
+<!-- 		WHERE `token` = #{token} -->
+<!-- 		]]> -->
+<!-- 	</select> -->
+
+<!-- 	<select id="selectByThirdPartyId" resultMap="UserInfoMap"> -->
+<!--         <![CDATA[ -->
+<!--         SELECT uu.id, `phoneNo`, `password`, `deviceId`, `token` -->
+<!-- 		FROM -->
+<!-- 		User.UserInfo uu, User.ThirdPartyId ut -->
+<!-- 		WHERE ut.thirdPartyId = #{thirdPartyId}  -->
+<!-- 		AND ut.source = #{source} -->
+<!-- 		AND uu.id = ut.userId -->
+<!-- 		]]> -->
+<!-- 	</select> -->
+
+<!-- 	<select id="selectByIds" resultMap="UserInfoMap"> -->
+<!-- 	    <include refid="select"/>  -->
+<!--         WHERE `id` IN -->
+<!--         ( -->
+<!-- 		<foreach collection="ids" item="id" index="index" separator=","> -->
+<!-- 	        <![CDATA[ -->
+<!-- 	        #{id} -->
+<!-- 	        ]]> -->
+<!-- 		</foreach> -->
+<!-- 		) -->
+<!-- 	</select> -->
+
+<!-- 	<update id="updateTokenAndDeviceIdById"> -->
+<!-- 	    <![CDATA[ -->
+<!-- 	    UPDATE User.UserInfo -->
+<!-- 	    SET `token` = #{token}, `deviceId` = #{deviceId} -->
+<!-- 	    WHERE id = #{id} -->
+<!-- 	    ]]> -->
+<!-- 	</update> -->
+
+<!-- 	<insert id="registerByPhone" useGeneratedKeys="true" -->
+<!-- 		keyProperty="user.id"> -->
+<!--         <![CDATA[ -->
+<!--         INSERT INTO -->
+<!--         User.UserInfo (`phoneNo`, `password`,`addTime`) -->
+<!--         VALUES (#{user.phoneNo},#{user.password},now()) -->
+<!-- 		]]> -->
+<!-- 	</insert> -->
+	
+<!-- 	<insert id="registerByThirdPartyId" useGeneratedKeys="true" -->
+<!-- 		keyProperty="user.id"> -->
+<!--         <![CDATA[ -->
+<!--         INSERT INTO -->
+<!--         User.UserInfo (`addTime`) -->
+<!--         VALUES (now()) -->
+<!-- 		]]> -->
+<!-- 	</insert> -->
+
+<!-- 	<update id="updatePhoneNo"> -->
+<!-- 	    <![CDATA[ -->
+<!-- 	    UPDATE User.UserInfo -->
+<!-- 	    SET `phoneNo` = #{phoneNo} -->
+<!-- 	    WHERE id = #{id} -->
+<!-- 	    ]]> -->
+<!-- 	</update> -->
+
+<!-- 	<update id="updatePassword"> -->
+<!-- 	    <![CDATA[ -->
+<!-- 	    UPDATE User.UserInfo -->
+<!-- 	    SET `password` = #{password} -->
+<!-- 	    WHERE id = #{id} -->
+<!-- 	    ]]> -->
+<!-- 	</update> -->
+
+<!-- 	<resultMap type="ThirdPartyId" id="ThirdPartyIdMap"> -->
+<!-- 		<result property="userId" column="userId" /> -->
+<!-- 		<result property="thirdPartyId" column="thirdPartyId" /> -->
+<!-- 		<result property="source" column="source" /> -->
+<!-- 	</resultMap> -->
+	
+<!-- 	<select id="selectThirdPartyIdByUserId" resultMap="ThirdPartyIdMap"> -->
+<!--         <![CDATA[ -->
+<!--         SELECT userId, `thirdPartyId`, `source` -->
+<!-- 		FROM -->
+<!-- 		User.ThirdPartyId -->
+<!-- 		WHERE userId = #{userId} -->
+<!-- 		]]> -->
+<!-- 	</select> -->
+	
+<!-- 	<insert id="addUserThirdPartyId" useGeneratedKeys="true"> -->
+<!-- 		INSERT INTO User.ThirdPartyId (userId, thirdPartyId, source, addTime) -->
+<!-- 		VALUES -->
+<!-- 		(#{userId},#{thirdPartyId.thirdPartyId}, #{thirdPartyId.source}, now()) -->
+<!-- 		ON DUPLICATE KEY UPDATE thirdPartyId = #{thirdPartyId.thirdPartyId} -->
+<!-- 	</insert> -->
+
+<!-- 	<resultMap type="Feedback" id="FeedbackMap"> -->
+<!-- 		<result property="userId" column="userId" /> -->
+<!-- 		<result property="message" column="message" /> -->
+<!-- 	</resultMap> -->
+
+<!-- 	<select id="selectFeedbackByUserId" resultMap="FeedbackMap"> -->
+<!--         <![CDATA[ -->
+<!--         SELECT userId, `message` -->
+<!-- 		FROM -->
+<!-- 		User.UserFeedback -->
+<!-- 		WHERE userId = #{userId} -->
+<!-- 		]]> -->
+<!-- 	</select> -->
+
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- course -->
+	<bean id="courseIncrLoadJob" class="com.yanzi.pisces.job.mysql.CourseIncrLoadJob">
+	</bean>
+	<bean id="courseIncrLoadJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent" value="false" />
+		<property name="targetObject">
+			<ref bean="courseIncrLoadJob" />
+		</property>
+		<property name="targetMethod" value="jobRun" />
+	</bean>
+	<bean id="courseIncrLoadJobTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="courseIncrLoadJobDetail" />
+		</property>
+		<property name="startDelay" value="0" />
+		<property name="repeatCount" value="-1" />
+		<property name="repeatInterval" value="60000" />
+	</bean>
+	<!-- lesson -->
+	<bean id="lessonIncrLoadJob" class="com.yanzi.pisces.job.mysql.LessonIncrLoadJob">
+	</bean>
+	<bean id="lessonIncrLoadJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent" value="false" />
+		<property name="targetObject">
+			<ref bean="lessonIncrLoadJob" />
+		</property>
+		<property name="targetMethod" value="jobRun" />
+	</bean>
+	<bean id="lessonIncrLoadJobTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="lessonIncrLoadJobDetail" />
+		</property>
+		<property name="startDelay" value="0" />
+		<property name="repeatCount" value="-1" />
+		<property name="repeatInterval" value="60000" />
+	</bean>
+	<!-- question -->
+	<bean id="questionIncrLoadJob" class="com.yanzi.pisces.job.mysql.QuestionIncrLoadJob">
+		<property name="reloadJobNames">
+			<list>
+				<ref bean="lessonIncrLoadJob" />
+			</list>
+		</property>
+	</bean>
+	<bean id="questionIncrLoadJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent" value="false" />
+		<property name="targetObject">
+			<ref bean="questionIncrLoadJob" />
+		</property>
+		<property name="targetMethod" value="jobRun" />
+	</bean>
+	<bean id="questionIncrLoadJobTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="questionIncrLoadJobDetail" />
+		</property>
+		<property name="startDelay" value="0" />
+		<property name="repeatCount" value="-1" />
+		<property name="repeatInterval" value="60000" />
+	</bean>
+	<!-- level -->
+	<bean id="levelIncrLoadJob" class="com.yanzi.pisces.job.mysql.LevelIncrLoadJob">
+	</bean>
+	<bean id="levelIncrLoadJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent" value="false" />
+		<property name="targetObject">
+			<ref bean="levelIncrLoadJob" />
+		</property>
+		<property name="targetMethod" value="jobRun" />
+	</bean>
+	<bean id="levelIncrLoadJobTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="levelIncrLoadJobDetail" />
+		</property>
+		<property name="startDelay" value="0" />
+		<property name="repeatCount" value="-1" />
+		<property name="repeatInterval" value="60000" />
+	</bean>
+	<!-- term -->
+	<bean id="termIncrLoadJob" class="com.yanzi.pisces.job.mysql.TermIncrLoadJob">
+		<property name="reloadJobNames">
+			<list>
+				<ref bean="lessonIncrLoadJob" />
+			</list>
+		</property>
+	</bean>
+	<bean id="termIncrLoadJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent" value="false" />
+		<property name="targetObject">
+			<ref bean="termIncrLoadJob" />
+		</property>
+		<property name="targetMethod" value="jobRun" />
+	</bean>
+	<bean id="termIncrLoadJobTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="termIncrLoadJobDetail" />
+		</property>
+		<property name="startDelay" value="0" />
+		<property name="repeatCount" value="-1" />
+		<property name="repeatInterval" value="60000" />
+	</bean>
+
+	<bean id="collegeExecutor"
+		class="org.springframework.scheduling.quartz.SimpleThreadPoolTaskExecutor">
+		<property name="threadCount" value="10" />
+		<property name="waitForJobsToCompleteOnShutdown" value="false" />
+		<property name="makeThreadsDaemons" value="true" />
+		<property name="instanceName" value="collegeExecutor" />
+	</bean>
+	<bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="courseIncrLoadJobTrigger" />
+				<ref bean="lessonIncrLoadJobTrigger" />
+				<ref bean="questionIncrLoadJobTrigger" />
+				<ref bean="levelIncrLoadJobTrigger"/>
+				<ref bean="termIncrLoadJobTrigger"/>
+			</list>
+		</property>
+		<property name="taskExecutor">
+			<ref bean="collegeExecutor" />
+		</property>
+		<property name="waitForJobsToCompleteOnShutdown" value="false" />
+		<property name="autoStartup" value="true" />
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.scheduler.makeSchedulerThreadDaemon">true</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>

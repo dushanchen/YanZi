@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.pisces.mysql.TermMapper">
+
+	<resultMap type="TermInfo" id="TermInfoMap">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="brief" column="brief" />
+		<result property="price" column="price" />
+		<result property="discount" column="discount" />
+		<result property="desc" column="desc" />
+		<result property="term" column="term" />
+		<result property="image" column="image" />
+		<result property="startTime" column="startTime" />
+		<result property="endTime" column="endTime" />
+		<result property="index" column="index" />
+		<result property="valid" column="valid" />
+	</resultMap>
+
+	<select id="selectByRangTime" resultMap="TermInfoMap">
+        <![CDATA[
+		SELECT id, `title`, `brief`, `price`, `discount`, `desc`, `term`, `image`, `startTime`, `endTime`, `index`, `valid`
+		FROM
+		Term.Term
+		WHERE updateTime >= #{beginTime}
+		AND updateTime < #{endTime}
+		]]>
+	</select>
+
+	<resultMap type="TermPrimer" id="TermPrimerMap">
+		<result property="termId" column="id" />
+		<result property="image" column="image" />
+	</resultMap>
+
+	<select id="selectTermPrimerById" resultMap="TermPrimerMap">
+        <![CDATA[
+		SELECT id, `image`
+		FROM
+		Term.Term
+		WHERE id = #{termId}
+		]]>
+	</select>
+
+	<resultMap type="TermCourse" id="TermCourseMap">
+		<result property="id" column="id" />
+		<result property="termId" column="termId" />
+		<result property="courseId" column="courseId" />
+		<result property="index" column="index" />
+	</resultMap>
+
+	<select id="selectTermCourseById" resultMap="TermCourseMap">
+        <![CDATA[
+		SELECT id, `termId`, `courseId`, `index`
+		FROM
+		Term.TermCourse
+		WHERE termId = #{termId}
+		AND `valid` <= #{valid}
+		ORDER BY `index`
+		]]>
+	</select>
+
+	<resultMap type="TermLesson" id="TermLessonMap">
+		<result property="id" column="id" />
+		<result property="termId" column="termId" />
+		<result property="lessonId" column="lessonId" />
+		<result property="startTime" column="startTime" />
+	</resultMap>
+
+	<select id="selectTermLessonById" resultMap="TermLessonMap">
+        <![CDATA[
+		SELECT id, `termId`, `lessonId`, `startTime`
+		FROM
+		Term.TermLesson
+		WHERE termId = #{termId}
+		AND `valid` <= #{valid}
+		ORDER BY `startTime`
+		]]>
+	</select>
+	<!-- 查询课程的报名人数 -->
+	<select id="countByTerm" returnType="int">
+		select count(*) from User.userPurchaseTerm where term_id=#{termId} 
+	</select>
+</mapper>

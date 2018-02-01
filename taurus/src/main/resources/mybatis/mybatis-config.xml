@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias alias="UserInfo" type="com.yanzi.common.entity.user.UserInfo" />
+		<typeAlias alias="SMSVerifiCodeInfo" type="com.yanzi.taurus.entity.SMSVerifiCodeInfo" />
+		<typeAlias alias="AccountInfo" type="com.yanzi.taurus.entity.AccountInfo" />
+		<typeAlias alias="ThirdPartyInfo" type="com.yanzi.taurus.entity.ThirdPartyInfo" />
+		<typeAlias alias="TagInfo" type="com.yanzi.common.entity.user.TagInfo" />
+<!-- 		<typeAlias alias="PushConfig" type="com.yanzi.taurus.entity.PushConfig" /> -->
+<!-- 		<typeAlias alias="PermissionInfo" type="com.yanzi.gemini.entity.user.PermissionInfo" /> -->
+<!-- 		<typeAlias alias="Feedback" type="com.yanzi.taurus.entity.FeedbackInfo" /> -->
+	</typeAliases>
+	<mappers>
+		<mapper resource="mybatis/User.xml" />
+		<mapper resource="mybatis/SMSVerifiCode.xml" />
+<!-- 		<mapper resource="mybatis/InviteCode.xml" /> -->
+<!-- 		<mapper resource="mybatis/Basic.xml" /> -->
+		<mapper resource="mybatis/Tag.xml" />
+<!-- 		<mapper resource="mybatis/PushConfig.xml" /> -->
+<!-- 		<mapper resource="mybatis/Permission.xml" /> -->
+<!-- 		<mapper resource="mybatis/UserFriend.xml" /> -->
+	</mappers>
+</configuration>

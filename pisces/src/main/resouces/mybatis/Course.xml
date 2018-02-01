@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.pisces.mysql.CourseMapper">
+
+	<resultMap type="CourseInfo" id="CourseInfo">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="enTitle" column="enTitle" />
+		<result property="image" column="image" />
+		<result property="valid" column="valid" />
+	</resultMap>
+
+	<select id="selectByRangTime" resultMap="CourseInfo">
+        <![CDATA[
+		SELECT id, `title`, `enTitle`, `image`, `valid`
+		FROM
+		College.Course
+		WHERE updateTime >= #{beginTime}
+		AND updateTime < #{endTime}
+		]]>
+	</select>
+
+</mapper>

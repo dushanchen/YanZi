@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.pisces.mysql.LevelMapper">
+
+	<resultMap type="LevelInfo" id="LevelInfo">
+		<result property="id" column="id" />
+		<result property="courseId" column="courseId" />
+		<result property="level" column="level" />
+		<result property="minExp" column="minExp" />
+		<result property="coin" column="coin" />
+		<result property="image" column="image" />
+		<result property="valid" column="valid" />
+	</resultMap>
+
+	<select id="selectByRangTime" resultMap="LevelInfo">
+        <![CDATA[
+		SELECT id, `courseId`, `level`, `minExp`, `coin`, `image`, `valid`
+		FROM
+		College.Level
+		WHERE updateTime >= #{beginTime}
+		AND updateTime < #{endTime}
+		]]>
+	</select>
+
+</mapper>

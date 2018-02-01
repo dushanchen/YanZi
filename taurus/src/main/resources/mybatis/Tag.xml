@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.taurus.mysql.TagMapper">
+
+	<resultMap type="TagInfo" id="TagInfoMap">
+		<result property="id" column="id" />
+		<result property="tag" column="tag" />
+		<result property="valid" column="valid" />
+	</resultMap>
+
+	<select id="selectTagsByRangTime" resultMap="TagInfoMap">
+        <![CDATA[
+		SELECT id, `tag`, `valid`
+		FROM
+		User.TagInfo
+		WHERE updateTime >= #{beginTime}
+		AND updateTime < #{endTime}
+		]]>
+	</select>
+
+	<select id="selectTagIdsByUserId" resultType="long">
+        <![CDATA[
+		SELECT `tagId`
+		FROM
+		User.UserTags
+		WHERE `userId` = #{userId}
+		AND `valid` = 0
+		]]>
+	</select>
+
+	<insert id="insertOrUpdateTagIdsByUserId" useGeneratedKeys="true">
+		INSERT INTO User.UserTags (userId, tagId)
+		VALUES
+		<foreach collection="tagIds" item="tagId" index="index"
+			separator=",">
+            <![CDATA[
+	        (#{userId}, #{tagId})
+	        ]]>
+		</foreach>
+		ON DUPLICATE KEY UPDATE valid = 0
+	</insert>
+
+	<update id="deleteAllFollowedTags">
+        <![CDATA[
+        UPDATE User.UserTagFollow
+        SET valid = 1
+        WHERE userId = #{userId}
+        ]]>
+	</update>
+
+</mapper>

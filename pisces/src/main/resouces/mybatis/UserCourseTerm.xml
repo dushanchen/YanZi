@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.pisces.mysql.UserCourseTermMapper">
+
+	<resultMap type="UserTermCourseEntity" id="UserTermCourseMap">
+		<result property="userId" column="userId" />
+		<result property="termId" column="termId" />
+		<result property="courseId" column="courseId" />
+	</resultMap>
+
+	<select id="selectUserCourseTermByUserId" resultMap="UserTermCourseMap">
+        <![CDATA[
+		SELECT `userId`, `termId`, `courseId`
+		FROM
+		User.CourseTerm
+		WHERE `userId` = #{userId}
+		]]>
+	</select>
+
+	<select id="selectUserTermIdByUserIdAndCourseId" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT `termId`
+		FROM
+		User.CourseTerm
+		WHERE `userId` = #{userId}
+		AND `courseId` = #{courseId}
+		]]>
+	</select>
+	<!--用户购买学期  -->
+	<insert id="userPurchaseTerm" >
+		insert into User.UserPurchaseTerm(user_id,term_id) values(#{userId},#{termId})
+	</insert>
+</mapper>

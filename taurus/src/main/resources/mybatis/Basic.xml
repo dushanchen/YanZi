@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanzi.taurus.mysql.BasicMapper">
+
+	<resultMap type="BasicInfo" id="BasicInfoMap">
+		<result property="id" column="id" />
+		<result property="nickName" column="nickName" />
+		<result property="icon" column="icon" />
+		<result property="sex" column="sex" />
+		<result property="introduce" column="introduce" />
+		<result property="signature" column="signature" />
+		<result property="company" column="company" />
+		<result property="education" column="education" />
+	</resultMap>
+
+	<sql id="select">  
+		SELECT id, `nickName`,`icon`, `sex`, `introduce`, `signature`, `company`,`education`
+		FROM
+		User.UserBasicInfo
+	</sql>
+
+	<select id="selectById" resultMap="BasicInfoMap">
+	<include refid="select"/> 
+	    <![CDATA[
+		WHERE `id` = #{id}
+		]]>
+	</select>
+
+	<select id="selectByIds" resultMap="BasicInfoMap">
+	    <include refid="select"/> 
+		WHERE `id` IN
+        (
+		<foreach collection="ids" item="id" index="index" separator=",">
+	        <![CDATA[
+	        #{id}
+	        ]]>
+		</foreach>
+		)
+	</select>
+
+	<insert id="insertOrUpdateById">
+        <![CDATA[
+        INSERT INTO
+        User.UserBasicInfo (id, `nickName`, `icon`, `sex`, `introduce`, `signature`, `company`,`education`)
+        VALUES 
+            (#{id},#{basic.nickName},#{basic.icon},#{basic.sex},#{basic.introduce},
+            #{basic.signature},#{basic.company},#{basic.education})
+        ON DUPLICATE KEY UPDATE 
+            nickName = #{basic.nickName}, `icon` = #{basic.icon}, sex = #{basic.sex},introduce = #{basic.introduce},
+            signature = #{basic.signature},company = #{basic.company},education = #{basic.education}
+		]]>
+	</insert>
+
+</mapper>

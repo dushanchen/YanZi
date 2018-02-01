@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias alias="DialogInfo" type="com.yanzi.cancer.entity.DialogInfo" />
+		<typeAlias alias="DialogAuthor" type="com.yanzi.cancer.entity.DialogAuthor" />
+		<typeAlias alias="DialogContent" type="com.yanzi.cancer.entity.DialogContent" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="mybatis/Dialog.xml" />
+		<mapper resource="mybatis/DialogAuthor.xml" />
+		<mapper resource="mybatis/DialogContent.xml" />
+	</mappers>
+</configuration>
