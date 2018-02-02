@@ -259,8 +259,9 @@ public class UserController extends BaseController<ViewResponseBase> {
     public ResponseEntity<ResponseEntityWrapper> purchaseTerm(@Valid UserLoadTermInfoParams params){
     	long userId = paramsUtils.getUserId(params);
     	long termId = params.getTermId();
+    	long courseId = params.getCourseId();
     	 // TODO  支付过程
-        userCollegeService.userPurchaseTerm(userId, termId);
+        userCollegeService.userPurchaseTerm(userId,courseId, termId);
         return packageSuccessData(new ViewResponseBase());
         
     }

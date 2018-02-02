@@ -76,5 +76,5 @@ public interface UserCollegeService extends CUserCollegeService {
      * @param termId
      * @author dusc
      */
-    void userPurchaseTerm(long userId,long termId);
+    void userPurchaseTerm(long userId,long courseId,long termId);
 }
