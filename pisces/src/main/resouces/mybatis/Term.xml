@@ -77,7 +77,7 @@
 		]]>
 	</select>
 	<!-- 查询课程的报名人数 -->
-	<select id="countByTerm" returnType="int">
+	<select id="countByTerm" resultType="int">
 		select count(*) from User.userPurchaseTerm where term_id=#{termId} 
 	</select>
 </mapper>
