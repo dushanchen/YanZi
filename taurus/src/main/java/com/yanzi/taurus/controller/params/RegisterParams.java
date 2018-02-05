@@ -3,15 +3,17 @@ package com.yanzi.taurus.controller.params;
 import com.yanzi.common.controller.validator.NotEmpty;
 
 public class RegisterParams {
-    @NotEmpty
+  
     private String phoneNo;
-    @NotEmpty
+    
     private String password;
-    @NotEmpty
+    
     private String verifiCode;
-    @NotEmpty
+     
     private String nickName;
 
+    private long userId;
+    
     public String getPhoneNo() {
         return phoneNo;
     }
@@ -43,4 +45,13 @@ public class RegisterParams {
     public void setVerifiCode(String verifiCode) {
         this.verifiCode = verifiCode;
     }
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+    
 }
