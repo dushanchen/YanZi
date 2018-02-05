@@ -29,6 +29,9 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public AccountInfo loginByPhoneNo(String phoneNo, String password, DeviceInfo deviceInfo) {
         AccountInfo accountInfo = userMapper.selectAccountInfoByPhoneNo(phoneNo);
+        if(null == accountInfo) {
+        	throw new CommonException(ReturnCode.PHONE_NO_IS_NOT_REGISTER);
+        }
         if (!accountInfo.getPassword().equals(password)) {
             throw new CommonException(ReturnCode.PASSWORD_ERROR);
         }
