@@ -14,6 +14,8 @@ import com.yanzi.taurus.entity.ThirdPartyInfo;
 public interface UserMapper {
 
     public void insertAccountInfo(@Param(value = "accountInfo") AccountInfo accountInfo);
+    
+    public void savePassword(@Param(value="userId") long userId,@Param(value="password") String password);
 
     public void insertOrUpdateUserInfo(@Param(value = "userInfo") UserInfo userInfo);
 

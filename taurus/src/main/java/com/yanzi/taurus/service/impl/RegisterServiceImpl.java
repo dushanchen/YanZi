@@ -28,18 +28,39 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private PhoneService phoneService;
 
+//    @Override
+//    public long registerByPhoneNo(String phoneNo, String password, String userVerifiCode, String nickName) {
+//        phoneService.isNotRegisted(phoneNo);
+//        smsService.verificationCodeJudge(phoneNo, userVerifiCode, SMSVerifiCodeType.USER_REGISTER);
+//        AccountInfo accountInfo = new AccountInfo();
+//        accountInfo.setPhoneNo(phoneNo);
+//        accountInfo.setPassword(password);
+//        userMapper.insertAccountInfo(accountInfo);
+//        register(accountInfo, nickName);
+//        return accountInfo.getId();
+//    }
+    /**
+     * 注册第一步，
+     * dusc
+     */
     @Override
-    public long registerByPhoneNo(String phoneNo, String password, String userVerifiCode, String nickName) {
+    public long registerByPhoneNo(String phoneNo, String userVerifiCode, String nickName) {
         phoneService.isNotRegisted(phoneNo);
         smsService.verificationCodeJudge(phoneNo, userVerifiCode, SMSVerifiCodeType.USER_REGISTER);
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setPhoneNo(phoneNo);
-        accountInfo.setPassword(password);
         userMapper.insertAccountInfo(accountInfo);
         register(accountInfo, nickName);
         return accountInfo.getId();
     }
-
+    /**
+     * 注册第二步，
+     * dusc
+     */
+    @Override
+    public void savePassword(long userId, String password) {
+        userMapper.savePassword(userId, password);
+    }
     @Override
     public long registerByThirdPartyId(ThirdPartyInfo thirdPartyInfo) {
         AccountInfo accountInfo = new AccountInfo();
@@ -57,7 +78,7 @@ public class RegisterServiceImpl implements RegisterService {
         userInfo.setId(userId);
         userInfo.setNickName(nickName);
         userService.saveUserInfo(userInfo);
-        userService.addUserId(userInfo.getId());
+        userService.addUserId(userInfo.getId());//保存redis
 
         // add permission
         PermissionInfo permissionInfo = new PermissionInfo();

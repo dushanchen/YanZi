@@ -30,11 +30,13 @@
 		keyProperty="accountInfo.id">
         <![CDATA[
         INSERT INTO
-        User.AccountInfo (`PhoneNo`, `password`, `token`)
-        VALUES (#{accountInfo.phoneNo}, #{accountInfo.password}, #{accountInfo.token})
+        User.AccountInfo (`PhoneNo`, `token`)
+        VALUES (#{accountInfo.phoneNo}, #{accountInfo.token})
         ]]>
     </insert>
-    
+    <update id="savePassword">
+    	update User.AccountInfo set Password=#{password} where Id=#{userId}
+    </update>
     <insert id="insertOrUpdateUserInfo">
         <![CDATA[
 		INSERT INTO User.BasicInfo (`id`, `nickName`, `icon`, `sex`, `introduce`, `signature`, `company`, `education`)

@@ -17,5 +17,5 @@ public interface UserCourseTermMapper {
      * @param userId
      * @param termId
      */
-    public void userPurchaseTerm(@Param(value="userId") long userId,@Param(value="termId") long termId);
+    public void userPurchaseTerm(@Param(value="userId") long userId,@Param(value="courseId") long courseId,@Param(value="termId") long termId);
 }

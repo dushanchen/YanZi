@@ -313,7 +313,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     /**
      * @author dusc
      */
-     public void  userPurchaseTerm(long userId,long termId){
-    	 userCourseTermMapper.userPurchaseTerm(userId, termId);
+     public void userPurchaseTerm(long userId,long courseId,long termId){
+    	 userCourseTermMapper.userPurchaseTerm(userId,courseId, termId);
      }
 }

@@ -50,14 +50,41 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 
     private RSAPrivateKey privateKey;
 
-    @RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
+//    @RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
+//    @ResponseBody
+//    public ResponseEntity<ResponseEntityWrapper> registerByPhoneNo(@Valid RegisterParams params) {
+//        long userId = registerService.registerByPhoneNo(params.getPhoneNo(), params.getPassword(),
+//                params.getVerifiCode(), params.getNickName());
+//        return packageSuccessData(new ViewUserResponseBase(userId));
+//    }
+    /**
+     * 注册第一步
+     * @param params
+     * @return
+     * @author dusc
+     */
+    @RequestMapping(value = "/registerFirst", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> registerByPhoneNo(@Valid RegisterParams params) {
-        long userId = registerService.registerByPhoneNo(params.getPhoneNo(), params.getPassword(),
+        long userId = registerService.registerByPhoneNo(params.getPhoneNo(),
                 params.getVerifiCode(), params.getNickName());
         return packageSuccessData(new ViewUserResponseBase(userId));
     }
-
+    /**
+     * 注册第二步
+     * @param params
+     * @return
+     * @author dusc
+     */
+    @RequestMapping(value = "/registerSecond", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResponseEntity<ResponseEntityWrapper> registerSecond(@Valid RegisterParams params) {
+        long userId = params.getUserId();
+        String password = params.getPassword();
+        registerService.savePassword(userId, password);
+        return packageSuccessData(new ViewUserResponseBase(userId));
+    }
+    
     @RequestMapping(value = "/reset/password", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> resetPassword(@Valid ResetPasswordParams params) {

@@ -28,6 +28,6 @@
 	</select>
 	<!--用户购买学期  -->
 	<insert id="userPurchaseTerm" >
-		insert into User.UserPurchaseTerm(user_id,term_id) values(#{userId},#{termId})
+		insert User.CourseTerm(UserId,CourseId,TermId) VALUES (#{userId},#{courseId},#{termId})
 	</insert>
 </mapper>
