@@ -236,7 +236,7 @@
 
 		<select id="selectFeedbackByUserId" resultType="Feedback">
 	        <![CDATA[
-	        SELECT userId, `message`
+	        SELECT userId, message,addTime
 			FROM
 			User.UserFeedback
 			WHERE userId = #{userId}
