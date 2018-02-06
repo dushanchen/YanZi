@@ -1,6 +1,8 @@
 package com.yanzi.pisces.controller;
 
 import java.util.ArrayList;
+
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yanzi.common.controller.BaseController;
+
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.entity.college.lesson.LessonPrimer;
@@ -23,6 +26,7 @@ import com.yanzi.common.entity.term.TermInfo;
 import com.yanzi.common.entity.term.TermLesson;
 import com.yanzi.common.entity.term.TermPrimer;
 import com.yanzi.common.utils.ParamsUtils;
+import com.yanzi.pisces.controller.param.SubmitQuestionParams;
 import com.yanzi.pisces.controller.param.UserLoadCourseRankParams;
 import com.yanzi.pisces.controller.param.UserLoadCourseStatusParams;
 import com.yanzi.pisces.controller.param.UserLoadCoursesParams;
@@ -31,6 +35,7 @@ import com.yanzi.pisces.controller.param.UserLoadLessonsParams;
 import com.yanzi.pisces.controller.param.UserLoadRankParams;
 import com.yanzi.pisces.controller.param.UserLoadTermInfoParams;
 import com.yanzi.pisces.controller.param.UserLoadTermsParams;
+import com.yanzi.pisces.controller.response.ViewSubmitQuestionResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadCourseStatusResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadCoursesResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadLessonInfoResponse;
@@ -51,6 +56,7 @@ import com.yanzi.pisces.entity.UserCourseTermStatus;
 import com.yanzi.pisces.entity.UserTermInfo;
 import com.yanzi.pisces.entity.UserTermStatus;
 import com.yanzi.pisces.service.UserCollegeService;
+import com.yanzi.pisces.service.UserService;
 
 @Controller
 public class UserController extends BaseController<ViewResponseBase> {
@@ -62,6 +68,9 @@ public class UserController extends BaseController<ViewResponseBase> {
     @Autowired
     private LessonData lessonData;
 
+    @Autowired
+    private UserService userService;
+    
     @Autowired
     private ParamsUtils paramsUtils;
     @Autowired
@@ -265,4 +274,50 @@ public class UserController extends BaseController<ViewResponseBase> {
         return packageSuccessData(new ViewResponseBase());
         
     }
+    
+    
+    /**
+     * 提交问题
+     * @author 朱江游
+     * @param params
+     * long userId, long courseId, long lessonId, long lessonKnowledge
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/submit/question", method = { RequestMethod.GET,
+            RequestMethod.POST })
+    public ResponseEntity<ResponseEntityWrapper> submitQuestion(
+            @Valid SubmitQuestionParams params) {
+        long userId = paramsUtils.getUserId(params);
+        long courseId = params.getCourseId();
+        long lessonId = params.getLessonId();
+        long lessonKnowledge = params.getKnowledge();
+        
+        long newExp = userCollegeService.completeLesson(userId, courseId, lessonId, lessonKnowledge);
+       
+        ViewSubmitQuestionResponse response = new ViewSubmitQuestionResponse();
+        
+        response.setNewExp(newExp);
+        
+        return packageSuccessData(response);
+      
+    }
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

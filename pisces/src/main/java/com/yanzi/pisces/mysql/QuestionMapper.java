@@ -2,9 +2,7 @@ package com.yanzi.pisces.mysql;
 
 import java.sql.Timestamp;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import com.yanzi.common.entity.college.question.QuestionInfo;
 import com.yanzi.common.entity.college.question.QuestionTextInfo;
 
