@@ -11,7 +11,7 @@ import com.yanzi.pisces.data.QuestionData;
 import com.yanzi.pisces.service.QuestionService;
 
 @Service
-public class QuestionServiceImpl implements QuestionService{
+public class QuestionServiceImpl  implements QuestionService{
     @Autowired
     private LessonData lessonData;
     @Autowired
