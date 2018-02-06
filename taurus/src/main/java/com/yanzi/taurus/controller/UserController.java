@@ -21,6 +21,7 @@ import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.common.utils.RSAEncrypt;
+import com.yanzi.taurus.controller.params.AddFeedbackParams;
 import com.yanzi.taurus.controller.params.BindingPhoneNoParams;
 import com.yanzi.taurus.controller.params.BindingThirdPartyParams;
 import com.yanzi.taurus.controller.params.ModifyPasswordParams;
@@ -29,10 +30,12 @@ import com.yanzi.taurus.controller.params.RaiseAppDurationParams;
 import com.yanzi.taurus.controller.params.RegisterParams;
 import com.yanzi.taurus.controller.params.ResetPasswordParams;
 import com.yanzi.taurus.entity.AccountInfo;
+import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
 import com.yanzi.taurus.service.LoginService;
 import com.yanzi.taurus.service.RegisterService;
 import com.yanzi.taurus.service.UserService;
+import com.yanzi.taurus.view.ViewFeedbackResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
 import com.yanzi.taurus.view.ViewUserResponseBase;
 
@@ -166,16 +169,24 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         return packageSuccessData(resonse);
     }
 
-//    @RequestMapping(value = "/load/feedback", method = { RequestMethod.GET, RequestMethod.POST })
-//    @ResponseBody
-//    public ResponseEntity<ResponseEntityWrapper> loadUserFeedback(
-//            @Valid UserActionParamsBase params) {
-//        ViewFeedbackResponse response = new ViewFeedbackResponse();
-//        List<FeedbackInfo> feedbacks = userService.loadUserFeedback(params.getToken());
-//        response.setFeedbacks(feedbacks);
-//        return packageSuccessData(response);
-//    }
-
+    @RequestMapping(value = "/load/feedback", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResponseEntity<ResponseEntityWrapper> loadUserFeedback(
+            @Valid UserActionParamsBase params) {
+        ViewFeedbackResponse response = new ViewFeedbackResponse();
+        List<FeedbackInfo> feedbacks = userService.loadUserFeedback(params.getToken());
+        response.setFeedbacks(feedbacks);
+        return packageSuccessData(response);
+    }
+	  @RequestMapping(value = "/add/feedback", method = { RequestMethod.GET, RequestMethod.POST })
+	  @ResponseBody
+	  public ResponseEntity<ResponseEntityWrapper> loadUserFeedback(
+	          @Valid AddFeedbackParams params) {
+	      String message = params.getMessage();
+	      long userId = paramsUtils.getUserId(params);
+	      userService.addUserFeedback(userId, message);
+	      return packageSuccessData(new ViewResponseBase());
+	  }
     @Override
     public void afterPropertiesSet() throws Exception {
         privateKey = RSAEncrypt.loadPrivateKeyByStr(

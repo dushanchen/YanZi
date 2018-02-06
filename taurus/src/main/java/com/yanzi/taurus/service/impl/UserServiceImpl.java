@@ -11,6 +11,7 @@ import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.exception.CommonException;
 import com.yanzi.common.service.impl.CUserServiceImpl;
 import com.yanzi.taurus.entity.AccountInfo;
+import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
 import com.yanzi.taurus.enums.SMSVerifiCodeType;
 import com.yanzi.taurus.mysql.UserMapper;
@@ -102,9 +103,17 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
         return thirdPartyInfos;
     }
 
-//    public List<FeedbackInfo> loadUserFeedback(String token) {
-//        long userId = geminiUserService.getUserIdByToken(token);
-//        return userMapper.selectFeedbackByUserId(userId);
-//    }
-    
+    public List<FeedbackInfo> loadUserFeedback(String token) {
+        long userId = loadUserId(token);
+        return userMapper.selectFeedbackByUserId(userId);
+    }
+    /**
+     * 添加留言
+     * @author dusc
+     * @param userId
+     * @param message
+     */
+    public void addUserFeedback(long userId,String message){
+    	userMapper.addFeedback(userId,message);
+    }
 }

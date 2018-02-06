@@ -42,7 +42,7 @@
 
 	<update id="deleteAllFollowedTags">
         <![CDATA[
-        UPDATE User.UserTagFollow
+        UPDATE User.UserTags
         SET valid = 1
         WHERE userId = #{userId}
         ]]>

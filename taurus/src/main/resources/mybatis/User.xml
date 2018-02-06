@@ -234,13 +234,16 @@
 <!-- 		<result property="message" column="message" /> -->
 <!-- 	</resultMap> -->
 
-<!-- 	<select id="selectFeedbackByUserId" resultMap="FeedbackMap"> -->
-<!--         <![CDATA[ -->
-<!--         SELECT userId, `message` -->
-<!-- 		FROM -->
-<!-- 		User.UserFeedback -->
-<!-- 		WHERE userId = #{userId} -->
-<!-- 		]]> -->
-<!-- 	</select> -->
-
+		<select id="selectFeedbackByUserId" resultType="Feedback">
+	        <![CDATA[
+	        SELECT userId, `message`
+			FROM
+			User.UserFeedback
+			WHERE userId = #{userId}
+			]]>
+		</select>
+		<!--添加留言 dusc  -->
+		<insert id="addFeedback">
+			insert into User.UserFeedback(userId,message) values(#{userId},#{message})
+		</insert>
 </mapper>
