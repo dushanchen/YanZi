@@ -9,6 +9,7 @@ import com.yanzi.common.entity.user.PushInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.taurus.entity.AccountInfo;
 import com.yanzi.taurus.entity.DeviceInfo;
+import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
 
 public interface UserMapper {
@@ -41,5 +42,7 @@ public interface UserMapper {
 
     public List<ThirdPartyInfo> selectThirdPartyInfoByUserId(@Param(value = "userId") long userId);
 
-    // public List<FeedbackInfo> selectFeedbackByUserId(@Param(value = "userId") long userId);
+    public List<FeedbackInfo> selectFeedbackByUserId(@Param(value = "userId") long userId);
+    
+    public void addFeedback(@Param("userId") long userId,@Param("message") String message);
 }

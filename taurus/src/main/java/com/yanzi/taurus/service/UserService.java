@@ -6,6 +6,7 @@ import com.yanzi.common.entity.user.TagInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.service.CUserService;
 import com.yanzi.taurus.entity.AccountInfo;
+import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
 import com.yanzi.taurus.entity.UserCourseInfo;
 
@@ -38,4 +39,8 @@ public interface UserService extends CUserService{
     public long getFriendCount(long userId);
     
     public long getFansCount(long userId);
+    
+    public List<FeedbackInfo> loadUserFeedback(String token);
+
+    public void addUserFeedback(long userId,String message);
 }

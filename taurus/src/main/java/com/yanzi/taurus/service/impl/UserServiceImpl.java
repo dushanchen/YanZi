@@ -27,6 +27,7 @@ import com.yanzi.common.service.impl.CUserServiceImpl;
 import com.yanzi.common.utils.HttpClientUtils;
 import com.yanzi.common.utils.YanziResponseUtils;
 import com.yanzi.taurus.entity.AccountInfo;
+import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
 import com.yanzi.taurus.entity.UserCourseInfo;
 import com.yanzi.taurus.enums.SMSVerifiCodeType;
@@ -281,4 +282,18 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return cUserRedisDao.getFansCount(userId);
 	}
+	
+    public List<FeedbackInfo> loadUserFeedback(String token) {
+        long userId = loadUserId(token);
+        return userMapper.selectFeedbackByUserId(userId);
+    }
+    /**
+     * 添加留言
+     * @author dusc
+     * @param userId
+     * @param message
+     */
+    public void addUserFeedback(long userId,String message){
+    	userMapper.addFeedback(userId,message);
+    }
 }

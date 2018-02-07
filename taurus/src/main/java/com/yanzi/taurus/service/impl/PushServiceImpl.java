@@ -19,6 +19,6 @@ public class PushServiceImpl implements PushService{
     @Override
     public void setPushInfo(PushInfo pushInfo) {
         userService.savePushInfo(pushInfo);
-        userMapper.insertOrUpdatePushInfo(pushInfo);
+//        userMapper.insertOrUpdatePushInfo(pushInfo);
     }
 }
