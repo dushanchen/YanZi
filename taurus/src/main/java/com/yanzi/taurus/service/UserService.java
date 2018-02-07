@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yanzi.common.service.CUserService;
 import com.yanzi.taurus.entity.AccountInfo;
+import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
 
 public interface UserService extends CUserService{
@@ -21,5 +22,8 @@ public interface UserService extends CUserService{
     AccountInfo getAccountInfoByUserId(long userId);
 
     List<ThirdPartyInfo> getThirdPartyInfoByUserId(long userId);
+    
+    public List<FeedbackInfo> loadUserFeedback(String token);
 
+    public void addUserFeedback(long userId,String message);
 }

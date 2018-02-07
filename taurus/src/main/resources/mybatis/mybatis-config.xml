@@ -4,13 +4,14 @@
 
 	<typeAliases>
 		<typeAlias alias="UserInfo" type="com.yanzi.common.entity.user.UserInfo" />
-		<typeAlias alias="SMSVerifiCodeInfo" type="com.yanzi.taurus.entity.SMSVerifiCodeInfo" />
 		<typeAlias alias="AccountInfo" type="com.yanzi.taurus.entity.AccountInfo" />
 		<typeAlias alias="ThirdPartyInfo" type="com.yanzi.taurus.entity.ThirdPartyInfo" />
+		<typeAlias alias="SMSVerifiCodeInfo" type="com.yanzi.taurus.entity.SMSVerifiCodeInfo" />
 		<typeAlias alias="TagInfo" type="com.yanzi.common.entity.user.TagInfo" />
 <!-- 		<typeAlias alias="PushConfig" type="com.yanzi.taurus.entity.PushConfig" /> -->
 <!-- 		<typeAlias alias="PermissionInfo" type="com.yanzi.gemini.entity.user.PermissionInfo" /> -->
-<!-- 		<typeAlias alias="Feedback" type="com.yanzi.taurus.entity.FeedbackInfo" /> -->
+		<typeAlias alias="Feedback" type="com.yanzi.taurus.entity.FeedbackInfo" />
+		<typeAlias alias="ImageInfo" type="com.yanzi.taurus.entity.ImageInfo" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/User.xml" />
@@ -20,6 +21,7 @@
 		<mapper resource="mybatis/Tag.xml" />
 <!-- 		<mapper resource="mybatis/PushConfig.xml" /> -->
 <!-- 		<mapper resource="mybatis/Permission.xml" /> -->
- 		<mapper resource="mybatis/UserFriend.xml" />
+		<mapper resource="mybatis/UserFriend.xml" />
+		<mapper resource="mybatis/Image.xml" />
 	</mappers>
 </configuration>
