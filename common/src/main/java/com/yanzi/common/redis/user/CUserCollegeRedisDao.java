@@ -91,4 +91,8 @@ public interface CUserCollegeRedisDao {
     List<Long> loadCourseTermWeekExp(List<Long> userIds, long courseId, long termId, String week);
 
     void saveCourseTermWeekExp(long userId, long courseId, long termId, String week, long exp);
+    
+    void saveLatestLesson(long userId,long lessonId);
+    
+    long  loadLatestLesson(long userId);
 }

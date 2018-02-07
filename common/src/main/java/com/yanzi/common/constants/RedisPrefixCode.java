@@ -55,7 +55,7 @@ public enum RedisPrefixCode {
     USER_COLLEGE_COURSE_TERM_LEVEL("B00107&&"),
     USER_COLLEGE_COURSE_TERM_LESSON_MAX_KNOWLEDGE("B00201&&"),       // 用户course lesson最大正确数
     USER_COLLEGE_COURSE_TERM_LESSON_KNOWLEDGE("B00202&&"),           // 用户course lesson最大正确数
-
+    USER_LATEST_COMPLETE_LESSON("B00203&&"),						 // 用户最近完成的课程					
     COLLEGE_TERM_USERS("C00001&&"),
     ;
 

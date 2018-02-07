@@ -298,7 +298,7 @@ public class UserController extends BaseController<ViewResponseBase> {
         ViewSubmitQuestionResponse response = new ViewSubmitQuestionResponse();
         
         response.setNewExp(newExp);
-        
+        userCollegeService.saveLatestLesson(userId,lessonId);//保存用户最近完成的关卡 dusc
         return packageSuccessData(response);
       
     }

@@ -414,7 +414,10 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
     private String getCourseTermLevelPrefix() {
         return RedisPrefixCode.USER_COLLEGE_COURSE_TERM_LEVEL.getCode();
     }
-
+    private String getLatestLessonPrefix() {
+        return RedisPrefixCode.USER_LATEST_COMPLETE_LESSON.getCode();
+    }
+    
     private String getCourseTermLevelHashKey(long userId, long courseId, long termId) {
         return String.format("%s_%s_%s", userId, courseId, termId);
     }
@@ -436,4 +439,27 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
         String hk = getCourseTermLevelHashKey(userId, courseId, termId);
         cacheHash(k, hk, Long.toString(levelId));
     }
+   /**
+    * 保存最近完成的lesson
+    * @author dusc
+    */
+    public void saveLatestLesson(long userId,long lessonId){
+    	String key = getLatestLessonPrefix();
+    	cacheHash(key, Long.toString(userId), Long.toString(lessonId));
+    }
+    /**
+     * 获取最近完成的lesson
+     * @param userId
+     * @author dusc
+     * @return
+     */
+	@Override
+	public long loadLatestLesson(long userId) {
+		String key = getLatestLessonPrefix();
+        String lessonId = getHash(key, Long.toString(userId));
+        if (StringUtils.isEmpty(lessonId)) {
+            return 0;
+        }
+        return Long.parseLong(lessonId);
+	}
 }

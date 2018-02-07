@@ -41,4 +41,8 @@ public interface CUserCollegeService {
     boolean courseTermLessonIsComplete(long userId, long courseId, long termId, long lessonId);
 
     long loadCourseTermLevel(long userId, long courseId, long termId);
+    
+    long loadLatestLesson(long userId);
+    
+    void saveLatestLesson(long userId,long lessonId);
 }
