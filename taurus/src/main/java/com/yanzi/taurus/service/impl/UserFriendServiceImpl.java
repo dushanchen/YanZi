@@ -42,11 +42,19 @@ public class UserFriendServiceImpl extends CUserFriendServiceImpl implements Use
    * @return
    */
 	@Override
-	public List<Long> getFriendUserIds(long userId, int pageId, int limit) {
+	public List<Long> getFansUserIds(long userId, int pageId, int limit) {
 		  long start = PageIndexCalUtil.getIndexBegin(pageId, limit);
 	      long end = start + limit -1;
 	      List<Long> userIds = cUserFriendService.getFansIds(userId, start, end);
 	      return userIds;
 	}
+
+@Override
+public List<Long> getFriendUserIds(long userId, int pageId, int limit) {
+	 long start = PageIndexCalUtil.getIndexBegin(pageId, limit);
+     long end = start + limit -1;
+     List<Long> userIds = cUserFriendService.getFriendIds(userId, start, end);
+     return userIds;
+}
     
 }

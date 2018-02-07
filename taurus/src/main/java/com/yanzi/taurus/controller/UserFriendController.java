@@ -20,6 +20,7 @@ import com.yanzi.common.utils.ParamsUtils;
 
 import com.yanzi.taurus.controller.params.FriendAddParams;import com.yanzi.taurus.controller.params.FriendJudgeParams;
 import com.yanzi.taurus.controller.params.FriendRemoveParams;
+import com.yanzi.taurus.controller.params.LoadUserFansParams;
 import com.yanzi.taurus.controller.params.LoadUserFriendParams;
 import com.yanzi.taurus.service.UserFriendService;
 
@@ -42,18 +43,27 @@ public class UserFriendController extends BaseController<ViewResponseBase> {
      * @param params
      * @return
      */
-    @RequestMapping(value = "/load/friends", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/load/fans", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
-    public ResponseEntity<ResponseEntityWrapper> loadFriend(@Valid LoadUserFriendParams params) {
+    public ResponseEntity<ResponseEntityWrapper> loadFriend(@Valid LoadUserFansParams params) {
     	
-        List<Long> fansIds = userFriendService.getFriendUserIds(params.getUserId(), params.getPageId(), params.getLimit());       
+        List<Long> fansIds = userFriendService.getFansUserIds(params.getUserId(), params.getPageId(), params.getLimit());       
         List<UserInfo> fans = cUserRedisDao.getUserInfoListByIds(fansIds);
         ViewUserInfoResponse response = new ViewUserInfoResponse();
         response.setUsers(fans);
         return packageSuccessData(response);
     }
     
-
+    @RequestMapping(value = "/load/friends", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResponseEntity<ResponseEntityWrapper> loadFriend(@Valid LoadUserFriendParams params) {
+        List<Long> friendIds = userFriendService.getFriendUserIds(params.getUserId(), params.getPageId(), params.getLimit());
+        List<UserInfo> friends = cUserRedisDao.getUserInfoListByIds(friendIds);
+        ViewUserInfoResponse response = new ViewUserInfoResponse();
+        response.setUsers(friends);
+        return packageSuccessData(response);
+    }
+    
     @RequestMapping(value = "/add/friend", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> addUserFriend(@Valid FriendAddParams params) {

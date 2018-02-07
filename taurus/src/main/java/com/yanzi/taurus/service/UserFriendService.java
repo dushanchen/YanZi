@@ -7,6 +7,7 @@ import com.yanzi.common.service.CUserFriendService;
 public interface UserFriendService extends CUserFriendService{
 
 	
+     public List<Long> getFansUserIds(long userId, int pageId, int limit);	
      public List<Long> getFriendUserIds(long userId, int pageId, int limit);	
 
 }

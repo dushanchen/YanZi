@@ -20,6 +20,6 @@
 		<mapper resource="mybatis/Tag.xml" />
 <!-- 		<mapper resource="mybatis/PushConfig.xml" /> -->
 <!-- 		<mapper resource="mybatis/Permission.xml" /> -->
-<!-- 		<mapper resource="mybatis/UserFriend.xml" /> -->
+ 		<mapper resource="mybatis/UserFriend.xml" />
 	</mappers>
 </configuration>
