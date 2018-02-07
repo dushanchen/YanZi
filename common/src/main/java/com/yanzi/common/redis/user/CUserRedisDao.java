@@ -100,4 +100,28 @@ public interface CUserRedisDao {
     public void savePushInfo(long userId, PushInfo pushInfo);
 
     public PushInfo loadPushInfo(long userId);
+    /**获取用户相关的课程经验值
+     * 
+     * @param userId
+     * @return
+     */
+    public long getCourseExpV2(long userId);
+
+    /**
+     * 获取课程相关的知识点
+     * @param userId
+     * @return
+     */
+	public long getCourseKnowledgeV2(long userId);
+	/**
+	 * 获取关注总数
+	 * @param userId
+	 * @return
+	 */
+	public long getIdolCount(long userId);
+	/**
+	 * 获取粉丝数
+	 */
+
+	public long getFansCount(long userId);
 }

@@ -138,4 +138,9 @@ public class CUserServiceImpl implements CUserService, InitializingBean {
     public PushInfo loadPushInfo(long userId) {
         return cUserRedisDao.loadPushInfo(userId);
     }
+
+	@Override
+	public long getFriendCount(long userId) {
+		return cUserRedisDao.getIdolCount(userId);
+	}
 }

@@ -8,6 +8,7 @@ public class LevelInfo {
     private long id;
     private long courseId;
     private int level;
+    private String courseTitle;
     private String image = "";
     @JSONField(serialize = false)
     private long minExp;
@@ -15,12 +16,21 @@ public class LevelInfo {
     private long coin;
     @JSONField(serialize = false)
     private int valid;
+    
+    
+    public String getCourseTitle() {
+		return courseTitle;
+	}
 
-    public long getId() {
+	public void setCourseTitle(String courseTitle) {
+		this.courseTitle = courseTitle;
+	}
+
+	public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+	public void setId(long id) {
         this.id = id;
     }
 

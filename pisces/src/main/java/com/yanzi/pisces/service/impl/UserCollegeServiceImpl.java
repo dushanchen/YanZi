@@ -1,6 +1,7 @@
 package com.yanzi.pisces.service.impl;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -69,6 +70,9 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
         long termId = this.loadCourseTermId(userId, courseId);
         long lessonMaxKnowledge = this.loadCourseTermLessonMaxKnowledge(userId, courseId, termId,
                 lessonId);
+        
+        
+        
         long newKnowledge = lessonKnowledge - lessonMaxKnowledge;
         Date date = TimeUtils.getDate();
         // update lesson knowledge

@@ -78,10 +78,6 @@
 	</select>
 	<!-- 查询课程的报名人数 -->
 	<select id="countByTerm" resultType="int">
-<<<<<<< HEAD
-		select count(*) from User.userPurchaseTerm where term_id=#{termId} 
-=======
 		select count(*) from `User`.CourseTerm where TermId=#{termId} 
->>>>>>> b8738816bcdbf3a1015becddd1f00c4f479b5efe
 	</select>
 </mapper>

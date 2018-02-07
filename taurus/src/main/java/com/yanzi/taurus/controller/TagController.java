@@ -59,4 +59,6 @@ public class TagController extends BaseController<ViewResponseBase> {
         List<TagInfo> tags = tagData.getAllTags();
         return packageSuccessData(new ViewAllTagResponse(tags));
     }
+    
+    
 }

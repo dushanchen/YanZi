@@ -116,5 +116,13 @@ public interface CUserService {
      * @return
      */
     public PushInfo loadPushInfo(long userId);
+    
+    /**
+     * 获取好友的数量
+     * 
+     * @param userId
+     * @return
+     */
+    public long getFriendCount(long userId);
 
 }

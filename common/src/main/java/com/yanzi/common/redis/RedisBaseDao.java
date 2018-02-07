@@ -354,7 +354,7 @@ public class RedisBaseDao {
         }
         return null;
     }
-
+    
     protected String getHash(String k, String hk) {
         try {
             HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
