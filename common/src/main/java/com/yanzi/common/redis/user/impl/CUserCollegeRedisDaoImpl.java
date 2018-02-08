@@ -1,8 +1,11 @@
 package com.yanzi.common.redis.user.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -435,5 +438,35 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
         String k = getCourseTermLevelPrefix();
         String hk = getCourseTermLevelHashKey(userId, courseId, termId);
         cacheHash(k, hk, Long.toString(levelId));
+    }
+    
+    
+    private String getUserSubscribedCoursePrefixSet(long userId) {
+        return String.format("%s_%sS", RedisPrefixCode.USER_ID_TO_IDOL.getCode(), userId);
+    }
+
+    private String getUserSubscribedCoursePrefixList(long userId) {
+        return String.format("%s_%sL", RedisPrefixCode.USER_ID_TO_IDOL.getCode(), userId);
+    }
+
+    //用户绑定课程
+    @Override
+    public void subscribeCourseV2(long userId, Long courseId) {
+    	String setKey = getUserSubscribedCoursePrefixSet(userId);
+        String courseIdStr = Long.toString(courseId);
+        String listKey = getUserSubscribedCoursePrefixList(userId);
+        if (!containsSetValue(setKey, courseIdStr)) {
+            cacheRightList(listKey, courseIdStr);
+            cacheSet(setKey, courseIdStr);
+        }
+    }
+
+    @Override
+    public List<Long> getUserSubscribedCourseV2(long userId) {
+    	String listKey = getUserSubscribedCoursePrefixList(userId);
+        List<String> idolIdStrs = getList(listKey,0,0);
+        List<Long> result = new ArrayList<>();
+        CollectionParseUtils.StringParseNumber(idolIdStrs, result, Long.class);
+        return result;
     }
 }

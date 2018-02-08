@@ -33,6 +33,8 @@ public interface UserService extends CUserService{
     public UserInfo getUserInfoById(long userId);
     
     public UserCourseInfo loadUserCourseInfo(long userId);
+    
+    public UserCourseInfo loadUserCourseInfo2(long userId);
 
     public long loadUserAppDuration(long userId);
    

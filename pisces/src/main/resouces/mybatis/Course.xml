@@ -19,5 +19,7 @@
 		AND updateTime < #{endTime}
 		]]>
 	</select>
-
+	<select id="getAllCourseInfo" resultMap="CourseInfo">
+		SELECT * FROM College.Course 
+	</select>
 </mapper>

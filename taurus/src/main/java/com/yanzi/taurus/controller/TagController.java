@@ -33,6 +33,7 @@ public class TagController extends BaseController<ViewResponseBase> {
     @Autowired
     private UserService userService;
 
+    //绑定标签
     @RequestMapping(value = "/user/follow/tags", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> modifyBasicInfo(@Valid FollowTagParams params) {
@@ -41,6 +42,7 @@ public class TagController extends BaseController<ViewResponseBase> {
         return packageSuccessData(new ViewResponseBase());
     }
 
+    //获取自己的标签
     @RequestMapping(value = "/user/load/tags", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loadFollowedTags(
@@ -52,7 +54,7 @@ public class TagController extends BaseController<ViewResponseBase> {
         return packageSuccessData(response);
     }
 
-    // done
+    // 获取所有标签
     @RequestMapping(value = "/load/alltags", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loadAllTags(@Valid UserActionParamsBase params) {

@@ -3,6 +3,8 @@ package com.yanzi.pisces.service;
 import java.util.List;
 
 
+
+import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.service.CUserCollegeService;
 import com.yanzi.pisces.entity.UserLessonStatus;
 import com.yanzi.pisces.entity.UserRank;
@@ -78,4 +80,10 @@ public interface UserCollegeService extends CUserCollegeService {
      * @author dusc
      */
     void userPurchaseTerm(long userId,long courseId,long termId);
+
+	    /**获取全部课程
+     * 
+     * @return
+     */
+    List<CourseInfo> getAllCourseInfo();
 }

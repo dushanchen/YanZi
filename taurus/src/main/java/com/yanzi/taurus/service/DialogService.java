@@ -19,11 +19,11 @@ import com.yanzi.taurus.entity.DialogInfo;
 @Service
 public class DialogService {
 
-    @Value("#{configProperties['aquarius.dialog.actor.url']}")
+    @Value("#{configProperties['taurus.dialog.actor.url']}")
     private String loadUserActorDialogUrl = "";
-    @Value("#{configProperties['aquarius.dialog.reply.url']}")
+    @Value("#{configProperties['taurus.dialog.reply.url']}")
     private String loadUserReplyDialogUrl = "";
-    @Value("#{configProperties['aquarius.dialog.like.url']}")
+    @Value("#{configProperties['taurus.dialog.like.url']}")
     private String loadUserLikeDialogUrl = "";
 
     @Autowired

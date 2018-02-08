@@ -1,7 +1,6 @@
 package com.yanzi.pisces.service.impl;
 
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yanzi.common.entity.Date;
+import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.level.LevelInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.service.CUserFriendService;
@@ -26,6 +26,7 @@ import com.yanzi.pisces.entity.UserLessonStatus;
 import com.yanzi.pisces.entity.UserRank;
 import com.yanzi.pisces.entity.UserTermCourseEntity;
 import com.yanzi.pisces.entity.comparator.RankEntityCompartor;
+import com.yanzi.pisces.mysql.CourseMapper;
 import com.yanzi.pisces.mysql.UserCourseTermMapper;
 import com.yanzi.pisces.service.UserCollegeService;
 import com.yanzi.pisces.service.UserService;
@@ -51,6 +52,8 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     private CUserFriendService cUserFriendService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CourseMapper courseMapper;
 
     @Override
     public List<Long> loadCourseIdList(long userId) {
@@ -320,4 +323,10 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
      public void userPurchaseTerm(long userId,long courseId,long termId){
     	 userCourseTermMapper.userPurchaseTerm(userId,courseId, termId);
      }
+
+	@Override
+	public List<CourseInfo> getAllCourseInfo() {
+		// TODO Auto-generated method stub
+		return courseMapper.getAllCourseInfo();
+	}
 }

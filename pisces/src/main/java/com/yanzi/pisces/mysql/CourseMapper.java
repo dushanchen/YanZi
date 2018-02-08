@@ -10,4 +10,6 @@ import com.yanzi.common.entity.college.course.CourseInfo;
 public interface CourseMapper {
     public List<CourseInfo> selectByRangTime(@Param(value = "beginTime") Timestamp beginTime,
             @Param(value = "endTime") Timestamp endTime);
+
+	public List<CourseInfo> getAllCourseInfo();
 }

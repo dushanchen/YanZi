@@ -22,6 +22,7 @@ import com.yanzi.common.entity.college.level.LevelInfo;
 import com.yanzi.common.entity.user.TagInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.exception.CommonException;
+import com.yanzi.common.redis.user.CUserFriendRedisDao;
 import com.yanzi.common.redis.user.CUserRedisDao;
 import com.yanzi.common.service.impl.CUserServiceImpl;
 import com.yanzi.common.utils.HttpClientUtils;
@@ -39,8 +40,8 @@ import com.yanzi.taurus.service.UserService;
 public class UserServiceImpl extends CUserServiceImpl implements UserService{
 	@Value("#{configProperties['taurus.user.tag.url']}")
     private String loadUserTagUrl = "";
-	@Value("#{configProperties['taurus.user.course.level.url']}")
-	    private String loadUserCourseLevelUrl = "";
+	@Value("#{configProperties['pisces.user.course.level.url']}")
+	private String loadUserCourseLevelUrl = "";
 	@Value("#{configProperties['pisces.course.url']}")
     private String loadAllCourseUrl = "";
 	
@@ -49,6 +50,8 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
     @Autowired
     private PhoneService phoneService;
 
+    @Autowired
+    private CUserFriendRedisDao cUserFriendRedisDao;
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -168,29 +171,37 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
 //        return userMapper.selectFeedbackByUserId(userId);
 //    }
     
-    //用户课程关系引入
+    
+  //用户课程关系引入（基本信息展示）
     public UserCourseInfo loadUserCourseInfo(long userId) {
         long exp = cUserRedisDao.getCourseExpV2(userId);
         long knowledge = cUserRedisDao.getCourseKnowledgeV2(userId);
         UserCourseInfo userCourseInfo = new UserCourseInfo();
         userCourseInfo.setExp(exp);
-        userCourseInfo.setKnowledge(knowledge);
-//        List<CourseInfo> allcourseList = loadAllCourse();
-//        Map<Long, CourseInfo> courseMap = new HashMap<>();
-//        if (null != allcourseList && !allcourseList.isEmpty()) {
-//            for (CourseInfo courseInfo : allcourseList)
-//            	courseMap.put(courseInfo.getId(), courseInfo);
-//        }
-//        List<LevelInfo> courseLevels = loadUserCourseLevel(userId);
-//        for (LevelInfo levelInfo : courseLevels) {
-//        	CourseInfo courseInfo = courseMap.get(levelInfo.getCourseId());
-//            if (null != courseInfo) {
-//                levelInfo.setCourseTitle(courseInfo.getTitle());
-//            }
-//        }
-//        userCourseInfo.setCourseLevels(courseLevels);
+        userCourseInfo.setKnowledge(knowledge); 
         return userCourseInfo;
     }
+        
+    //用户课程关系引入（个人用户展示）
+    public UserCourseInfo loadUserCourseInfo2(long userId) {
+        long exp = cUserRedisDao.getCourseExpV2(userId);
+        long knowledge = cUserRedisDao.getCourseKnowledgeV2(userId);
+        UserCourseInfo userCourseInfo = new UserCourseInfo();
+        userCourseInfo.setExp(exp);
+        userCourseInfo.setKnowledge(knowledge); 
+        List<CourseInfo> allcourseList = loadAllCourse();
+        Map<Long, CourseInfo> courseMap = new HashMap<>();
+        if (null != allcourseList && !allcourseList.isEmpty()) {
+            for (CourseInfo courseInfo : allcourseList)
+            	courseMap.put(courseInfo.getId(), courseInfo);
+        }
+        List<LevelInfo> courseLevels = loadUserCourseLevel(userId);
+//        List<LevelInfo> courseLevels = loadUserCourseLevel(userId);
+//        cUserFriendRedisDao.loadCourseTermLevel(userId,courseId,termId);
+        userCourseInfo.setCourseLevels(courseLevels);
+        return userCourseInfo;
+    }
+    
     //获取所有的课程
     public List<CourseInfo> loadAllCourse() {
         String url = loadAllCourseUrl;
@@ -200,7 +211,7 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
             return Collections.emptyList();
         }
         JSONObject message = YanziResponseUtils.getMessage(responseJson);
-        JSONArray courseJsonArray = message.getJSONArray("course");
+        JSONArray courseJsonArray = message.getJSONArray("curriculums");
         if (null == courseJsonArray || courseJsonArray.isEmpty()) {
             return Collections.emptyList();
         }

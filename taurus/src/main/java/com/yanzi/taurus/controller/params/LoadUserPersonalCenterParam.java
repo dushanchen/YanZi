@@ -9,7 +9,7 @@ public class LoadUserPersonalCenterParam {
 
     private boolean withDialogInfo = true;
 
-    private boolean withCurriculumInfo = true;
+    private boolean withCourseInfo = true;
 
     private boolean withAppDuration = true;
 
@@ -47,12 +47,12 @@ public class LoadUserPersonalCenterParam {
         this.withDialogInfo = withDialogInfo;
     }
 
-    public boolean isWithCurriculumInfo() {
-        return withCurriculumInfo;
+    public boolean isWithCourseInfo() {
+        return withCourseInfo;
     }
 
-    public void setWithCurriculumInfo(boolean withCurriculumInfo) {
-        this.withCurriculumInfo = withCurriculumInfo;
+    public void setWithCourseInfo(boolean withCourseInfo) {
+        this.withCourseInfo = withCourseInfo;
     }
 
     public boolean isWithFriendInfo() {

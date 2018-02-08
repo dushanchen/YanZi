@@ -42,6 +42,7 @@ import com.yanzi.taurus.entity.base.FriendInfo;
 import com.yanzi.taurus.service.DialogService;
 import com.yanzi.taurus.service.LoginService;
 import com.yanzi.taurus.service.RegisterService;
+import com.yanzi.taurus.service.TagService;
 import com.yanzi.taurus.service.UserService;
 import com.yanzi.taurus.view.ViewFeedbackResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
@@ -61,6 +62,8 @@ public class UserController extends BaseController<ViewResponseBase> implements 
     private ParamsUtils paramsUtils;
     @Autowired
     private DialogService dialogService;
+    @Autowired
+    private TagService tagService;
     
     private RSAPrivateKey privateKey;
     
@@ -195,34 +198,22 @@ public class UserController extends BaseController<ViewResponseBase> implements 
             userId = params.getUserId();
         }
 
-        // userInfo
+        //用户基本信息
         if (params.isWithBasicInfo()) {
-            List<TagInfo> followedTags = userService.loadUserTag(userId);
+            List<TagInfo> followedTags = tagService.loadUserFollowTags(userId);
             response.setFollowedTags(followedTags);
 
             UserInfo basicInfo = userService.getUserInfoById(userId);
             response.setUserBasicInfo(basicInfo);
         }
 
-        // user dialog info
-        if (params.isWithDialogInfo()) {
-            List<DialogInfo> likeDialogs = dialogService.loadUserLikeDialogByUserId(userId, 1, 2);
-            response.setLikeDialogs(likeDialogs);
-
-            List<DialogInfo> actorDialogs = dialogService.loadUserActorDialogByUserId(userId, 1, 2);
-            response.setActorDialogs(actorDialogs);
-
-            List<DialogInfo> replyDialogs = dialogService.loadUserReplyDialogByUserId(userId, 1, 2);
-            response.setReplyDialogs(replyDialogs);
-        }
-
-        // user curriculum info
-        if (params.isWithCurriculumInfo()) {
-            UserCourseInfo userCourseInfo = userService.loadUserCourseInfo(userId);
+        //用户课程相关信息
+        if (params.isWithCourseInfo()) {
+            UserCourseInfo userCourseInfo = userService.loadUserCourseInfo2(userId);
             response.setUserCourseInfo(userCourseInfo);
         }
 
-        // user app duration
+        //用户在线总时长
         if (params.isWithAppDuration()) {
             long userAppDuration = userService.loadUserAppDuration(userId);
             response.setUserAppDuration(userAppDuration);
