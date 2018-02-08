@@ -246,4 +246,10 @@
 		<insert id="addFeedback">
 			insert into User.UserFeedback(userId,message) values(#{userId},#{message})
 		</insert>
+		<!--模糊查询好友 dusc  -->
+		<select id="fetchFriends" resultType="UserInfo">
+			select u.* from `User`.UserFriend f left JOIN
+			`User`.BasicInfo u on u.Id = f.friendId
+			where f.userId = #{userId} and u.NickName like '%${nickName}%'
+		</select>
 </mapper>

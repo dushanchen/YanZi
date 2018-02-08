@@ -45,4 +45,6 @@ public interface UserMapper {
     public List<FeedbackInfo> selectFeedbackByUserId(@Param(value = "userId") long userId);
     
     public void addFeedback(@Param("userId") long userId,@Param("message") String message);
+    
+    public List<UserInfo> fetchFriends(@Param("userId") long userId,@Param("nickName") String nickName);
 }

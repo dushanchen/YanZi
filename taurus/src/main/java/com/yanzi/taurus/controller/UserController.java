@@ -25,6 +25,7 @@ import com.yanzi.common.utils.RSAEncrypt;
 import com.yanzi.taurus.controller.params.AddFeedbackParams;
 import com.yanzi.taurus.controller.params.BindingPhoneNoParams;
 import com.yanzi.taurus.controller.params.BindingThirdPartyParams;
+import com.yanzi.taurus.controller.params.FetchFriendsParams;
 import com.yanzi.taurus.controller.params.ModifyPasswordParams;
 import com.yanzi.taurus.controller.params.ModifyPhoneNoParams;
 import com.yanzi.taurus.controller.params.RaiseAppDurationParams;
@@ -35,9 +36,10 @@ import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
 import com.yanzi.taurus.service.LoginService;
 import com.yanzi.taurus.service.RegisterService;
-import com.yanzi.taurus.service.UserService;
+import com.yanzi.taurus.service.UserService; 
 import com.yanzi.taurus.view.ViewDurationResponse;
 import com.yanzi.taurus.view.ViewFeedbackResponse;
+import com.yanzi.taurus.view.ViewFriengListResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
 import com.yanzi.taurus.view.ViewUserResponseBase;
 
@@ -222,6 +224,25 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 	      userService.addUserFeedback(userId, message);
 	      return packageSuccessData(new ViewResponseBase());
 	  }
+	  /**
+	   * 模糊查询用户的好友
+	   * @param params
+	   * @return
+	   * @author dusc
+	   */
+	  @RequestMapping(value = "/fetch/friends", method = { RequestMethod.GET, RequestMethod.POST })
+	  @ResponseBody
+	  public ResponseEntity<ResponseEntityWrapper> fetchFriends(
+	          @Valid FetchFriendsParams params) {
+	      String nickName = params.getNickName();
+	      long userId = paramsUtils.getUserId(params);
+	      
+	      ViewFriengListResponse response = new ViewFriengListResponse();
+	      response.setFriends(userService.fetchFriends(userId, nickName));
+	      return packageSuccessData(response);
+	  }
+	  
+	  
     @Override
     public void afterPropertiesSet() throws Exception {
         privateKey = RSAEncrypt.loadPrivateKeyByStr(
