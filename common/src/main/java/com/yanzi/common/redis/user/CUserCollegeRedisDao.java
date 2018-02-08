@@ -98,4 +98,8 @@ public interface CUserCollegeRedisDao {
 	void unsubscribeCourseV2(long userId, Long courseId);
 
 	List<Long> getUserSubscribedCourseV2(long userId);
+    
+    void saveLatestLesson(long userId,long lessonId);
+    
+    long  loadLatestLesson(long userId);
 }

@@ -464,9 +464,27 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
     @Override
     public List<Long> getUserSubscribedCourseV2(long userId) {
     	String listKey = getUserSubscribedCoursePrefixList(userId);
-        List<String> idolIdStrs = getList(listKey,0,0);
+        List<String> idolIdStrs = getList(listKey);
         List<Long> result = new ArrayList<>();
         CollectionParseUtils.StringParseNumber(idolIdStrs, result, Long.class);
         return result;
     }
+
+	@Override
+	public void unsubscribeCourseV2(long userId, Long courseId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveLatestLesson(long userId, long lessonId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long loadLatestLesson(long userId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

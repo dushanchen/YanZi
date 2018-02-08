@@ -181,4 +181,12 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
         cUserCollegeRedisDao.saveCourseTermLevel(userId, courseId, termId, levelId);
     }
     
+    @Override
+    public long loadLatestLesson(long userId){
+    	return cUserCollegeRedisDao.loadLatestLesson(userId);
+    	
+    }
+    public void saveLatestLesson(long userId,long lessonId){
+    	cUserCollegeRedisDao.saveLatestLesson(userId, lessonId);
+    }
 }
