@@ -4,7 +4,6 @@ import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.entity.college.lesson.LessonInfo;
 import com.yanzi.common.entity.college.lesson.LessonPrimer;
 import com.yanzi.common.entity.user.UserInfo;
-import com.yanzi.pisces.entity.LessonBackgroud;
 public class ViewShareCurriculumKnowledgeResponse extends ViewResponseBase {
     private long knowledge;
 //    private long sustainedCompleteDayCount;

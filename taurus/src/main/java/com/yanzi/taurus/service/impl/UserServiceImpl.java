@@ -308,4 +308,14 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
     public void addUserFeedback(long userId,String message){
     	userMapper.addFeedback(userId,message);
     }
+    
+    /**
+     * 模糊查询好友
+     * @param userId
+     * @param nickName
+     * @author dusc
+     */
+    public List<UserInfo> fetchFriends(long userId,String nickName){
+    	return userMapper.fetchFriends(userId, nickName);
+    }
 }

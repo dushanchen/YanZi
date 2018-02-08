@@ -3,6 +3,7 @@ package com.yanzi.taurus.service;
 import java.util.List;
 
 import com.yanzi.common.entity.user.TagInfo;
+import org.apache.ibatis.annotations.Param;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.service.CUserService;
 import com.yanzi.taurus.entity.AccountInfo;
@@ -45,5 +46,6 @@ public interface UserService extends CUserService{
     public List<FeedbackInfo> loadUserFeedback(String token);
 
     public void addUserFeedback(long userId,String message);
-
+    
+    public List<UserInfo> fetchFriends(long userId,String nickName);
 }

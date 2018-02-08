@@ -28,13 +28,13 @@ import com.yanzi.taurus.controller.params.AddFeedbackParams;
 import com.yanzi.taurus.controller.params.BindingPhoneNoParams;
 import com.yanzi.taurus.controller.params.BindingThirdPartyParams;
 import com.yanzi.taurus.controller.params.LoadUserPersonalCenterParam;
+import com.yanzi.taurus.controller.params.FetchFriendsParams;
 import com.yanzi.taurus.controller.params.ModifyPasswordParams;
 import com.yanzi.taurus.controller.params.ModifyPhoneNoParams;
 import com.yanzi.taurus.controller.params.RaiseAppDurationParams;
 import com.yanzi.taurus.controller.params.RegisterParams;
 import com.yanzi.taurus.controller.params.ResetPasswordParams;
 import com.yanzi.taurus.entity.AccountInfo;
-import com.yanzi.taurus.entity.DialogInfo;
 import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
 import com.yanzi.taurus.entity.UserCourseInfo;
@@ -45,7 +45,8 @@ import com.yanzi.taurus.service.RegisterService;
 import com.yanzi.taurus.service.TagService;
 import com.yanzi.taurus.service.UserService;
 import com.yanzi.taurus.view.ViewFeedbackResponse;
-import com.yanzi.taurus.view.ViewThirdPartyResponse;
+import com.yanzi.taurus.view.ViewDurationResponse;
+import com.yanzi.taurus.view.ViewFriengListResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
 import com.yanzi.taurus.view.ViewUserPersonalCenterResponse;
 import com.yanzi.taurus.view.ViewUserResponseBase;
@@ -139,14 +140,17 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         return packageSuccessData(ViewResponseBase.DEFAULT_INSTANCE);
     }
 
-    @RequestMapping(value = "/get/binding/thirdparty", method = { RequestMethod.GET,
+    @RequestMapping(value = "/binding/thirdparty", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
-    public ResponseEntity<ResponseEntityWrapper> getBindingThirdParty(
-            @Valid UserActionParamsBase params) {
-    	long userId = paramsUtils.getUserId(params);
-    	List<ThirdPartyInfo> thirdPartyList = userService.getThirdPartyInfoByUserId(userId);
-        return packageSuccessData(new ViewThirdPartyResponse(thirdPartyList));
+    public ResponseEntity<ResponseEntityWrapper> bindingThirdParty(
+            @Valid BindingThirdPartyParams params) {
+        String loginStr = new String(
+                RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));
+        ThirdPartyInfo thirdPartyInfo = JSON.parseObject(loginStr, ThirdPartyInfo.class);
+        long userId = paramsUtils.getUserId(params);
+        userService.addUserThirdPartyInfo(userId, thirdPartyInfo);
+        return packageSuccessData(ViewResponseBase.DEFAULT_INSTANCE);
     }
 
     @RequestMapping(value = "/binding/phoneno", method = { RequestMethod.GET, RequestMethod.POST })
@@ -158,7 +162,29 @@ public class UserController extends BaseController<ViewResponseBase> implements 
                 params.getPassword());
         return packageSuccessData(ViewResponseBase.DEFAULT_INSTANCE);
     }
-
+    /**
+     * 获取用户在线总时长
+     * @param params
+     * @return
+     * @author dusc
+     */
+    @RequestMapping(value = "/get/app/duration", method = { RequestMethod.GET,
+            RequestMethod.POST })
+    @ResponseBody
+    public ResponseEntity<ResponseEntityWrapper> getUserAppDuration(
+            @Valid RaiseAppDurationParams params) {
+        long userId = paramsUtils.getUserId(params);
+        long duration = userService.loadAppDuration(userId);
+        ViewDurationResponse response = new ViewDurationResponse();
+        response.setDuration(duration);
+        return packageSuccessData(response);
+    }
+    /**
+     * 增加用户在线时长
+     * @param params
+     * @return
+     * @author dusc
+     */
     @RequestMapping(value = "/raise/app/duration", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
@@ -198,8 +224,8 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 
         //用户基本信息
         if (params.isWithBasicInfo()) {
-            List<TagInfo> followedTags = tagService.loadUserFollowTags(userId);
-            response.setFollowedTags(followedTags);
+//            List<TagInfo> followedTags = tagService.loadUserFollowTags(userId);
+//            response.setFollowedTags(followedTags);
 
             UserInfo basicInfo = userService.getUserInfoById(userId);
             response.setUserBasicInfo(basicInfo);
@@ -240,6 +266,12 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 //        return packageSuccessData(response);
 //    }
 
+    /**
+     * 加载用户留言
+     * @param params
+     * @return
+     * @author dusc
+     */
     @RequestMapping(value = "/load/feedback", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loadUserFeedback(
@@ -249,6 +281,12 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         response.setFeedbacks(feedbacks);
         return packageSuccessData(response);
     }
+    /**
+     * 添加留言
+     * @param params
+     * @return
+     * @author dusc
+     */
 	  @RequestMapping(value = "/add/feedback", method = { RequestMethod.GET, RequestMethod.POST })
 	  @ResponseBody
 	  public ResponseEntity<ResponseEntityWrapper> loadUserFeedback(
@@ -259,6 +297,25 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 	      return packageSuccessData(new ViewResponseBase());
 	  }
 
+	  /**
+	   * 模糊查询用户的好友
+	   * @param params
+	   * @return
+	   * @author dusc
+	   */
+	  @RequestMapping(value = "/fetch/friends", method = { RequestMethod.GET, RequestMethod.POST })
+	  @ResponseBody
+	  public ResponseEntity<ResponseEntityWrapper> fetchFriends(
+	          @Valid FetchFriendsParams params) {
+	      String nickName = params.getNickName();
+	      long userId = paramsUtils.getUserId(params);
+	      
+	      ViewFriengListResponse response = new ViewFriengListResponse();
+	      response.setFriends(userService.fetchFriends(userId, nickName));
+	      return packageSuccessData(response);
+	  }
+	  
+	  
     @Override
     public void afterPropertiesSet() throws Exception {
         privateKey = RSAEncrypt.loadPrivateKeyByStr(
