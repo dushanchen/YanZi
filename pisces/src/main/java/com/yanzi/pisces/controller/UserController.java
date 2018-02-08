@@ -273,7 +273,7 @@ public class UserController extends BaseController<ViewResponseBase> {
     	long courseId = params.getCourseId();
     	 // TODO  支付过程
         userCollegeService.userPurchaseTerm(userId,courseId, termId);
-        cUserCollegeRedisDao.subscribeCourseV2(userId, courseId);
+//        cUserCollegeRedisDao.subscribeCourseV2(userId, courseId);
         return packageSuccessData(new ViewResponseBase());
         
     }

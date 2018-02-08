@@ -12,4 +12,6 @@ public interface CourseMapper {
             @Param(value = "endTime") Timestamp endTime);
 
 	public List<CourseInfo> getAllCourseInfo();
+
+	public List<Long> getCourseIdByUserId(Long userId);
 }

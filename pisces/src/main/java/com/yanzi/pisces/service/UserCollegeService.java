@@ -80,10 +80,15 @@ public interface UserCollegeService extends CUserCollegeService {
      * @author dusc
      */
     void userPurchaseTerm(long userId,long courseId,long termId);
+    /**
+     * 获取全部课程
+     * @return
+     */
+    public List<CourseInfo> getAllCourseInfo();
 
-	    /**获取全部课程
+	    /**获取用户购买的课程Id
      * 
      * @return
      */
-    List<CourseInfo> getAllCourseInfo();
+    List<Long> getCourseIdByUserId(Long userId);
 }

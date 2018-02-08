@@ -21,6 +21,7 @@ import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.level.LevelInfo;
 import com.yanzi.common.service.CUserService;
 import com.yanzi.common.service.CourseService;
+import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.pisces.controller.param.BaseParam;
 import com.yanzi.pisces.controller.response.ViewCourseResponse;
 import com.yanzi.pisces.controller.response.ViewUserCourseLevelResponse;
@@ -34,6 +35,8 @@ public class CourseController extends BaseController<ViewResponseBase> {
     private CUserService cUserService;
     @Autowired
     private UserCollegeService userCollegeService;
+    @Autowired
+    private ParamsUtils paramsUtils;
 
     @ResponseBody
     @RequestMapping(value = "/load/allcourse", method = { RequestMethod.GET,
@@ -49,18 +52,14 @@ public class CourseController extends BaseController<ViewResponseBase> {
             RequestMethod.POST })
     public ResponseEntity<ResponseEntityWrapper> loadUserAllLevels(
             @Valid UserActionParamsBase params) {
-        long userId = 0;
-        if (StringUtils.isNotEmpty(params.getToken())) {
-            userId = cUserService.loadUserIdNoCache(params.getToken());
-        } else {
-            userId = params.getUserId();
-        }
+    	long userId = paramsUtils.getUserId(params);
         ViewUserCourseLevelResponse response = new ViewUserCourseLevelResponse();
-        List<Long> curriculumIds = cUserService.loadUserSubscribedCourseId(userId);
+//        List<Long> curriculumIds = cUserService.loadUserSubscribedCourseId(userId);
+        List<Long> courseIds = userCollegeService.getCourseIdByUserId(userId);
         List<LevelInfo> levels = new ArrayList<>();
-        for (long curriculumId : curriculumIds) {
-            long exp = cUserService.loadUserCourseExp(userId, curriculumId);
-            LevelInfo level = courseService.getLevelByExp(curriculumId, exp);
+        for (long courseId : courseIds) {
+            long exp = cUserService.loadUserCourseExp(userId, courseId);
+            LevelInfo level = courseService.getLevelByExp(courseId, exp);
             levels.add(level);
         }
         response.setLevels(levels);

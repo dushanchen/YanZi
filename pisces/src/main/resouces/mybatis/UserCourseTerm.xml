@@ -30,4 +30,9 @@
 	<insert id="userPurchaseTerm" >
 		insert User.CourseTerm(UserId,CourseId,TermId) VALUES (#{userId},#{courseId},#{termId})
 	</insert>
+	<select id="getCourseIdByUserId" resultType="java.lang.Long">
+		select DISTINCT courseId from User.CourseTerm
+		Where `userId` = #{userId}
+	</select>
+	
 </mapper>

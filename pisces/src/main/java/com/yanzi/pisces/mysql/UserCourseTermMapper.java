@@ -18,4 +18,11 @@ public interface UserCourseTermMapper {
      * @param termId
      */
     public void userPurchaseTerm(@Param(value="userId") long userId,@Param(value="courseId") long courseId,@Param(value="termId") long termId);
+    
+    /**
+     * 查询用户相关课程
+     * @param userId
+     * @return
+     */
+	public List<Long> getCourseIdByUserId(Long userId);
 }

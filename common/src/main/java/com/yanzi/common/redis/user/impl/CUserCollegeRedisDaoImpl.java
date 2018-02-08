@@ -462,6 +462,7 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
         }
     }
     
+    //用户通过userId获取相关课程
     @Override
     public List<Long> getUserSubscribedCourseV2(long userId) {
     	String listKey = getUserSubscribedCoursePrefixList(userId);

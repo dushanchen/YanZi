@@ -329,4 +329,13 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
 		// TODO Auto-generated method stub
 		return courseMapper.getAllCourseInfo();
 	}
+	
+	 /**
+     * 获取用户相关的课程id
+     */
+	@Override
+	public List<Long> getCourseIdByUserId(Long userId) {
+		// TODO Auto-generated method stub
+		return userCourseTermMapper.getCourseIdByUserId(userId);
+	}
 }

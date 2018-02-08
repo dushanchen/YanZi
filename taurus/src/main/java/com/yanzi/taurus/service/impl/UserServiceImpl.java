@@ -190,12 +190,12 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
         UserCourseInfo userCourseInfo = new UserCourseInfo();
         userCourseInfo.setExp(exp);
         userCourseInfo.setKnowledge(knowledge); 
-        List<CourseInfo> allcourseList = loadAllCourse();
-        Map<Long, CourseInfo> courseMap = new HashMap<>();
-        if (null != allcourseList && !allcourseList.isEmpty()) {
-            for (CourseInfo courseInfo : allcourseList)
-            	courseMap.put(courseInfo.getId(), courseInfo);
-        }
+//        List<CourseInfo> allcourseList = loadAllCourse();
+//        Map<Long, CourseInfo> courseMap = new HashMap<>();
+//        if (null != allcourseList && !allcourseList.isEmpty()) {
+//            for (CourseInfo courseInfo : allcourseList)
+//            	courseMap.put(courseInfo.getId(), courseInfo);
+//        }
         List<LevelInfo> courseLevels = loadUserCourseLevel(userId);
 //        List<LevelInfo> courseLevels = loadUserCourseLevel(userId);
 //        cUserFriendRedisDao.loadCourseTermLevel(userId,courseId,termId);
@@ -203,30 +203,30 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
         return userCourseInfo;
     }
     
-    //获取所有的课程
-    public List<CourseInfo> loadAllCourse() {
-        String url = loadAllCourseUrl;
-        String response = httpClientUtils.getResponse(url);
-        JSONObject responseJson = JSON.parseObject(response);
-        if (!YanziResponseUtils.isValid(responseJson)) {
-            return Collections.emptyList();
-        }
-        JSONObject message = YanziResponseUtils.getMessage(responseJson);
-        JSONArray courseJsonArray = message.getJSONArray("curriculums");
-        if (null == courseJsonArray || courseJsonArray.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<CourseInfo> result = new ArrayList<>();
-        for (int i = 0; i < courseJsonArray.size(); ++i) {
-            String courseStr = courseJsonArray.getString(i);
-            if (StringUtils.isEmpty(courseStr)) {
-                continue;
-            }
-            CourseInfo courseInfo = JSON.parseObject(courseStr, CourseInfo.class);
-            result.add(courseInfo);
-        }
-        return result;
-    }
+//    //获取所有的课程
+//    public List<CourseInfo> loadAllCourse() {
+//        String url = loadAllCourseUrl;
+//        String response = httpClientUtils.getResponse(url);
+//        JSONObject responseJson = JSON.parseObject(response);
+//        if (!YanziResponseUtils.isValid(responseJson)) {
+//            return Collections.emptyList();
+//        }
+//        JSONObject message = YanziResponseUtils.getMessage(responseJson);
+//        JSONArray courseJsonArray = message.getJSONArray("curriculums");
+//        if (null == courseJsonArray || courseJsonArray.isEmpty()) {
+//            return Collections.emptyList();
+//        }
+//        List<CourseInfo> result = new ArrayList<>();
+//        for (int i = 0; i < courseJsonArray.size(); ++i) {
+//            String courseStr = courseJsonArray.getString(i);
+//            if (StringUtils.isEmpty(courseStr)) {
+//                continue;
+//            }
+//            CourseInfo courseInfo = JSON.parseObject(courseStr, CourseInfo.class);
+//            result.add(courseInfo);
+//        }
+//        return result;
+//    }
     //获取用户课程相关等级
     public List<LevelInfo> loadUserCourseLevel(long userId) {
         String url = String.format(loadUserCourseLevelUrl, userId);
