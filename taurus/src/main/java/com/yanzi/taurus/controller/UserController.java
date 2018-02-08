@@ -1,7 +1,6 @@
 package com.yanzi.taurus.controller;
 
 import java.security.interfaces.RSAPrivateKey;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -46,6 +45,7 @@ import com.yanzi.taurus.service.RegisterService;
 import com.yanzi.taurus.service.TagService;
 import com.yanzi.taurus.service.UserService;
 import com.yanzi.taurus.view.ViewFeedbackResponse;
+import com.yanzi.taurus.view.ViewThirdPartyResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
 import com.yanzi.taurus.view.ViewUserPersonalCenterResponse;
 import com.yanzi.taurus.view.ViewUserResponseBase;
@@ -139,17 +139,14 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         return packageSuccessData(ViewResponseBase.DEFAULT_INSTANCE);
     }
 
-    @RequestMapping(value = "/binding/thirdparty", method = { RequestMethod.GET,
+    @RequestMapping(value = "/get/binding/thirdparty", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
-    public ResponseEntity<ResponseEntityWrapper> bindingThirdParty(
-            @Valid BindingThirdPartyParams params) {
-        String loginStr = new String(
-                RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));
-        ThirdPartyInfo thirdPartyInfo = JSON.parseObject(loginStr, ThirdPartyInfo.class);
-        long userId = paramsUtils.getUserId(params);
-        userService.addUserThirdPartyInfo(userId, thirdPartyInfo);
-        return packageSuccessData(ViewResponseBase.DEFAULT_INSTANCE);
+    public ResponseEntity<ResponseEntityWrapper> getBindingThirdParty(
+            @Valid UserActionParamsBase params) {
+    	long userId = paramsUtils.getUserId(params);
+    	List<ThirdPartyInfo> thirdPartyList = userService.getThirdPartyInfoByUserId(userId);
+        return packageSuccessData(new ViewThirdPartyResponse(thirdPartyList));
     }
 
     @RequestMapping(value = "/binding/phoneno", method = { RequestMethod.GET, RequestMethod.POST })

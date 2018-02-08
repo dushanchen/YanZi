@@ -14,6 +14,7 @@ import com.yanzi.common.constants.RedisPrefixCode;
 import com.yanzi.common.redis.RedisBaseDao;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
 import com.yanzi.common.utils.CollectionParseUtils;
+import com.yanzi.common.utils.PageIndexCalUtil;
 
 @Service("cUserCollegeRedisDao")
 public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserCollegeRedisDao {
@@ -460,11 +461,11 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
             cacheSet(setKey, courseIdStr);
         }
     }
-
+    
     @Override
     public List<Long> getUserSubscribedCourseV2(long userId) {
     	String listKey = getUserSubscribedCoursePrefixList(userId);
-        List<String> idolIdStrs = getList(listKey);
+        List<String> idolIdStrs = getList(listKey,0,0);
         List<Long> result = new ArrayList<>();
         CollectionParseUtils.StringParseNumber(idolIdStrs, result, Long.class);
         return result;

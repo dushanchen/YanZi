@@ -166,9 +166,10 @@ public class CUserServiceImpl implements CUserService, InitializingBean {
 	public long getFriendCount(long userId) {
 		return cUserRedisDao.getIdolCount(userId);
 	}
-	
+
 	@Override
 	public long loadUserCourseExp(long userId, long courseId) {
-        return cUserCollegeRedisDao.saveCourseTermLevel(userId, courseId);
+//        return cUserCollegeRedisDao.saveCourseTermLevel(userId, courseId);
+		return 0;
     }
 }

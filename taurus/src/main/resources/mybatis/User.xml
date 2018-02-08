@@ -213,21 +213,12 @@
 <!-- 		<result property="source" column="source" /> -->
 <!-- 	</resultMap> -->
 	
-<!-- 	<select id="selectThirdPartyIdByUserId" resultMap="ThirdPartyIdMap"> -->
-<!--         <![CDATA[ -->
-<!--         SELECT userId, `thirdPartyId`, `source` -->
-<!-- 		FROM -->
-<!-- 		User.ThirdPartyId -->
-<!-- 		WHERE userId = #{userId} -->
-<!-- 		]]> -->
-<!-- 	</select> -->
-	
-<!-- 	<insert id="addUserThirdPartyId" useGeneratedKeys="true"> -->
-<!-- 		INSERT INTO User.ThirdPartyId (userId, thirdPartyId, source, addTime) -->
-<!-- 		VALUES -->
-<!-- 		(#{userId},#{thirdPartyId.thirdPartyId}, #{thirdPartyId.source}, now()) -->
-<!-- 		ON DUPLICATE KEY UPDATE thirdPartyId = #{thirdPartyId.thirdPartyId} -->
-<!-- 	</insert> -->
+ 	<insert id="addUserThirdPartyId" useGeneratedKeys="true"> 
+ 		INSERT INTO User.ThirdPartyId (userId, thirdPartyId, source, addTime) 
+ 		VALUES 
+		(#{userId},#{thirdPartyId.thirdPartyId}, #{thirdPartyId.source}, now()) 
+ 		ON DUPLICATE KEY UPDATE thirdPartyId = #{thirdPartyId.thirdPartyId} 
+ 	</insert> 
 
 <!-- 	<resultMap type="Feedback" id="FeedbackMap"> -->
 <!-- 		<result property="userId" column="userId" /> -->

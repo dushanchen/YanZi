@@ -45,4 +45,5 @@ public interface UserService extends CUserService{
     public List<FeedbackInfo> loadUserFeedback(String token);
 
     public void addUserFeedback(long userId,String message);
+
 }

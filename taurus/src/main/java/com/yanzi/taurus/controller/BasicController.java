@@ -79,9 +79,9 @@ public class BasicController extends BaseController<ViewResponseBase> {
 //    @ResponseBody
 //    //@Deprecated
 //    public ResponseEntity<ResponseEntityWrapper> modifyBasicinfo(@Valid UserActionParamsBase params) {
-//        long userId = 0;
+//    	long userId = paramsUtils.getUserId(params);
 //        ViewUserPersonalCenterResponse response = new ViewUserPersonalCenterResponse();
-//
+//        
 //        return packageSuccessData(response);
 //    }
 }

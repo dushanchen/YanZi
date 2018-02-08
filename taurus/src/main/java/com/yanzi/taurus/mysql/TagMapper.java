@@ -13,7 +13,7 @@ public interface TagMapper {
   
     public List<Long> selectTagIdsByUserId(@Param(value = "userId") long userId);
 
-    public void insertOrUpdateTagIdsByUserId(@Param(value = "userId") long userId,
+    public boolean insertOrUpdateTagIdsByUserId(@Param(value = "userId") long userId,
             @Param(value = "tagIds") long[] tagIds);
 
     public void deleteAllFollowedTags(@Param(value = "userId") long userId);

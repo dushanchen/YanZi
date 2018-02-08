@@ -16,12 +16,13 @@ import com.yanzi.common.controller.params.UserActionParamsBase;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.entity.user.TagInfo;
+import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.taurus.controller.params.FollowTagParams;
 import com.yanzi.taurus.data.TagData;
 import com.yanzi.taurus.service.TagService;
-import com.yanzi.taurus.service.UserService;
 import com.yanzi.taurus.view.ViewAllTagResponse;
 import com.yanzi.taurus.view.ViewFollowedTagResponse;
+import com.yanzi.taurus.view.ViewUserFollowTagsResponse;
 
 @Controller
 public class TagController extends BaseController<ViewResponseBase> {
@@ -31,15 +32,19 @@ public class TagController extends BaseController<ViewResponseBase> {
     @Autowired
     private TagService tagService;
     @Autowired
-    private UserService userService;
+    private ParamsUtils paramsUtils;
 
     //绑定标签
     @RequestMapping(value = "/user/follow/tags", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> modifyBasicInfo(@Valid FollowTagParams params) {
-        long userId = userService.loadUserId(params.getToken());
-        tagService.userFollowTags(userId, params.getTagIds());
-        return packageSuccessData(new ViewResponseBase());
+        long userId = paramsUtils.getUserId(params);
+        boolean flag = tagService.userFollowTags(userId, params.getTagIds());
+        ViewUserFollowTagsResponse response = new ViewUserFollowTagsResponse();
+        if(flag==true){
+        	response.setMsg("标签绑定成功");
+        }
+        return packageSuccessData(response);
     }
 
     //获取自己的标签
@@ -47,7 +52,7 @@ public class TagController extends BaseController<ViewResponseBase> {
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loadFollowedTags(
             @Valid UserActionParamsBase params) {
-        long userId = userService.loadUserId(params.getToken());
+        long userId = paramsUtils.getUserId(params);
         List<TagInfo> tags = tagService.loadUserFollowTags(userId);
         ViewFollowedTagResponse response = new ViewFollowedTagResponse();
         response.setTags(tags);
