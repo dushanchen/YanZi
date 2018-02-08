@@ -13,10 +13,15 @@ import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.params.UserActionParamsBase;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
+import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.pisces.service.UserCollegeService;
-import com.yanzi.pisces.service.UserService; 
+import com.yanzi.pisces.service.UserService;
+import com.yanzi.pisces.controller.param.UserLoadTermInfoParams;
+import com.yanzi.pisces.controller.response.ViewShareCurriculumExpResponse;
 import com.yanzi.pisces.controller.response.ViewShareCurriculumKnowledgeResponse;
+import com.yanzi.pisces.controller.response.ViewShareCurriculumLessonResponse;
 import com.yanzi.pisces.data.LessonData;
+import com.yanzi.pisces.data.LevelData;
 @Controller
 public class ShareController extends BaseController<ViewResponseBase> {
 
@@ -27,11 +32,20 @@ public class ShareController extends BaseController<ViewResponseBase> {
 	private UserCollegeService collegeService;
 	@Autowired
     private LessonData lessonData;
-	
+	@Autowired
+	private LevelData levelData;
+	@Autowired
+    private ParamsUtils paramsUtils;
+	/**
+	 * 任务分享
+	 * @param params
+	 * @return
+	 * @author dusc
+	 */
 	@RequestMapping(value = "/share/curriculum/knowledge", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
 	public ResponseEntity<ResponseEntityWrapper> shareKnowledge(@Valid UserActionParamsBase params){
-		long userId = userService.loadUserId(params.getToken());
+		long userId = paramsUtils.getUserId(params);
 		ViewShareCurriculumKnowledgeResponse response = new ViewShareCurriculumKnowledgeResponse();
 		response.setUserInfo(userService.loadUserInfo(userId));
 	         
@@ -47,4 +61,47 @@ public class ShareController extends BaseController<ViewResponseBase> {
 
         return packageSuccessData(response);
 	}
+	/**
+	 * 勋章分享
+	 * @param params
+	 * @return
+	 * @author dusc
+	 */
+	@RequestMapping(value = "/share/curriculum/exp", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+	public ResponseEntity<ResponseEntityWrapper> shareExp(@Valid UserLoadTermInfoParams params){
+		long userId = paramsUtils.getUserId(params);
+		 
+		ViewShareCurriculumExpResponse response = new ViewShareCurriculumExpResponse();
+		response.setUserInfo(userService.loadUserInfo(userId));
+		long exp = collegeService.loadExp(userId);
+	    response.setExp(exp);
+	    response.setLevelInfo(levelData.getByCourseIdAndExp(params.getCourseId(), exp));
+	    return packageSuccessData(response);
+	}
+	
+	/**
+	 * 关卡分享
+	 * @param params
+	 * @return
+	 * @author dusc
+	 */
+	@RequestMapping(value = "/share/course/lesson", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+	public ResponseEntity<ResponseEntityWrapper> shareLesson(@Valid UserLoadTermInfoParams params){
+		long userId = paramsUtils.getUserId(params);
+		long courseId = params.getCourseId();
+		long termId = params.getTermId();
+		long lessonId = params.getLessonId();
+		
+		ViewShareCurriculumLessonResponse response = new ViewShareCurriculumLessonResponse();
+		response.setUserInfo(userService.loadUserInfo(userId));//用户信息
+		response.setLessonInfo(lessonData.get(lessonId));//关卡信息
+		//关卡知识点
+		response.setKnowledge(collegeService.loadCourseTermLessonKnowledge(userId, courseId, termId, lessonId));
+	    //关卡最大知识点
+		response.setMaxKnowledge(collegeService.loadCourseTermLessonMaxKnowledge(userId, courseId, termId, lessonId));
+	    return packageSuccessData(response);
+	}
+	
 }

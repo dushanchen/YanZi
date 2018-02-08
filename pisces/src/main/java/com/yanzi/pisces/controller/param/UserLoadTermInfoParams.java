@@ -9,6 +9,7 @@ public class UserLoadTermInfoParams extends UserActionParamsBase {
 
     private long courseId;
     
+    private long lessonId;
     
     public long getTermId() {
         return termId;
@@ -24,6 +25,14 @@ public class UserLoadTermInfoParams extends UserActionParamsBase {
 
 	public void setCourseId(long courseId) {
 		this.courseId = courseId;
+	}
+
+	public long getLessonId() {
+		return lessonId;
+	}
+
+	public void setLessonId(long lessonId) {
+		this.lessonId = lessonId;
 	}
     
     

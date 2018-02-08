@@ -36,6 +36,7 @@ import com.yanzi.taurus.entity.ThirdPartyInfo;
 import com.yanzi.taurus.service.LoginService;
 import com.yanzi.taurus.service.RegisterService;
 import com.yanzi.taurus.service.UserService;
+import com.yanzi.taurus.view.ViewDurationResponse;
 import com.yanzi.taurus.view.ViewFeedbackResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
 import com.yanzi.taurus.view.ViewUserResponseBase;
@@ -145,7 +146,29 @@ public class UserController extends BaseController<ViewResponseBase> implements 
                 params.getPassword());
         return packageSuccessData(ViewResponseBase.DEFAULT_INSTANCE);
     }
-
+    /**
+     * 获取用户在线总时长
+     * @param params
+     * @return
+     * @author dusc
+     */
+    @RequestMapping(value = "/get/app/duration", method = { RequestMethod.GET,
+            RequestMethod.POST })
+    @ResponseBody
+    public ResponseEntity<ResponseEntityWrapper> getUserAppDuration(
+            @Valid RaiseAppDurationParams params) {
+        long userId = paramsUtils.getUserId(params);
+        long duration = userService.loadAppDuration(userId);
+        ViewDurationResponse response = new ViewDurationResponse();
+        response.setDuration(duration);
+        return packageSuccessData(response);
+    }
+    /**
+     * 增加用户在线时长
+     * @param params
+     * @return
+     * @author dusc
+     */
     @RequestMapping(value = "/raise/app/duration", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
@@ -169,7 +192,12 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         resonse.setThirdPartyIds(thirdPartyInfos);
         return packageSuccessData(resonse);
     }
-
+    /**
+     * 加载用户留言
+     * @param params
+     * @return
+     * @author dusc
+     */
     @RequestMapping(value = "/load/feedback", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loadUserFeedback(
@@ -179,6 +207,12 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         response.setFeedbacks(feedbacks);
         return packageSuccessData(response);
     }
+    /**
+     * 添加留言
+     * @param params
+     * @return
+     * @author dusc
+     */
 	  @RequestMapping(value = "/add/feedback", method = { RequestMethod.GET, RequestMethod.POST })
 	  @ResponseBody
 	  public ResponseEntity<ResponseEntityWrapper> loadUserFeedback(
