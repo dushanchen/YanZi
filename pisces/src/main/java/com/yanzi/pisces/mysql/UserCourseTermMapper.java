@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.UserTermCourseEntity;
 
 public interface UserCourseTermMapper {
@@ -24,5 +25,5 @@ public interface UserCourseTermMapper {
      * @param userId
      * @return
      */
-	public List<Long> getCourseIdByUserId(Long userId);
+	public List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
 }

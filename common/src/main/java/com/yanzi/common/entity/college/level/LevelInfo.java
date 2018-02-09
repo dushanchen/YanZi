@@ -15,7 +15,7 @@ public class LevelInfo {
     private long coin;
     @JSONField(serialize = false)
     private int valid;
-    
+
 	public long getId() {
         return id;
     }

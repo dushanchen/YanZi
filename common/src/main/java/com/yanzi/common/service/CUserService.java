@@ -136,6 +136,14 @@ public interface CUserService {
      * @param courseId
      * @return
      */
-    public long loadUserCourseExp(long userId, long courseId);
+    public long loadUserCourseExp(long userId, long courseId,long termId);
+    /**
+     * 获取等级
+     * @param userId
+     * @param courseId
+     * @param termId
+     * @return
+     */
+    public long loadUserCourseLevel(long userId, long courseId,long termId);
 
 }

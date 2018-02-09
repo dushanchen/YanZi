@@ -4,8 +4,10 @@ import java.util.List;
 
 
 
+
 import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.service.CUserCollegeService;
+import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.UserLessonStatus;
 import com.yanzi.pisces.entity.UserRank;
 import com.yanzi.pisces.entity.UserCollegeStatus;
@@ -90,5 +92,6 @@ public interface UserCollegeService extends CUserCollegeService {
      * 
      * @return
      */
-    List<Long> getCourseIdByUserId(Long userId);
+    List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
+
 }

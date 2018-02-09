@@ -19,6 +19,7 @@ import com.yanzi.common.utils.TimeUtils;
 import com.yanzi.pisces.data.LessonData;
 import com.yanzi.pisces.data.LevelData;
 import com.yanzi.pisces.data.TermData;
+import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.RankInfo;
 import com.yanzi.pisces.entity.UserCollegeStatus;
 import com.yanzi.pisces.entity.UserCourseTermStatus;
@@ -27,6 +28,7 @@ import com.yanzi.pisces.entity.UserRank;
 import com.yanzi.pisces.entity.UserTermCourseEntity;
 import com.yanzi.pisces.entity.comparator.RankEntityCompartor;
 import com.yanzi.pisces.mysql.CourseMapper;
+import com.yanzi.pisces.mysql.LevelMapper;
 import com.yanzi.pisces.mysql.UserCourseTermMapper;
 import com.yanzi.pisces.service.UserCollegeService;
 import com.yanzi.pisces.service.UserService;
@@ -54,6 +56,8 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     private UserService userService;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private LevelMapper levelMapper;
 
     @Override
     public List<Long> loadCourseIdList(long userId) {
@@ -334,8 +338,8 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
      * 获取用户相关的课程id
      */
 	@Override
-	public List<Long> getCourseIdByUserId(Long userId) {
+	public List<CourseTermInfo> getCourseTermInfoByUserId(Long userId) {
 		// TODO Auto-generated method stub
-		return userCourseTermMapper.getCourseIdByUserId(userId);
+		return userCourseTermMapper.getCourseTermInfoByUserId(userId);
 	}
 }

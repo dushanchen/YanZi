@@ -168,8 +168,12 @@ public class CUserServiceImpl implements CUserService, InitializingBean {
 	}
 
 	@Override
-	public long loadUserCourseExp(long userId, long courseId) {
-//        return cUserCollegeRedisDao.saveCourseTermLevel(userId, courseId);
-		return 0;
+	public long loadUserCourseExp(long userId, long courseId,long termId) {
+        return cUserCollegeRedisDao.loadCourseTermExp(userId, courseId, termId);
+    }
+	
+	@Override
+	public long loadUserCourseLevel(long userId, long courseId,long termId) {
+        return cUserCollegeRedisDao.loadCourseTermLevel(userId, courseId, termId);
     }
 }
