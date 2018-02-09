@@ -35,7 +35,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
 
     private static final int BASE_KNOWLEDGE_EXP = 2;
     private static final int DAY_COMPLETE_EXP = 3;
-    // private static final int SEVEN_DAY_COMPLETE_EXP = 5;
+    private static final int SEVEN_DAY_COMPLETE_EXP = 5;
     // private static final int SEVEN_DAY = 7;
     private static final int DAY_COMPLETE_KNOWLEDGE = 10;
 
@@ -66,11 +66,10 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     }
 
     @Override
-    public long completeLesson(long userId, long courseId, long lessonId, long lessonKnowledge) {
+    public long completeLesson(long userId, long courseId, long lessonId, long lessonKnowledge,long exp) {
         long termId = this.loadCourseTermId(userId, courseId);
         long lessonMaxKnowledge = this.loadCourseTermLessonMaxKnowledge(userId, courseId, termId,
                 lessonId);
-        
         
         
         long newKnowledge = lessonKnowledge - lessonMaxKnowledge;
@@ -91,15 +90,15 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
                 date.getDay());
         todayKnowledge += newKnowledge;
         this.saveCourseTermDayKnowledge(userId, courseId, termId, todayKnowledge, date.getDay());
-        // update user knowledge
+        // update user knowledge//更新总知识点
         long userKnowledge = this.loadKnowledge(userId);
         userKnowledge += newKnowledge;
         this.saveKnowledge(userId, userKnowledge);
 
-        long newExp = newKnowledge * BASE_KNOWLEDGE_EXP;
+        long newExp = exp;//newKnowledge * BASE_KNOWLEDGE_EXP;   dusc
         // complete day
         if (!this.courseTermDayIsComplete(userId, courseId, termId, date.getDay())) {
-            if (todayKnowledge >= DAY_COMPLETE_KNOWLEDGE) {
+            if (todayKnowledge >= DAY_COMPLETE_KNOWLEDGE) {//更新今日目标完成状态
                 this.courseTermDayComplete(userId, courseId, termId, date.getDay());
                 long completeDayCount = this.loadCourseTermCompleteDayCount(userId, courseId,
                         termId);
@@ -113,7 +112,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
                 // }
             }
         }
-        // update user Exp
+        // update user Exp//更新总经验值
         long userExp = this.loadExp(userId);
         userExp += newExp;
         this.saveExp(userId, userExp);
@@ -129,6 +128,36 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
         long courseWeekExp = this.loadCourseTermWeekExp(userId, courseId, termId, date.getWeek());
         courseWeekExp += newExp;
         this.saveCourseTermWeekExp(userId, courseId, termId, date.getWeek(), courseWeekExp);
+        
+        //更新等级状态
+        long levelId = this.loadCourseTermLevel(userId, courseId, termId);//用户当前等级
+        LevelInfo level = levelData.getByCourseIdAndExp(courseId, courseExp);//当前课程经验值更新后对应的等级
+        long coins = 0;
+        if(level.getId() != levelId){//升级，增加雁币
+        	this.saveCourseTermLevel(userId, courseId, termId, level.getId());
+        	coins += level.getCoin();
+        }
+        Calendar cal = Calendar.getInstance();
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        if(dayOfWeek == 1){//本周全部完成目标，增加雁币
+        	List<Boolean> list = this.loadCourseTermWeekCompleteStatus(userId,courseId,termId);
+        	boolean flag = true;
+        	for(int i=0;i<list.size();i++){
+        		if(!list.get(i)){
+        			flag = false;
+        			break;
+        		}
+        	}
+        	if(flag){
+        		coins += SEVEN_DAY_COMPLETE_EXP;
+        	}
+        }
+        if(coins != 0){
+        	UserInfo user = userService.loadUserInfo(userId);
+        	user.setCoins(coins);
+        	userService.saveUserInfo(user);//增加雁币
+        	userCourseTermMapper.addCoins(userId, level.getCoin());
+        }
         return newExp;
     }
 
@@ -288,7 +317,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     @Override
     public List<UserRank> loadCourseTermRankList(long userId, long courseId, long termId) {
         // TODO
-        List<Long> courseTermUserIdList = new ArrayList<>();
+        List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());
         List<Long> expList = this.loadCourseTermExp(courseTermUserIdList, courseId, termId);
         List<RankInfo> rankInfoList = buildRankList(courseTermUserIdList, expList);
         return buildUserRankList(rankInfoList);
@@ -309,15 +338,19 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     public List<UserRank> loadCourseTermWeekRankList(long userId, long courseId, long termId) {
         Date date = TimeUtils.getDate();
         // TODO
-        List<Long> courseTermUserIdList = new ArrayList<>();
+        List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());
         List<Long> expList = this.loadCourseTermWeekExp(courseTermUserIdList, courseId, termId, date.getWeek());
         List<RankInfo> rankInfoList = buildRankList(courseTermUserIdList, expList);
         return buildUserRankList(rankInfoList);
     }
     /**
+     * 购买课程
      * @author dusc
      */
-     public void userPurchaseTerm(long userId,long courseId,long termId){
+     public void userPurchaseTerm(long userId,long courseId,long termId,long coins){
     	 userCourseTermMapper.userPurchaseTerm(userId,courseId, termId);
+    	 userCourseTermMapper.reduceCoins(userId, coins);
+    	 this.replaceCourseTermId(userId, courseId, termId, true);
+    	 
      }
 }

@@ -5,7 +5,7 @@ public class PushInfo {
 
     private long userId;
 
-    private int study;
+    private int status;
 
     public long getUserId() {
         return userId;
@@ -15,11 +15,12 @@ public class PushInfo {
         this.userId = userId;
     }
 
-    public int getStudy() {
-        return study;
-    }
+	public int getStatus() {
+		return status;
+	}
 
-    public void setStudy(int study) {
-        this.study = study;
-    }
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 }

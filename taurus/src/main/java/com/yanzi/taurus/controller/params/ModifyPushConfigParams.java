@@ -3,13 +3,14 @@ package com.yanzi.taurus.controller.params;
 import com.yanzi.common.controller.params.UserActionParamsBase;
 
 public class ModifyPushConfigParams extends UserActionParamsBase {
-    private int study;
+   private int status;
 
-    public int getStudy() {
-        return study;
-    }
-
-    public void setStudy(int study) {
-        this.study = study;
-    }
+	public int getStatus() {
+		return status;
+	}
+	
+	public void setStatus(int status) {
+		this.status = status;
+	}
+   
 }

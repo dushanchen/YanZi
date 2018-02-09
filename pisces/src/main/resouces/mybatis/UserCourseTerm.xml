@@ -30,4 +30,10 @@
 	<insert id="userPurchaseTerm" >
 		insert User.CourseTerm(UserId,CourseId,TermId) VALUES (#{userId},#{courseId},#{termId})
 	</insert>
+	<update id="addCoins" >
+		update BasicInfo f set f.coins = f.coins+ #{coins} where f.Id=#{userId}
+	</update>
+	<update id="reduceCoins">
+		update BasicInfo f set f.coins = f.coins - #{coins} where f.Id=#{userId}
+	</update>
 </mapper>

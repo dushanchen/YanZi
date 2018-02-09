@@ -16,6 +16,22 @@ public interface UserCourseTermMapper {
      * 用户购买学期
      * @param userId
      * @param termId
+     * @author dusc
      */
     public void userPurchaseTerm(@Param(value="userId") long userId,@Param(value="courseId") long courseId,@Param(value="termId") long termId);
+    /**
+     * 增加雁币
+     * @param userId
+     * @param coins
+     * @author dusc
+     */
+    public void addCoins(@Param(value="userId") long userId,@Param(value="coins") long coins);
+    
+    /**
+     * 减少雁币
+     * @param userId
+     * @param coins
+     * @author dusc
+     */
+    public void reduceCoins(@Param(value="userId") long userId,@Param(value="coins") long coins);
 }

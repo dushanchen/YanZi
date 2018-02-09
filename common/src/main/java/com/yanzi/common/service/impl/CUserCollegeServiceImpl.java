@@ -80,7 +80,7 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
     }
 
     protected void saveCourseTermExp(long userId, long courseId, long termId, long exp) {
-        cUserCollegeRedisDao.saveExp(userId, exp);
+        cUserCollegeRedisDao.saveCourseTermExp(userId, courseId, termId, exp);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
 
     protected void saveCourseTermKnowledge(long userId, long courseId, long termId,
             long knowledge) {
-        cUserCollegeRedisDao.saveExp(userId, knowledge);
+        cUserCollegeRedisDao.saveCourseTermKnowledge(userId, courseId, termId, knowledge);
     }
 
     @Override
