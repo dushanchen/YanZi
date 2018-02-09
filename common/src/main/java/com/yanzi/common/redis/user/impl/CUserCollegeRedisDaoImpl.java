@@ -1,8 +1,11 @@
 package com.yanzi.common.redis.user.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import com.yanzi.common.constants.RedisPrefixCode;
 import com.yanzi.common.redis.RedisBaseDao;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
 import com.yanzi.common.utils.CollectionParseUtils;
+import com.yanzi.common.utils.PageIndexCalUtil;
 
 @Service("cUserCollegeRedisDao")
 public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserCollegeRedisDao {
@@ -414,10 +418,7 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
     private String getCourseTermLevelPrefix() {
         return RedisPrefixCode.USER_COLLEGE_COURSE_TERM_LEVEL.getCode();
     }
-    private String getLatestLessonPrefix() {
-        return RedisPrefixCode.USER_LATEST_COMPLETE_LESSON.getCode();
-    }
-    
+
     private String getCourseTermLevelHashKey(long userId, long courseId, long termId) {
         return String.format("%s_%s_%s", userId, courseId, termId);
     }
@@ -439,27 +440,53 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
         String hk = getCourseTermLevelHashKey(userId, courseId, termId);
         cacheHash(k, hk, Long.toString(levelId));
     }
-   /**
-    * 保存最近完成的lesson
-    * @author dusc
-    */
-    public void saveLatestLesson(long userId,long lessonId){
-    	String key = getLatestLessonPrefix();
-    	cacheHash(key, Long.toString(userId), Long.toString(lessonId));
+    
+    
+    private String getUserSubscribedCoursePrefixSet(long userId) {
+        return String.format("%s_%sS", RedisPrefixCode.USER_ID_TO_IDOL.getCode(), userId);
     }
-    /**
-     * 获取最近完成的lesson
-     * @param userId
-     * @author dusc
-     * @return
-     */
+
+    private String getUserSubscribedCoursePrefixList(long userId) {
+        return String.format("%s_%sL", RedisPrefixCode.USER_ID_TO_IDOL.getCode(), userId);
+    }
+
+    //用户绑定课程
+    @Override
+    public void subscribeCourseV2(long userId, Long courseId) {
+    	String setKey = getUserSubscribedCoursePrefixSet(userId);
+        String courseIdStr = Long.toString(courseId);
+        String listKey = getUserSubscribedCoursePrefixList(userId);
+        if (!containsSetValue(setKey, courseIdStr)) {
+            cacheRightList(listKey, courseIdStr);
+            cacheSet(setKey, courseIdStr);
+        }
+    }
+    
+    //用户通过userId获取相关课程
+    @Override
+    public List<Long> getUserSubscribedCourseV2(long userId) {
+    	String listKey = getUserSubscribedCoursePrefixList(userId);
+        List<String> idolIdStrs = getList(listKey,0,0);
+        List<Long> result = new ArrayList<>();
+        CollectionParseUtils.StringParseNumber(idolIdStrs, result, Long.class);
+        return result;
+    }
+
+	@Override
+	public void unsubscribeCourseV2(long userId, Long courseId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveLatestLesson(long userId, long lessonId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	public long loadLatestLesson(long userId) {
-		String key = getLatestLessonPrefix();
-        String lessonId = getHash(key, Long.toString(userId));
-        if (StringUtils.isEmpty(lessonId)) {
-            return 0;
-        }
-        return Long.parseLong(lessonId);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

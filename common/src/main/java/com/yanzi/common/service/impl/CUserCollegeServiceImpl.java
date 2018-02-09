@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yanzi.common.constants.ReturnCode;
+import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.exception.CommonException;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
 import com.yanzi.common.service.CUserCollegeService;
@@ -179,6 +180,7 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
     protected void saveCourseTermLevel(long userId, long courseId, long termId, long levelId) {
         cUserCollegeRedisDao.saveCourseTermLevel(userId, courseId, termId, levelId);
     }
+    
     @Override
     public long loadLatestLesson(long userId){
     	return cUserCollegeRedisDao.loadLatestLesson(userId);

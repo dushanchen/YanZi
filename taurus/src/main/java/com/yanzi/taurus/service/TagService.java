@@ -43,9 +43,9 @@ public class TagService {
         return resultList;
     }
 
-    public void userFollowTags(long userId, long[] tagIds) {
+    public boolean userFollowTags(long userId, long[] tagIds) {
         if (tagIds == null || tagIds.length == 0) {
-            return;
+            return false;
         }
         for (long tagId : tagIds) {
             if (!tagdata.contains(tagId)) {
@@ -53,6 +53,7 @@ public class TagService {
             }
         }
         tagMapper.deleteAllFollowedTags(userId);
-        tagMapper.insertOrUpdateTagIdsByUserId(userId, tagIds);
+        boolean flag = tagMapper.insertOrUpdateTagIdsByUserId(userId, tagIds);
+        return flag;
     }
 }

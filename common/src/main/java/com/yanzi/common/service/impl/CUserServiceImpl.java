@@ -1,5 +1,7 @@
 package com.yanzi.common.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -18,8 +20,10 @@ import com.yanzi.common.entity.user.PermissionInfo;
 import com.yanzi.common.entity.user.PushInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.exception.CommonException;
+import com.yanzi.common.redis.user.CUserCollegeRedisDao;
 import com.yanzi.common.redis.user.CUserRedisDao;
 import com.yanzi.common.service.CUserService;
+import com.yanzi.common.service.CourseService;
 import com.yanzi.common.trace.MLogger;
 
 @Service("cUserService")
@@ -38,6 +42,10 @@ public class CUserServiceImpl implements CUserService, InitializingBean {
 
     @Autowired
     private CUserRedisDao cUserRedisDao;
+    @Autowired
+    private CUserCollegeRedisDao cUserCollegeRedisDao;
+    @Autowired
+    private CourseService courseService;
 
     @Override
     public void afterPropertiesSet() {//判断本地服务器缓存中是否存在数据，如果没有则去redis服务器取
@@ -80,7 +88,22 @@ public class CUserServiceImpl implements CUserService, InitializingBean {
         }
         return userId;
     }
-
+    @Override
+    public List<Long> loadUserSubscribedCourseId(long userId) {
+        List<Long> courseIds = cUserCollegeRedisDao.getUserSubscribedCourseV2(userId);
+        if (null == courseIds || courseIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Long> result = new ArrayList<>();
+        for (long courseId : courseIds) {
+            if (courseService.containsCourse(courseId)) {
+                result.add(courseId);
+            }
+        }
+        Collections.sort(result);
+        return result;
+    }
+    
     @Override
     public void removeToken(String token) {
         cUserRedisDao.delToken(token);
@@ -149,5 +172,17 @@ public class CUserServiceImpl implements CUserService, InitializingBean {
 		return cUserRedisDao.getUserIds(start, end);
 	}
     
-    
+	public long getFriendCount(long userId) {
+		return cUserRedisDao.getIdolCount(userId);
+	}
+
+	@Override
+	public long loadUserCourseExp(long userId, long courseId,long termId) {
+        return cUserCollegeRedisDao.loadCourseTermExp(userId, courseId, termId);
+    }
+	
+	@Override
+	public long loadUserCourseLevel(long userId, long courseId,long termId) {
+        return cUserCollegeRedisDao.loadCourseTermLevel(userId, courseId, termId);
+    }
 }

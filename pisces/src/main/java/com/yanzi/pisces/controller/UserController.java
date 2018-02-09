@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yanzi.common.controller.BaseController;
-
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.entity.college.lesson.LessonPrimer;
@@ -25,6 +24,7 @@ import com.yanzi.common.entity.college.lesson.LessonSummary;
 import com.yanzi.common.entity.term.TermInfo;
 import com.yanzi.common.entity.term.TermLesson;
 import com.yanzi.common.entity.term.TermPrimer;
+import com.yanzi.common.redis.user.CUserCollegeRedisDao;
 import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.pisces.controller.param.SubmitQuestionParams;
 import com.yanzi.pisces.controller.param.UserLoadCourseRankParams;
@@ -75,6 +75,8 @@ public class UserController extends BaseController<ViewResponseBase> {
     private ParamsUtils paramsUtils;
     @Autowired
     private UserCollegeService userCollegeService;
+    @Autowired
+    private CUserCollegeRedisDao cUserCollegeRedisDao;
 /**
  * 获取所有的学期信息，及用户的学期信息
  * @param params

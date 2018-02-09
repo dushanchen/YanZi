@@ -36,4 +36,13 @@
 	<update id="reduceCoins">
 		update BasicInfo f set f.coins = f.coins - #{coins} where f.Id=#{userId}
 	</update>
+	<select id="getCourseTermInfoByUserId" resultMap="UserCourseTermMap">
+		select courseId,termId from User.CourseTerm
+		Where `userId` = #{userId}
+	</select>
+	
+	<resultMap id="UserCourseTermMap" type="com.yanzi.pisces.entity.CourseTermInfo" >
+	    <result column="courseId" property="courseId" jdbcType="BIGINT" />
+	    <result column="termId" property="termId" jdbcType="BIGINT" />
+  	</resultMap> 
 </mapper>

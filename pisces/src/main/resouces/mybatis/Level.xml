@@ -21,5 +21,4 @@
 		AND updateTime < #{endTime}
 		]]>
 	</select>
-
 </mapper>

@@ -246,6 +246,16 @@ public class RedisBaseDao {
         return null;
     }
 
+//    protected List<String> getList(String k) {
+//        try {
+//            ListOperations<String, String> listOps = redisTemplate.opsForList();
+//            return listOps.leftPop(k);
+//        } catch (Throwable t) {
+//            logger.error("获取list缓存失败key[" + k + ", error[" + t + "]");
+//        }
+//        return null;
+//    }
+    
     protected long getListSize(String k) {
         try {
             ListOperations<String, String> listOps = redisTemplate.opsForList();
@@ -354,7 +364,7 @@ public class RedisBaseDao {
         }
         return null;
     }
-
+    
     protected String getHash(String k, String hk) {
         try {
             HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();

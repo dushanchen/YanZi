@@ -1,12 +1,12 @@
 package com.yanzi.taurus.controller;
 
 import java.security.interfaces.RSAPrivateKey;
-
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +20,14 @@ import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.params.UserActionParamsBase;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
+import com.yanzi.common.entity.user.TagInfo;
+import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.common.utils.RSAEncrypt;
 import com.yanzi.taurus.controller.params.AddFeedbackParams;
 import com.yanzi.taurus.controller.params.BindingPhoneNoParams;
 import com.yanzi.taurus.controller.params.BindingThirdPartyParams;
+import com.yanzi.taurus.controller.params.LoadUserPersonalCenterParam;
 import com.yanzi.taurus.controller.params.FetchFriendsParams;
 import com.yanzi.taurus.controller.params.ModifyPasswordParams;
 import com.yanzi.taurus.controller.params.ModifyPhoneNoParams;
@@ -34,13 +37,18 @@ import com.yanzi.taurus.controller.params.ResetPasswordParams;
 import com.yanzi.taurus.entity.AccountInfo;
 import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
+import com.yanzi.taurus.entity.UserCourseInfo;
+import com.yanzi.taurus.entity.base.FriendInfo;
+import com.yanzi.taurus.service.DialogService;
 import com.yanzi.taurus.service.LoginService;
 import com.yanzi.taurus.service.RegisterService;
-import com.yanzi.taurus.service.UserService; 
-import com.yanzi.taurus.view.ViewDurationResponse;
+import com.yanzi.taurus.service.TagService;
+import com.yanzi.taurus.service.UserService;
 import com.yanzi.taurus.view.ViewFeedbackResponse;
+import com.yanzi.taurus.view.ViewDurationResponse;
 import com.yanzi.taurus.view.ViewFriengListResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
+import com.yanzi.taurus.view.ViewUserPersonalCenterResponse;
 import com.yanzi.taurus.view.ViewUserResponseBase;
 
 @Controller
@@ -54,8 +62,14 @@ public class UserController extends BaseController<ViewResponseBase> implements 
     private RegisterService registerService;
     @Autowired
     private ParamsUtils paramsUtils;
-
+    @Autowired
+    private DialogService dialogService;
+    @Autowired
+    private TagService tagService;
+    
     private RSAPrivateKey privateKey;
+    
+    
 
 //    @RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
 //    @ResponseBody
@@ -194,6 +208,64 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         resonse.setThirdPartyIds(thirdPartyInfos);
         return packageSuccessData(resonse);
     }
+    
+    @RequestMapping(value = "/load/user/personalcenter", method = { RequestMethod.GET,
+            RequestMethod.POST })
+    @ResponseBody
+    public ResponseEntity<ResponseEntityWrapper> loadUserPersonalCenter(
+            @Valid LoadUserPersonalCenterParam params) {
+        long userId = 0;
+        ViewUserPersonalCenterResponse response = new ViewUserPersonalCenterResponse();
+        if (StringUtils.isNotEmpty(params.getToken())) {
+            userId = userService.getUserIdByToken(params.getToken());
+        } else if(0 != params.getUserId()) {
+            userId = params.getUserId();
+        }
+
+        //用户基本信息
+        if (params.isWithBasicInfo()) {
+//            List<TagInfo> followedTags = tagService.loadUserFollowTags(userId);
+//            response.setFollowedTags(followedTags);
+
+            UserInfo basicInfo = userService.getUserInfoById(userId);
+            response.setUserBasicInfo(basicInfo);
+        }
+
+        //用户课程相关信息
+        if (params.isWithCourseInfo()) {
+            UserCourseInfo userCourseInfo = userService.loadUserCourseInfo2(userId);
+            response.setUserCourseInfo(userCourseInfo);
+        }
+
+        //用户在线总时长
+        if (params.isWithAppDuration()) {
+            long userAppDuration = userService.loadUserAppDuration(userId);
+            response.setUserAppDuration(userAppDuration);
+        }
+
+        // 用户朋友总数
+        if (params.isWithFriendInfo()) {
+            FriendInfo friendInfo = new FriendInfo();
+            long friendCount = userService.getFriendCount(userId);
+            friendInfo.setFriendCount(friendCount);
+
+            long fansCount = userService.getFansCount(userId);
+            friendInfo.setFansCount(fansCount);
+            response.setUserFriendInfo(friendInfo);
+        }
+
+        return packageSuccessData(response);
+    }
+//    @RequestMapping(value = "/load/feedback", method = { RequestMethod.GET, RequestMethod.POST })
+//    @ResponseBody
+//    public ResponseEntity<ResponseEntityWrapper> loadUserFeedback(
+//            @Valid UserActionParamsBase params) {
+//        ViewFeedbackResponse response = new ViewFeedbackResponse();
+//        List<FeedbackInfo> feedbacks = userService.loadUserFeedback(params.getToken());
+//        response.setFeedbacks(feedbacks);
+//        return packageSuccessData(response);
+//    }
+
     /**
      * 加载用户留言
      * @param params
@@ -224,6 +296,7 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 	      userService.addUserFeedback(userId, message);
 	      return packageSuccessData(new ViewResponseBase());
 	  }
+
 	  /**
 	   * 模糊查询用户的好友
 	   * @param params
@@ -248,4 +321,6 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         privateKey = RSAEncrypt.loadPrivateKeyByStr(
                 "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKVEdd3fjuFzjG1/1kX8qXpuIQV9KpTn1rtnFQiV51p3qytp2iB8Z+teFoN/z+4yg6aS3EB/1vHrIGVxtLlU/+T4+NDh5h5N/dlRuOV3iiNK/Et8xMrtejwvq9PuqX65yq8J2v9hLlBnQkS8kKhP/BY+51B+6fVbhX43Ay1dKlVPAgMBAAECgYBpUhCfPcoLaRyz54UBAvxqdmZ63gJV9M1GjnG8D/PpFlwyBXopu75qI4LLeJdlIDH/5JWSUSYE86eonmbiuQV9tSt/Hd7mpvxW+AXreK+ox6ztiYMg10tq/8K8UpvGjkMrRVUHb/STRUY8r3Kv/ZeFXJmxcOpNsVz3f2iQlU2FiQJBAP21mktp0XzlKIXnZNgOhvAV/TUmWPWUkFbxtO//lzYOcnkvgW0EndGkUI/ua1mCTVrvib0ojtn1mTh3VuUsJNUCQQCmwnE1XOt2SyfEqOW51swHToyp2MWMT1rbIBRIzL/vmsKKmY1hw9d8M2qnb8oU03dazQKoNYoCqhfOTOAP7/OTAkEApkkCqe7fOObRWoJA3EMZOf6PiOhrYfpPaEzfdHWm2+04Jil2wMdH0QHLM6rmfTIkFTfupSYSCtUn6ZR+RZJbSQJAEup3gQAbTX3U8v/dnyj4V9PXLOUD85iEy9plsqRXGUzKyIIGgZJ/fP0wGfIaUCZ0oX4j0QTRtN+qd6JMwEINtQJAFGMK7tBMRvW8tIW1F87NfLkBm8ygdkR+JWm+fdXT1o8D+97/ltOxIrE42CTef8N7UCK0axaXoA9RhKCi9R526w==");
     }
+    
+    
 }

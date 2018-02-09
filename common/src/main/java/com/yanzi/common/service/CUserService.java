@@ -22,7 +22,7 @@ public interface CUserService {
      * @param token
      */
     public void removeToken(String token);
-
+    
     /**
      * 根据token获取userId
      * 
@@ -126,5 +126,34 @@ public interface CUserService {
      * @return
      */
     public List<Long> getUserIds(long start,long end);
+    
+    /**
+     * 获取好友的数量
+     * 
+     * @param userId
+     * @return
+     */
+    public long getFriendCount(long userId);
+    /**
+     * 根据id获取用户的订阅课程
+     * @param userId
+     * @return
+     */
+    public List<Long> loadUserSubscribedCourseId(long userId);
+    /**
+     * 获取用户课程的经验值
+     * @param userId
+     * @param courseId
+     * @return
+     */
+    public long loadUserCourseExp(long userId, long courseId,long termId);
+    /**
+     * 获取等级
+     * @param userId
+     * @param courseId
+     * @param termId
+     * @return
+     */
+    public long loadUserCourseLevel(long userId, long courseId,long termId);
 
 }

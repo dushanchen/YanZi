@@ -1,7 +1,6 @@
 package com.yanzi.pisces.service.impl;
 
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yanzi.common.entity.Date;
+import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.level.LevelInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.service.CUserFriendService;
@@ -19,6 +19,7 @@ import com.yanzi.common.utils.TimeUtils;
 import com.yanzi.pisces.data.LessonData;
 import com.yanzi.pisces.data.LevelData;
 import com.yanzi.pisces.data.TermData;
+import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.RankInfo;
 import com.yanzi.pisces.entity.UserCollegeStatus;
 import com.yanzi.pisces.entity.UserCourseTermStatus;
@@ -26,6 +27,8 @@ import com.yanzi.pisces.entity.UserLessonStatus;
 import com.yanzi.pisces.entity.UserRank;
 import com.yanzi.pisces.entity.UserTermCourseEntity;
 import com.yanzi.pisces.entity.comparator.RankEntityCompartor;
+import com.yanzi.pisces.mysql.CourseMapper;
+import com.yanzi.pisces.mysql.LevelMapper;
 import com.yanzi.pisces.mysql.UserCourseTermMapper;
 import com.yanzi.pisces.service.UserCollegeService;
 import com.yanzi.pisces.service.UserService;
@@ -51,6 +54,10 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     private CUserFriendService cUserFriendService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CourseMapper courseMapper;
+    @Autowired
+    private LevelMapper levelMapper;
 
     @Override
     public List<Long> loadCourseIdList(long userId) {
@@ -353,4 +360,19 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     	 this.replaceCourseTermId(userId, courseId, termId, true);
     	 
      }
+
+	@Override
+	public List<CourseInfo> getAllCourseInfo() {
+		// TODO Auto-generated method stub
+		return courseMapper.getAllCourseInfo();
+	}
+	
+	 /**
+     * 获取用户相关的课程id
+     */
+	@Override
+	public List<CourseTermInfo> getCourseTermInfoByUserId(Long userId) {
+		// TODO Auto-generated method stub
+		return userCourseTermMapper.getCourseTermInfoByUserId(userId);
+	}
 }

@@ -1,5 +1,6 @@
 package com.yanzi.common.redis.user;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface CUserCollegeRedisDao {
@@ -91,6 +92,12 @@ public interface CUserCollegeRedisDao {
     List<Long> loadCourseTermWeekExp(List<Long> userIds, long courseId, long termId, String week);
 
     void saveCourseTermWeekExp(long userId, long courseId, long termId, String week, long exp);
+
+	void subscribeCourseV2(long userId, Long courseId);
+
+	void unsubscribeCourseV2(long userId, Long courseId);
+
+	List<Long> getUserSubscribedCourseV2(long userId);
     
     void saveLatestLesson(long userId,long lessonId);
     

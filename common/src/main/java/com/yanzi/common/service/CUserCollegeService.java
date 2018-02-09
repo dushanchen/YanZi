@@ -2,6 +2,8 @@ package com.yanzi.common.service;
 
 import java.util.List;
 
+import com.yanzi.common.entity.college.course.CourseInfo;
+
 public interface CUserCollegeService {
 
     long loadCourseTermId(long userId, long courseId);
@@ -41,7 +43,7 @@ public interface CUserCollegeService {
     boolean courseTermLessonIsComplete(long userId, long courseId, long termId, long lessonId);
 
     long loadCourseTermLevel(long userId, long courseId, long termId);
-    
+
     long loadLatestLesson(long userId);
     
     void saveLatestLesson(long userId,long lessonId);

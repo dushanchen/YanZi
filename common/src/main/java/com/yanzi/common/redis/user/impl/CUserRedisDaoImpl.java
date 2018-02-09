@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -13,12 +14,16 @@ import com.yanzi.common.entity.user.PermissionInfo;
 import com.yanzi.common.entity.user.PushInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.redis.RedisBaseDao;
+import com.yanzi.common.redis.user.CUserFriendRedisDao;
 import com.yanzi.common.redis.user.CUserRedisDao;
 import com.yanzi.common.utils.CollectionParseUtils;
 
 @Service
 public class CUserRedisDaoImpl extends RedisBaseDao implements CUserRedisDao {
-
+	
+	@Autowired
+	private CUserFriendRedisDao cUserFriendRedisDao;
+	
     private String getUserTokenToUserIdPrefix() {
         return RedisPrefixCode.USER_TOKEN_TO_USER_ID.getCode();
     }
@@ -126,6 +131,31 @@ public class CUserRedisDaoImpl extends RedisBaseDao implements CUserRedisDao {
         cacheHash(getAppDurationKey(), Long.toString(userId), Long.toString(durationTime));
     }
 
+    private String getAllCourseExpKey() {
+        return RedisPrefixCode.USER_COLLEGE_EXP.getCode();
+    }
+    /*获取用户课程相关经验值*/
+    @Override
+    public long getCourseExpV2(long userId) {
+        String expStr = getHash(getAllCourseExpKey(), Long.toString(userId));
+        if (StringUtils.isEmpty(expStr)) {
+            return 0l;
+        }
+        return Long.parseLong(expStr);
+    }
+    
+    private String getAllCourseKnowledgeKey() {
+        return RedisPrefixCode.USER_COLLEGE_KNOWLEDGE.getCode();
+    }
+    //获取课程相关的知识点
+    @Override
+    public long getCourseKnowledgeV2(long userId) {
+        String knowledgeStr = getHash(getAllCourseKnowledgeKey(), Long.toString(userId));
+        if (StringUtils.isEmpty(knowledgeStr)) {
+            return 0;
+        }
+        return Long.parseLong(knowledgeStr);
+    }
     // @Override
     // public List<Long> getTags(long userId) {
     // String key = getTagKey();
@@ -149,13 +179,13 @@ public class CUserRedisDaoImpl extends RedisBaseDao implements CUserRedisDao {
     private String getUserPermissionPrefix() {
         return RedisPrefixCode.USER_ID_TO_USER_PERMISSION.getCode();
     }
-
+  
     @Override
     public void savePermission(long userId, PermissionInfo permissionInfo) {
         String k = getUserPermissionPrefix();
         this.cacheHash(k, Long.toString(userId), JSON.toJSONString(permissionInfo));
     }
-
+    
     @Override
     public PermissionInfo loadPermission(long userId) {
         String k = getUserPermissionPrefix();
@@ -185,4 +215,17 @@ public class CUserRedisDaoImpl extends RedisBaseDao implements CUserRedisDao {
         }
         return JSON.parseObject(pushStr, PushInfo.class);
     }
+
+    //获取课关注总数
+    @Override
+    public long getIdolCount(long userId) {
+    	return cUserFriendRedisDao.getIdolCount(userId);
+    }
+
+    //获取粉丝总数
+    @Override
+    public long getFansCount(long userId) {
+    	return cUserFriendRedisDao.getFansCount(userId);
+    }
+
 }
