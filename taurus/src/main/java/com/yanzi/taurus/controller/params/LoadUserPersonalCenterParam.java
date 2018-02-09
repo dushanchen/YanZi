@@ -7,8 +7,6 @@ public class LoadUserPersonalCenterParam {
 
     private boolean withBasicInfo = true;
 
-    private boolean withDialogInfo = true;
-
     private boolean withCourseInfo = true;
 
     private boolean withAppDuration = true;
@@ -37,14 +35,6 @@ public class LoadUserPersonalCenterParam {
 
     public void setWithBasicInfo(boolean withBasicInfo) {
         this.withBasicInfo = withBasicInfo;
-    }
-
-    public boolean isWithDialogInfo() {
-        return withDialogInfo;
-    }
-
-    public void setWithDialogInfo(boolean withDialogInfo) {
-        this.withDialogInfo = withDialogInfo;
     }
 
     public boolean isWithCourseInfo() {

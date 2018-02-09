@@ -10,15 +10,8 @@ import com.yanzi.taurus.entity.UserCourseInfo;
 import com.yanzi.taurus.entity.base.FriendInfo;
 
 public class ViewUserPersonalCenterResponse extends ViewResponseBase {
-    // 回复的话说
-    private List<DialogInfo> replyDialogs;
-    // 点赞的话说
-    private List<DialogInfo> likeDialogs;
-    // 创作的话说
-    private List<DialogInfo> actorDialogs;
-
-    // 标签
-    private List<TagInfo> followedTags;
+//    // 标签
+//    private List<TagInfo> followedTags;
     // 基本信息
     private UserInfo userInfo;
 
@@ -30,37 +23,13 @@ public class ViewUserPersonalCenterResponse extends ViewResponseBase {
     
     private FriendInfo userFriendInfo;
 
-    public List<DialogInfo> getReplyDialogs() {
-        return replyDialogs;
-    }
-
-    public void setReplyDialogs(List<DialogInfo> replyDialogs) {
-        this.replyDialogs = replyDialogs;
-    }
-
-    public List<DialogInfo> getLikeDialogs() {
-        return likeDialogs;
-    }
-
-    public void setLikeDialogs(List<DialogInfo> likeDialogs) {
-        this.likeDialogs = likeDialogs;
-    }
-
-    public List<DialogInfo> getActorDialogs() {
-        return actorDialogs;
-    }
-
-    public void setActorDialogs(List<DialogInfo> actorDialogs) {
-        this.actorDialogs = actorDialogs;
-    }
-
-    public List<TagInfo> getFollowedTags() {
-        return followedTags;
-    }
-
-    public void setFollowedTags(List<TagInfo> followedTags) {
-        this.followedTags = followedTags;
-    }
+//    public List<TagInfo> getFollowedTags() {
+//        return followedTags;
+//    }
+//
+//    public void setFollowedTags(List<TagInfo> followedTags) {
+//        this.followedTags = followedTags;
+//    }
 
     public UserInfo getUserBasicInfo() {
         return userInfo;
