@@ -58,7 +58,22 @@ public class LoginServiceImpl implements LoginService {
         }
         return this.login(accountInfo, deviceInfo);
     }
-
+    public void bindThirdPartInfo(ThirdPartyInfo thirdPartyInfo, DeviceInfo deviceInfo,long userId){
+    	if (null == thirdPartyInfo || (StringUtils.isEmpty(thirdPartyInfo.getThirdPartyId()))) {
+            throw new CommonException(ReturnCode.THIRD_PARTY_ID_IS_NULL);
+        }
+        AccountInfo accountInfo = userMapper.selectAccountInfoByThirdPartyInfo(thirdPartyInfo);
+        // registe
+        if (null == accountInfo) {
+             thirdPartyInfo.setUserId(userId);
+             userMapper.insertOrUpdateThirdPartyInfo(thirdPartyInfo);
+        }else if(accountInfo.getId() != userId){//已用第三方登陆过,则更新第三方信息对应的userId
+        	 userMapper.updateThirdPartUserId(thirdPartyInfo.getThirdPartyId(), thirdPartyInfo.getSource(), userId);
+        	//Todo   删除最开始第三方登录时注册的用户信息
+        }
+        deviceInfo.setUserId(userId);
+        userMapper.insertOrUpdateDeviceInfo(deviceInfo);
+    }
     @Override
     public void logout(String token) {
         userService.removeToken(token);

@@ -6,6 +6,7 @@ public class LoginThirdPartyParams extends LoginParamsBase {
     @NotEmpty
     private String param;
 
+    private String token;
     public String getParam() {
         return param;
     }
@@ -13,5 +14,14 @@ public class LoginThirdPartyParams extends LoginParamsBase {
     public void setParam(String param) {
         this.param = param;
     }
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+    
 
 }

@@ -243,4 +243,8 @@
 			`User`.BasicInfo u on u.Id = f.friendId
 			where f.userId = #{userId} and u.NickName like '%${nickName}%'
 		</select>
+		<update id="updateThirdPartUserId">
+			update `User`.ThirdPartyInfo set userId=#{userId} 
+			where ThirdPartyId = #{thirdPartyId} and source=#{source}
+		</update>
 </mapper>

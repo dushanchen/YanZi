@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
+import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.utils.RSAEncrypt;
 import com.yanzi.taurus.controller.params.LoginPhoneNoParams;
 import com.yanzi.taurus.controller.params.LoginThirdPartyParams;
@@ -64,7 +65,22 @@ public class LoginController extends BaseController<ViewLoginResponse> implement
                 accountInfo.getToken());
         return packageSuccessData(response);
     }
+    @RequestMapping(value = "/bind/thirdparty", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public ResponseEntity<ResponseEntityWrapper> bindThirdPartInfo(
+            @Valid LoginThirdPartyParams params) {
+    	
+    	long userId = userService.loadUserId(params.getToken());
+        String loginStr = new String(
+                RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));
+        ThirdPartyInfo thirdPartyInfo = JSON.parseObject(loginStr, ThirdPartyInfo.class);
 
+        DeviceInfo deviceInfo = new DeviceInfo();
+        deviceInfo.setDeviceId(params.getDeviceId());
+        loginService.bindThirdPartInfo(thirdPartyInfo, deviceInfo, userId);
+       
+        return packageSuccessData(new ViewLoginResponse(userId,params.getToken()));
+    }
     @RequestMapping(value = "/login/token", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loginByToken(@Valid LoginTokenParams params) {

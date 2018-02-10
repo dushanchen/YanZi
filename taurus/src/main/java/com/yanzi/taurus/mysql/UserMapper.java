@@ -47,4 +47,6 @@ public interface UserMapper {
     public void addFeedback(@Param("userId") long userId,@Param("message") String message);
     
     public List<UserInfo> fetchFriends(@Param("userId") long userId,@Param("nickName") String nickName);
+    
+    public void updateThirdPartUserId(@Param("thirdPartyId") String thirdPartyId,@Param("source") int source,@Param("userId") long userId);
 }
