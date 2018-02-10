@@ -69,6 +69,9 @@ public class CourseController extends BaseController<ViewResponseBase> {
         	long courseId = courseTermId.getCourseId();
         	long termId = courseTermId.getTermId();   	
         	long level = cUserService.loadUserCourseLevel(userId, courseId,termId);
+//        	LevelInfo levelInfo = levelData.get(level);
+//        	levels.add(levelInfo);
+        	
 //        	LevelInfo levelInfo = new LevelInfo();
 //        	levelInfo.setCourseId(courseId);
 //        	levelInfo.setLevel((int)level);

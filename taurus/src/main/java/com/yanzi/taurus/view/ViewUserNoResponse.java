@@ -1,15 +1,13 @@
 package com.yanzi.taurus.view;
 
-import java.util.List;
-
 import com.yanzi.common.controller.view.ViewResponseBase;
-import com.yanzi.taurus.entity.ThirdPartyInfo;
+import com.yanzi.taurus.entity.ThirdPartySource;
 
 public class ViewUserNoResponse extends ViewResponseBase{
     private long id;
     private String phoneNo;
-    private List<ThirdPartyInfo> thirdPartyIds;
-
+    private ThirdPartySource thirdPartySource;
+    
     public long getId() {
         return id;
     }
@@ -26,11 +24,11 @@ public class ViewUserNoResponse extends ViewResponseBase{
         this.phoneNo = phoneNo;
     }
 
-    public List<ThirdPartyInfo> getThirdPartyIds() {
-        return thirdPartyIds;
-    }
+	public ThirdPartySource getThirdPartySource() {
+		return thirdPartySource;
+	}
 
-    public void setThirdPartyIds(List<ThirdPartyInfo> thirdPartyIds) {
-        this.thirdPartyIds = thirdPartyIds;
-    }
+	public void setThirdPartySource(ThirdPartySource thirdPartySource) {
+		this.thirdPartySource = thirdPartySource;
+	}
 }

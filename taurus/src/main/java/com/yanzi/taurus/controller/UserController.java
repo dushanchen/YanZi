@@ -37,6 +37,7 @@ import com.yanzi.taurus.controller.params.ResetPasswordParams;
 import com.yanzi.taurus.entity.AccountInfo;
 import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
+import com.yanzi.taurus.entity.ThirdPartySource;
 import com.yanzi.taurus.entity.UserCourseInfo;
 import com.yanzi.taurus.entity.base.FriendInfo;
 import com.yanzi.taurus.service.DialogService;
@@ -200,13 +201,28 @@ public class UserController extends BaseController<ViewResponseBase> implements 
     public ResponseEntity<ResponseEntityWrapper> loadUserNoInfo(
             @Valid UserActionParamsBase params) {
         long userId = paramsUtils.getUserId(params);
-        ViewUserNoResponse resonse = new ViewUserNoResponse();
+        ViewUserNoResponse response = new ViewUserNoResponse();
         AccountInfo accountInfo = userService.getAccountInfoByUserId(userId);
         List<ThirdPartyInfo> thirdPartyInfos = userService.getThirdPartyInfoByUserId(userId);
-        resonse.setId(accountInfo.getId());
-        resonse.setPhoneNo(accountInfo.getPhoneNo());
-        resonse.setThirdPartyIds(thirdPartyInfos);
-        return packageSuccessData(resonse);
+        String phoneNo = accountInfo.getPhoneNo();
+        ThirdPartySource thirdPartySource = new ThirdPartySource();
+        for(ThirdPartyInfo thirdpartyInfo:thirdPartyInfos){
+        	int source = thirdpartyInfo.getSource();
+        	if(source == 1){
+        		thirdPartySource.setWhchat(true);
+        	}else if(source == 2){
+        		thirdPartySource.setQq(true);
+        	}else if(source == 3){
+        		thirdPartySource.setSina_blog(true);
+        	}
+        }
+        if(null!=phoneNo){
+        	thirdPartySource.setPhoneNo(true);
+        }
+        response.setId(accountInfo.getId());
+        response.setPhoneNo(phoneNo);
+        response.setThirdPartySource(thirdPartySource);
+        return packageSuccessData(response);
     }
     
     @RequestMapping(value = "/load/user/personalcenter", method = { RequestMethod.GET,
@@ -214,14 +230,8 @@ public class UserController extends BaseController<ViewResponseBase> implements 
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loadUserPersonalCenter(
             @Valid LoadUserPersonalCenterParam params) {
-        long userId = 0;
+    	long userId = paramsUtils.getUserId(params);
         ViewUserPersonalCenterResponse response = new ViewUserPersonalCenterResponse();
-        if (StringUtils.isNotEmpty(params.getToken())) {
-            userId = userService.getUserIdByToken(params.getToken());
-        } else if(0 != params.getUserId()) {
-            userId = params.getUserId();
-        }
-
         //用户基本信息
         if (params.isWithBasicInfo()) {
 //            List<TagInfo> followedTags = tagService.loadUserFollowTags(userId);

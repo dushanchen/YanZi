@@ -1,6 +1,8 @@
 package com.yanzi.taurus.controller.params;
 
-public class LoadUserPersonalCenterParam {
+import com.yanzi.common.controller.params.UserActionParamsBase;
+
+public class LoadUserPersonalCenterParam extends UserActionParamsBase{
     private String token;
 
     private long userId;
