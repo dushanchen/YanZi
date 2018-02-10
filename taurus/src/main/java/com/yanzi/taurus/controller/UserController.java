@@ -204,24 +204,28 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         ViewUserNoResponse response = new ViewUserNoResponse();
         AccountInfo accountInfo = userService.getAccountInfoByUserId(userId);
         List<ThirdPartyInfo> thirdPartyInfos = userService.getThirdPartyInfoByUserId(userId);
+        boolean[] arr = new boolean[4];
+        arr[0] = false;
+        arr[1] = false;
+        arr[2] = false;
+        arr[3] = false;
         String phoneNo = accountInfo.getPhoneNo();
-        ThirdPartySource thirdPartySource = new ThirdPartySource();
+        if(null!=phoneNo){
+        	arr[0] = true;
+        }
         for(ThirdPartyInfo thirdpartyInfo:thirdPartyInfos){
         	int source = thirdpartyInfo.getSource();
         	if(source == 1){
-        		thirdPartySource.setWhchat(true);
-        	}else if(source == 2){
-        		thirdPartySource.setQq(true);
-        	}else if(source == 3){
-        		thirdPartySource.setSina_blog(true);
+        		arr[1] = true;
+        	}
+        	if(source == 2){
+        		arr[2] = true;
+        	}
+        	if(source == 3){
+        		arr[3] = true;
         	}
         }
-        if(null!=phoneNo){
-        	thirdPartySource.setPhoneNo(true);
-        }
-        response.setId(accountInfo.getId());
-        response.setPhoneNo(phoneNo);
-        response.setThirdPartySource(thirdPartySource);
+        response.setListArray(arr);
         return packageSuccessData(response);
     }
     
