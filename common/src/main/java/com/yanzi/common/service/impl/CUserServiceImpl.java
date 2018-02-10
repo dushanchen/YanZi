@@ -163,6 +163,15 @@ public class CUserServiceImpl implements CUserService, InitializingBean {
     }
 
 	@Override
+	public long getUserCount() {
+		return cUserRedisDao.getUserIdSize();
+	}
+
+	@Override
+	public List<Long> getUserIds(long start, long end) {
+		return cUserRedisDao.getUserIds(start, end);
+	}
+    
 	public long getFriendCount(long userId) {
 		return cUserRedisDao.getIdolCount(userId);
 	}

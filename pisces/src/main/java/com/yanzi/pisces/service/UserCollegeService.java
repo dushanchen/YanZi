@@ -29,10 +29,10 @@ public interface UserCollegeService extends CUserCollegeService {
      * @param courseId
      * @param lessonId
      * @param lessonKnowledge
-     * 
+     * @param exp
      * @return 新增的exp
      */
-    long completeLesson(long userId, long courseId, long lessonId, long lessonKnowledge);
+    long completeLesson(long userId, long courseId, long lessonId, long lessonKnowledge,long exp);
 
     /**
      * 获取用户课程期的状态
@@ -76,12 +76,12 @@ public interface UserCollegeService extends CUserCollegeService {
     List<UserRank> loadCourseTermWeekRankList(long userId, long courseId, long termId);
 
     /**
-     * 用户购买学期
+     * 用户购买课程
      * @param userId
      * @param termId
      * @author dusc
      */
-    void userPurchaseTerm(long userId,long courseId,long termId);
+    void userPurchaseTerm(long userId,long courseId,long termId,long coins);
     /**
      * 获取全部课程
      * @return
@@ -93,5 +93,4 @@ public interface UserCollegeService extends CUserCollegeService {
      * @return
      */
     List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
-
 }

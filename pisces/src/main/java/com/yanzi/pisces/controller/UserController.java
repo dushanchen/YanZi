@@ -262,8 +262,9 @@ public class UserController extends BaseController<ViewResponseBase> {
     }
  /**
   * 用户购买学期
-  * @param params
+  * @param params(token,termId,courseId)
   * @return
+  * @author dusc
   */
     @ResponseBody
     @RequestMapping(value="/user/purchase",method = { RequestMethod.GET,RequestMethod.POST })
@@ -271,8 +272,9 @@ public class UserController extends BaseController<ViewResponseBase> {
     	long userId = paramsUtils.getUserId(params);
     	long termId = params.getTermId();
     	long courseId = params.getCourseId();
+    	long coins = params.getPrice();
     	 // TODO  支付过程
-        userCollegeService.userPurchaseTerm(userId,courseId, termId);
+        userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);
         return packageSuccessData(new ViewResponseBase());
         
     }
@@ -293,10 +295,11 @@ public class UserController extends BaseController<ViewResponseBase> {
         long userId = paramsUtils.getUserId(params);
         long courseId = params.getCourseId();
         long lessonId = params.getLessonId();
-        long lessonKnowledge = params.getKnowledge();
+        int exp = params.getExp();
+        int lessonKnowledge = params.getKnowledge();
         
-        long newExp = userCollegeService.completeLesson(userId, courseId, lessonId, lessonKnowledge);
-       
+        //更新课程经验值
+        long newExp = userCollegeService.completeLesson(userId, courseId, lessonId, lessonKnowledge,exp);
         ViewSubmitQuestionResponse response = new ViewSubmitQuestionResponse();
         
         response.setNewExp(newExp);

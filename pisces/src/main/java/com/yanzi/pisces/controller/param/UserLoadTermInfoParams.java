@@ -11,6 +11,7 @@ public class UserLoadTermInfoParams extends UserActionParamsBase {
     
     private long lessonId;
     
+    private long price;
     public long getTermId() {
         return termId;
     }
@@ -33,6 +34,14 @@ public class UserLoadTermInfoParams extends UserActionParamsBase {
 
 	public void setLessonId(long lessonId) {
 		this.lessonId = lessonId;
+	}
+
+	public long getPrice() {
+		return price;
+	}
+
+	public void setPrice(long price) {
+		this.price = price;
 	}
     
     

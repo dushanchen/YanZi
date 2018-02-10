@@ -116,6 +116,16 @@ public interface CUserService {
      * @return
      */
     public PushInfo loadPushInfo(long userId);
+    /**
+     * 查询用户总数
+     * @return
+     */
+    public long getUserCount();
+    /**
+     * 查询用户id
+     * @return
+     */
+    public List<Long> getUserIds(long start,long end);
     
     /**
      * 获取好友的数量

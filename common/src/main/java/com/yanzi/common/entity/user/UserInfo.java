@@ -12,6 +12,10 @@ public class UserInfo{
     private String signature = "";
     private String company = "";
     private String education = "";
+    /**
+     * 雁币
+     */
+    private long coins = 0;
 
     public UserInfo() {
     }
@@ -89,4 +93,13 @@ public class UserInfo{
     public void setId(long id) {
         this.id = id;
     }
+
+	public long getCoins() {
+		return coins;
+	}
+
+	public void setCoins(long coins) {
+		this.coins = coins;
+	}
+    
 }

@@ -265,7 +265,7 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
     }
 
     private String getUserCourseTermDayKnowledgePrefix() {
-        return RedisPrefixCode.USER_COLLEGE_COURSE_TERM_KNOWLEDGE.getCode();
+        return RedisPrefixCode.USER_COLLEGE_COURSE_TERM_DAY_KNOWLEDGE.getCode();
     }
 
     private String getUserCourseTermDayKnowledgeHashKey(long userId, long courseId, long termId,
