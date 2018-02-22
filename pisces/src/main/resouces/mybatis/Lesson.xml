@@ -3,26 +3,28 @@
 <mapper namespace="com.yanzi.pisces.mysql.LessonMapper">
 
 	<resultMap type="LessonInfo" id="LessonInfoMap">
-		<result property="id" column="id" />
+		<result property="id" column="lessonId" />
 		<result property="courseId" column="courseId" />
-		<result property="title" column="title" />
-		<result property="image" column="image" />
-		<result property="index" column="index" />
-		<result property="valid" column="valid" />
+		<result property="title" column="Title" />
+		<result property="image" column="Image" />
+		<result property="index" column="t_Index" />
+		<result property="valid" column="Valid" />
+		<result property="summaryContent" column="SummaryContent" />
 	</resultMap>
 
 	<select id="selectByRangTime" resultMap="LessonInfoMap">
         <![CDATA[
-		SELECT id, `courseId`, `title`, `image`, `index`, `valid`
+		SELECT l.lessonId, c.`courseId`, l.`Title`, l.`Image`, l.`t_Index`, l.`Valid`,l.SummaryContent
 		FROM
-		College.Lesson
-		WHERE updateTime >= #{beginTime}
-		AND updateTime < #{endTime}
+		test.Lesson l left join test.t_Term t on l.t_Id = t.t_Id
+		left join test.Course c on c.courseId = t.courseId
+		WHERE l.UpdateTime >= #{beginTime}
+		AND l.UpdateTime < #{endTime}
 		]]>
 	</select>
 
 	<resultMap type="LessonPrimer" id="LessonPrimerMap">
-		<result property="lessonId" column="id" />
+		<result property="lessonId" column="LessonId" />
 		<result property="title" column="PrimerTitle" />
 		<result property="brief" column="PrimerBrief" />
 		<result property="image" column="PrimerImage" />
@@ -31,10 +33,10 @@
 
 	<select id="selectPrimerById" resultMap="LessonPrimerMap">
         <![CDATA[
-		SELECT id, `PrimerTitle`, `PrimerBrief`, `PrimerImage`, `PrimerContent`
+		SELECT LessonId, `PrimerTitle`, `PrimerBrief`, `PrimerImage`, `PrimerContent`
 		FROM
-		College.Lesson
-		WHERE id = #{lessonId}
+		test.Lesson
+		WHERE LessonId = #{lessonId}
 		]]>
 	</select>
 
@@ -45,10 +47,10 @@
 
 	<select id="selectSummaryBaseById" resultMap="LessonSummaryMap">
         <![CDATA[
-		SELECT id, `summaryImage`
+		SELECT LessonId, `SummaryImage`
 		FROM
-		College.Lesson
-		WHERE id = #{lessonId}
+		test.Lesson
+		WHERE LessonId = #{lessonId}
 		]]>
 	</select>
 
@@ -60,7 +62,7 @@
 		<result property="index" column="index" />
 	</resultMap>
 
-	<select id="selectSummaryDetailById" resultMap="SummaryMap">
+	<!-- <select id="selectSummaryDetailById" resultMap="SummaryMap">
         <![CDATA[
 		SELECT id, `lessonId`, `title`, `content`, `index`
 		FROM
@@ -69,6 +71,6 @@
 		AND `valid` <= #{valid}
 		ORDER BY `index`
 		]]>
-	</select>
+	</select> -->
 
 </mapper>

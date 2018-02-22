@@ -3,21 +3,29 @@
 <mapper namespace="com.yanzi.pisces.mysql.TermMapper">
 
 	<resultMap type="TermInfo" id="TermInfoMap">
-		<result property="id" column="id" />
-		<result property="title" column="title" />
-		<result property="brief" column="brief" />
-		<result property="price" column="price" />
-		<result property="discount" column="discount" />
-		<result property="desc" column="desc" />
-		<result property="term" column="term" />
-		<result property="image" column="image" />
-		<result property="startTime" column="startTime" />
-		<result property="endTime" column="endTime" />
-		<result property="index" column="index" />
-		<result property="valid" column="valid" />
+		<result property="id" column="t_Id" />
+		<result property="title" column="t_Title" />
+		<result property="brief" column="t_Brief" />
+		<result property="price" column="t_Price" />
+		<result property="discount" column="t_Discount" />
+		<result property="desc" column="t_Desc" />
+		<result property="term" column="t_term" />
+		<result property="image" column="t_Image" />
+		<result property="startTime" column="t_StartTime" />
+		<result property="endTime" column="t_EndTime" />
+		<result property="index" column="t_Index" />
+		<result property="valid" column="Valid" />
 	</resultMap>
-
 	<select id="selectByRangTime" resultMap="TermInfoMap">
+        <![CDATA[
+		SELECT t_Id, `t_Title`, `t_Brief`, `t_Price`, `t_Discount`, `t_Desc`, `t_term`, `t_Image`, unix_timestamp(`t_StartTime`)*1000 t_StartTime, unix_timestamp(`t_EndTime`)*1000 t_EndTime, `t_Index`, `Valid`
+		FROM
+		test.t_Term
+		WHERE valid=0 and UpdateTime >= #{beginTime}
+		AND UpdateTime < #{endTime}
+		]]>
+	</select>
+	<!-- <select id="selectByRangTime" resultMap="TermInfoMap">
         <![CDATA[
 		SELECT id, `title`, `brief`, `price`, `discount`, `desc`, `term`, `image`, `startTime`, `endTime`, `index`, `valid`
 		FROM
@@ -25,9 +33,10 @@
 		WHERE updateTime >= #{beginTime}
 		AND updateTime < #{endTime}
 		]]>
-	</select>
+	</select> -->
+	
 
-	<resultMap type="TermPrimer" id="TermPrimerMap">
+<!-- 	<resultMap type="TermPrimer" id="TermPrimerMap">
 		<result property="termId" column="id" />
 		<result property="image" column="image" />
 	</resultMap>
@@ -39,7 +48,7 @@
 		Term.Term
 		WHERE id = #{termId}
 		]]>
-	</select>
+	</select> -->
 
 	<resultMap type="TermCourse" id="TermCourseMap">
 		<result property="id" column="id" />

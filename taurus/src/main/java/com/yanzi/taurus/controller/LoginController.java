@@ -75,9 +75,9 @@ public class LoginController extends BaseController<ViewLoginResponse> implement
                 RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));
         ThirdPartyInfo thirdPartyInfo = JSON.parseObject(loginStr, ThirdPartyInfo.class);
 
-        DeviceInfo deviceInfo = new DeviceInfo();
-        deviceInfo.setDeviceId(params.getDeviceId());
-        loginService.bindThirdPartInfo(thirdPartyInfo, deviceInfo, userId);
+//        DeviceInfo deviceInfo = new DeviceInfo();
+//        deviceInfo.setDeviceId(params.getDeviceId());
+        loginService.bindThirdPartInfo(thirdPartyInfo, userId);
        
         return packageSuccessData(new ViewLoginResponse(userId,params.getToken()));
     }

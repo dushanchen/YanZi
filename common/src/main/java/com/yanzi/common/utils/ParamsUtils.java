@@ -15,8 +15,11 @@ public class ParamsUtils {
     private CUserService cUserService;
 
     public long getUserId(UserActionParamsBase params) {
-        if (params.getUserId() != 0
-                && StringUtils.equalsIgnoreCase(USERID_SECRET_KEY, params.getSecretKey())) {
+//        if (params.getUserId() != 0
+//                && StringUtils.equalsIgnoreCase(USERID_SECRET_KEY, params.getSecretKey())) {
+//            return params.getUserId();
+//        }
+        if (params.getUserId() != 0 ) {
             return params.getUserId();
         }
         return cUserService.loadUserId(params.getToken());

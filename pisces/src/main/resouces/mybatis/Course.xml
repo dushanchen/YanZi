@@ -3,23 +3,23 @@
 <mapper namespace="com.yanzi.pisces.mysql.CourseMapper">
 
 	<resultMap type="CourseInfo" id="CourseInfo">
-		<result property="id" column="id" />
-		<result property="title" column="title" />
-		<result property="enTitle" column="enTitle" />
-		<result property="image" column="image" />
-		<result property="valid" column="valid" />
+		<result property="id" column="CourseId" />
+		<result property="title" column="Title" />
+		<result property="enTitle" column="EnTitle" />
+		<result property="image" column="Image" />
+		<result property="valid" column="Valid" />
 	</resultMap>
 
 	<select id="selectByRangTime" resultMap="CourseInfo">
         <![CDATA[
-		SELECT id, `title`, `enTitle`, `image`, `valid`
+		SELECT CourseId, `Title`, `EnTitle`, `Image`, `Valid`
 		FROM
-		College.Course
-		WHERE updateTime >= #{beginTime}
-		AND updateTime < #{endTime}
+		test.Course
+		WHERE UpdateTime >= #{beginTime}
+		AND UpdateTime < #{endTime}
 		]]>
 	</select>
 	<select id="getAllCourseInfo" resultMap="CourseInfo">
-		SELECT * FROM College.Course 
+		SELECT * FROM test.Course 
 	</select>
 </mapper>

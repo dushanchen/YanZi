@@ -14,5 +14,5 @@ public interface LoginService {
 
     void logout(String token);
     
-    void bindThirdPartInfo(ThirdPartyInfo thirdPartyInfo, DeviceInfo deviceInfo,long userId);
+    void bindThirdPartInfo(ThirdPartyInfo thirdPartyInfo,long userId);
 }

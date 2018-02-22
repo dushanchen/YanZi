@@ -63,7 +63,10 @@ public class TermIncrLoadJob extends MysqlLoadJob {
 
     private void buildTerm(TermInfo termInfo) {
         long termId = termInfo.getId();
-        TermPrimer termPrimer = termMapper.selectTermPrimerById(termId);
+//        TermPrimer termPrimer = termMapper.selectTermPrimerById(termId);
+        TermPrimer termPrimer = new TermPrimer();
+        termPrimer.setTermId(termId);
+        termPrimer.setImage(termInfo.getImage());
         //查询购买人数 dusc
         int count = termMapper.countByTerm(termId);
         termInfo.setCount(count);

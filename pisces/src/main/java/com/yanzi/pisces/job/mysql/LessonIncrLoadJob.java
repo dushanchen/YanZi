@@ -3,15 +3,19 @@ package com.yanzi.pisces.job.mysql;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yanzi.common.entity.college.lesson.LessonPrimer;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yanzi.common.entity.college.lesson.LessonInfo;
 import com.yanzi.common.entity.college.lesson.LessonSummary;
 import com.yanzi.common.entity.college.lesson.Summary;
@@ -74,7 +78,14 @@ public class LessonIncrLoadJob extends MysqlLoadJob implements InitializingBean{
         LessonPrimer lessonBrief = lessonMapper.selectPrimerById(lessonId);
         lessonBriefMap.put(lessonId, lessonBrief);
         LessonSummary lessonSummary = lessonMapper.selectSummaryBaseById(lessonId);
-        List<Summary> summaries = lessonMapper.selectSummaryDetailById(lessonId, envUtils.getEnvValid().getValue());
+//        List<Summary> summaries = lessonMapper.selectSummaryDetailById(lessonId, envUtils.getEnvValid().getValue());
+        String summaryContent = lessonInfo.getSummaryContent();
+        
+        List<Summary> summaries = new Gson().fromJson(summaryContent, new TypeToken<List<Summary>>() {}.getType()); 
+        
+        for(int i=0;i<summaries.size();i++){
+        	summaries.get(i).setLessonId(lessonId);
+        }
         lessonSummary.setSummaries(summaries);
         lessonSummaryMap.put(lessonId, lessonSummary);
     }

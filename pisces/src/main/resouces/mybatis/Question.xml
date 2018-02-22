@@ -3,20 +3,21 @@
 <mapper namespace="com.yanzi.pisces.mysql.QuestionMapper">
 
 	<resultMap type="QuestionInfo" id="QuestionInfoMap">
-		<result property="id" column="id" />
-		<result property="lessonId" column="lessonId" />
-		<result property="type" column="type" />
-		<result property="index" column="index" />
-		<result property="valid" column="valid" />
+		<result property="id" column="QuestionId" />
+		<result property="lessonId" column="LessonId" />
+		<result property="type" column="Type" />
+		<result property="index" column="t_Index" />
+		<result property="valid" column="Valid" />
+		<result property="jsonContent" column="JsonContent" />
 	</resultMap>
 
 	<select id="selectByRangTime" resultMap="QuestionInfoMap">
         <![CDATA[
-		SELECT id, `lessonId`, `type`, `index`, `valid`
+		SELECT QuestionId, JsonContent,`LessonId`, `Type`, `t_Index`, `Valid`
 		FROM
-		College.Question
-		WHERE updateTime >= #{beginTime}
-		AND updateTime < #{endTime}
+		test.Question
+		WHERE UpdateTime >= #{beginTime}
+		AND UpdateTime < #{endTime}
 		]]>
 	</select>
 

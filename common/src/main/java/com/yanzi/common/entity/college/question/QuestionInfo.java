@@ -25,7 +25,7 @@ public class QuestionInfo {
     private int type;
     private int index;
     private int valid;
-
+    private String jsonContent;
     private List<StyleBase> questionImages = new ArrayList<>();
     
     private List<StyleBase> questionTexts = new ArrayList<>();
@@ -294,4 +294,13 @@ public class QuestionInfo {
     public void setDialogs(List<StyleBase> dialogs) {
         this.dialogs = dialogs;
     }
+
+	public String getJsonContent() {
+		return jsonContent;
+	}
+
+	public void setJsonContent(String jsonContent) {
+		this.jsonContent = jsonContent;
+	}
+    
 }

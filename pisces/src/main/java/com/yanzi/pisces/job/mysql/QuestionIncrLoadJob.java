@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.yanzi.common.entity.college.lesson.Summary;
 import com.yanzi.common.entity.college.question.QuestionInfo;
 import com.yanzi.common.entity.college.question.QuestionTextInfo;
 import com.yanzi.common.entity.comparator.QuestionComparator;
@@ -64,9 +68,18 @@ public class QuestionIncrLoadJob extends MysqlLoadJob implements InitializingBea
     }
 
     private void buildQuestion(QuestionInfo questionInfo){
-        long questionId = questionInfo.getId();
-        List<QuestionTextInfo> questionTextInfoList = questionMapper.selectQuestionTextByQuestionId(questionId);
-        questionInfo.build(questionTextInfoList);
+//        long questionId = questionInfo.getId();
+//        List<QuestionTextInfo> questionTextInfoList = questionMapper.selectQuestionTextByQuestionId(questionId);
+        try{
+        	String jsonText = questionInfo.getJsonContent();
+	        if(jsonText != null && !jsonText.equals("")){
+	        	List<QuestionTextInfo> questionTextInfoList = new Gson().fromJson(jsonText, new TypeToken<List<QuestionTextInfo>>() {}.getType()); 
+	        	questionInfo.build(questionTextInfoList);
+	        }
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
+    	
     }
 
     private void oldDataProcess(QuestionInfo questionInfo) {

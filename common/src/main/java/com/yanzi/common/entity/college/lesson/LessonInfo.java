@@ -10,7 +10,7 @@ public class LessonInfo{
     private String image;
     private long index;
     private int valid;
-
+    private String summaryContent;
     public long getCourseId() {
         return courseId;
     }
@@ -58,4 +58,13 @@ public class LessonInfo{
     public void setId(long id) {
         this.id = id;
     }
+
+	public String getSummaryContent() {
+		return summaryContent;
+	}
+
+	public void setSummaryContent(String summaryContent) {
+		this.summaryContent = summaryContent;
+	}
+    
 }

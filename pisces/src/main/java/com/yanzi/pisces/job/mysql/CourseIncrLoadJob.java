@@ -48,5 +48,6 @@ public class CourseIncrLoadJob extends MysqlLoadJob {
                 courseMap.put(course.getId(), course);
             }
          }
+        System.out.println(courseMap.size());
      }
  }

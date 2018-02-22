@@ -3,22 +3,22 @@
 <mapper namespace="com.yanzi.pisces.mysql.LevelMapper">
 
 	<resultMap type="LevelInfo" id="LevelInfo">
-		<result property="id" column="id" />
-		<result property="courseId" column="courseId" />
-		<result property="level" column="level" />
-		<result property="minExp" column="minExp" />
-		<result property="coin" column="coin" />
-		<result property="image" column="image" />
-		<result property="valid" column="valid" />
+		<result property="id" column="LevelId" />
+		<result property="courseId" column="CourseId" />
+		<result property="level" column="Level" />
+		<result property="minExp" column="MinExp" />
+		<result property="coin" column="Coin" />
+		<result property="image" column="Image" />
+		<result property="valid" column="Valid" />
 	</resultMap>
 
 	<select id="selectByRangTime" resultMap="LevelInfo">
         <![CDATA[
-		SELECT id, `courseId`, `level`, `minExp`, `coin`, `image`, `valid`
+		SELECT LevelId, `CourseId`, `Level`, `MinExp`, `Coin`, `Image`, `Valid`
 		FROM
-		College.Level
-		WHERE updateTime >= #{beginTime}
-		AND updateTime < #{endTime}
+		test.Level
+		WHERE UpdateTime >= #{beginTime}
+		AND UpdateTime < #{endTime}
 		]]>
 	</select>
 </mapper>
