@@ -40,11 +40,12 @@ public class TagController extends BaseController<ViewResponseBase> {
     public ResponseEntity<ResponseEntityWrapper> modifyBasicInfo(@Valid FollowTagParams params) {
         long userId = paramsUtils.getUserId(params);
         boolean flag = tagService.userFollowTags(userId, params.getTagIds());
-        ViewUserFollowTagsResponse response = new ViewUserFollowTagsResponse();
+        ViewUserFollowTagsResponse response = new ViewUserFollowTagsResponse();	
         if(flag==true){
         	response.setMsg("标签绑定成功");
         }
         return packageSuccessData(response);
+        
     }
 
     //获取自己的标签

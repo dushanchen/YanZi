@@ -44,16 +44,20 @@ public class TagService {
     }
 
     public boolean userFollowTags(long userId, long[] tagIds) {
-        if (tagIds == null || tagIds.length == 0) {
-            return false;
-        }
-        for (long tagId : tagIds) {
-            if (!tagdata.contains(tagId)) {
-                throw new CommonException(ReturnCode.USER_TAG_IS_NOT_EXIST);
-            }
-        }
-        tagMapper.deleteAllFollowedTags(userId);
-        boolean flag = tagMapper.insertOrUpdateTagIdsByUserId(userId, tagIds);
-        return flag;
+    	boolean flag;//flag指是否完整做完标签操作
+        if (tagIds != null && tagIds.length != 0)//非空则判规范
+        		for (long tagId : tagIds) {
+        			if (!tagdata.contains(tagId)) {
+        				throw new CommonException(ReturnCode.USER_TAG_IS_NOT_EXIST);//不规范抛出异常
+        			}
+        			else
+        				//规范则覆盖操作
+        				tagMapper.deleteAllFollowedTags(userId);
+                		flag = tagMapper.insertOrUpdateTagIdsByUserId(userId, tagIds);
+        		}
+        else//空就只需要清标签
+        	tagMapper.deleteAllFollowedTags(userId);
+        	flag=true;
+			return flag;
     }
 }
