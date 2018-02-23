@@ -41,9 +41,10 @@ public class TagController extends BaseController<ViewResponseBase> {
         long userId = paramsUtils.getUserId(params);
         boolean flag = tagService.userFollowTags(userId, params.getTagIds());
         ViewUserFollowTagsResponse response = new ViewUserFollowTagsResponse();	
-        if(flag==true){
+        if(!flag)
+        	response.setMsg("标签已清空");
+        else
         	response.setMsg("标签绑定成功");
-        }
         return packageSuccessData(response);
         
     }
