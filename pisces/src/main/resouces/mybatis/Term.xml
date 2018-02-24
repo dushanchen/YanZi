@@ -50,26 +50,21 @@
 		]]>
 	</select> -->
 
-	<resultMap type="TermCourse" id="TermCourseMap">
-		<result property="id" column="id" />
-		<result property="termId" column="termId" />
+	<resultMap type="TermCourse" id="TermCourseMap"> 
+		<result property="termId" column="t_Id" />
 		<result property="courseId" column="courseId" />
-		<result property="index" column="index" />
+		<result property="index" column="t_Index" />
 	</resultMap>
 
 	<select id="selectTermCourseById" resultMap="TermCourseMap">
         <![CDATA[
-		SELECT id, `termId`, `courseId`, `index`
-		FROM
-		Term.TermCourse
-		WHERE termId = #{termId}
+		select t_Id,t_Index,courseId from  test.t_Term where t_Id = #{termId}
 		AND `valid` <= #{valid}
-		ORDER BY `index`
+		ORDER BY `t_Index`
 		]]>
 	</select>
 
-	<resultMap type="TermLesson" id="TermLessonMap">
-		<result property="id" column="id" />
+	<resultMap type="TermLesson" id="TermLessonMap"> 
 		<result property="termId" column="termId" />
 		<result property="lessonId" column="lessonId" />
 		<result property="startTime" column="startTime" />
@@ -77,11 +72,12 @@
 
 	<select id="selectTermLessonById" resultMap="TermLessonMap">
         <![CDATA[
-		SELECT id, `termId`, `lessonId`, `startTime`
+		
+		SELECT   `t_Id`, `LessonId`, unix_timestamp(`startTime`)*1000 startTime
 		FROM
-		Term.TermLesson
-		WHERE termId = #{termId}
-		AND `valid` <= #{valid}
+		test.Lesson
+		WHERE t_Id = #{termId}
+		AND `valid` <= #{valid} 
 		ORDER BY `startTime`
 		]]>
 	</select>
