@@ -13,7 +13,7 @@ public class LoadUserPersonalCenterParam extends UserActionParamsBase{
 
     private boolean withAppDuration = true;
 
-    private boolean withFriendInfo = false;
+    private boolean withFriendInfo = true;
 
     public String getToken() {
         return token;
