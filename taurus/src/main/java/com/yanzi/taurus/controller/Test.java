@@ -15,8 +15,8 @@ import com.qiniu.util.Auth;
 
 public class Test {
 
-    private static final String ACCESS_KEY = "WTplbwbHC65heurdCiCSy4N_WHvfvgw7rNeKgCOW";
-    private static final String SECRET_KEY = "Z86FgQpTVFUO_5gXK5RkleGXwned1OWyfzZY_fQd";
+    private static final String ACCESS_KEY = "bMsxBlEhchY7vyVNBn8aZRMbQWNIITXd2oewsiQA";
+    private static final String SECRET_KEY = "B2hDo4x-wTlXcKfOUI9wnA3wrn9iGkqHtTV3eoQY";
     private static final String URL_PREFIX = "http://qiniu.image.yetter.cn/";
     private static final int TOKEN_EXPRIES = 5 * 60;
     private static final String BUCKET = "yetter";
@@ -24,9 +24,9 @@ public class Test {
     private Auth auth;
     
     public static void main(String args[]) throws IOException {
-//        new Test().upload();
+        new Test().upload();
       //简单上传，使用默认策略，只需要设置上传的空间名就可以了
-       new Test().listFiles();
+//       new Test().listFiles();
     }
     public String getUpToken() {
         //密钥配置
@@ -41,9 +41,9 @@ public class Test {
             UploadManager uploadManager = new UploadManager(c);
 
             //上传到七牛后保存的文件名
-            String key = "default/" + UUID.randomUUID() + ".jpg";
+            String key = "curriculum/map/" + UUID.randomUUID() + ".jpg";
             //上传文件的路径
-            String FilePath = "C://Users//dsczijizuo//Desktop//1.jpg";
+            String FilePath = "C://Users//dsczijizuo//Desktop//杜膳辰//照片//接收文件//11.jpg";
             try {
                 //调用put方法上传
                 Response res = uploadManager.put(FilePath, key, getUpToken());
