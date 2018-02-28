@@ -19,6 +19,7 @@ import com.google.common.cache.LoadingCache;
 import com.yanzi.common.constants.ReturnCode;
 import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.level.LevelInfo;
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.entity.user.TagInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.exception.CommonException;
@@ -318,4 +319,23 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
     public List<UserInfo> fetchFriends(long userId,String nickName){
     	return userMapper.fetchFriends(userId, nickName);
     }
+    
+    /**
+     * 用户充值
+     * @param userId
+     * @param number
+     * @author hx
+     */
+    public void addUserCoins(long userId,long number){
+    	userMapper.addUserCoins(userId, number);
+    }
+    
+    public void addUserbills(long userId,long number){
+    	userMapper.addUserbills(userId, number);
+    }
+    
+    public List<BillsInfo> getUserBillsByUserId(long userId,long number){
+    	return userMapper.getUserBillsByUserId(userId,number);
+    }
+    
 }

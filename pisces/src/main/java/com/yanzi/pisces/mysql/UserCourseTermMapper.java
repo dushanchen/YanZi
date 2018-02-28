@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.UserTermCourseEntity;
 
@@ -19,7 +20,8 @@ public interface UserCourseTermMapper {
      * @param termId
      * @author dusc
      */
-    public void userPurchaseTerm(@Param(value="userId") long userId,@Param(value="courseId") long courseId,@Param(value="termId") long termId);
+    public void userPurchaseTerm(@Param(value="userId")long userId,@Param(value="courseId")long courseId,@Param(value="termId")long termId);
+    
     /**
      * 增加雁币
      * @param userId
@@ -42,4 +44,7 @@ public interface UserCourseTermMapper {
      * @return
      */
 	public List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
+	
+	public void userPurchase(@Param(value="userId")long userId,@Param(value="courseId")long courseId,@Param(value="termId")long termId,@Param(value="coins")long coins);
+	
 }

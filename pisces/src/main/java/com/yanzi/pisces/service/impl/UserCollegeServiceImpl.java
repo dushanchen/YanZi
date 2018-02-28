@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.yanzi.common.entity.Date;
 import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.level.LevelInfo;
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.service.CUserFriendService;
 import com.yanzi.common.service.impl.CUserCollegeServiceImpl;
@@ -358,7 +359,10 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     	 userCourseTermMapper.userPurchaseTerm(userId,courseId, termId);
     	 userCourseTermMapper.reduceCoins(userId, coins);
     	 this.replaceCourseTermId(userId, courseId, termId, true);
-    	 
+     }
+     
+     public void userPurchase(long userId,long courseId,long termId,long coins){
+    	 userCourseTermMapper.userPurchase(userId, courseId, termId, coins);
      }
 
 	@Override

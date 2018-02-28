@@ -14,7 +14,7 @@ public enum UserAction {
 
     public int getAction() {
         return action;
-    }
+    } 
 
     public static UserAction getByName(String name) {
         try {

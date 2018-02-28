@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.entity.user.PermissionInfo;
 import com.yanzi.common.entity.user.PushInfo;
 import com.yanzi.common.entity.user.UserInfo;
@@ -49,4 +50,10 @@ public interface UserMapper {
     public List<UserInfo> fetchFriends(@Param("userId") long userId,@Param("nickName") String nickName);
     
     public void updateThirdPartUserId(@Param("thirdPartyId") String thirdPartyId,@Param("source") int source,@Param("userId") long userId);
+    
+    public void addUserCoins(@Param("userId")long userId,@Param("number")long number);
+    
+    public void addUserbills(@Param("userId")long userId,@Param("number")long number);
+    
+    public List<BillsInfo> getUserBillsByUserId(@Param("userId")long userId,@Param("number")long number);
 }

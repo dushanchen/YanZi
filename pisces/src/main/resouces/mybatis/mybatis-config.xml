@@ -16,6 +16,7 @@
 	    <typeAlias alias="TermPrimer" type="com.yanzi.common.entity.term.TermPrimer" />
 	    <typeAlias alias="TermLesson" type="com.yanzi.common.entity.term.TermLesson" />
 	    <typeAlias alias="TermCourse" type="com.yanzi.common.entity.term.TermCourse" />
+	    <typeAlias alias="BillsInfo" type="com.yanzi.common.entity.user.BillsInfo" />
 	    
 	    <typeAlias alias="UserTermCourseEntity" type="com.yanzi.pisces.entity.UserTermCourseEntity" />
 	</typeAliases>
