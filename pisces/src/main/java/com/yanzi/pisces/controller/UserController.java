@@ -24,6 +24,7 @@ import com.yanzi.common.entity.college.lesson.LessonSummary;
 import com.yanzi.common.entity.term.TermInfo;
 import com.yanzi.common.entity.term.TermLesson;
 import com.yanzi.common.entity.term.TermPrimer;
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
 import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.pisces.controller.param.SubmitQuestionParams;
@@ -43,6 +44,7 @@ import com.yanzi.pisces.controller.response.ViewUserLoadLessonsResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadRankResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadTermInfoResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadTermsResponse;
+import com.yanzi.pisces.controller.response.ViewUserPurchaseResponse;
 import com.yanzi.pisces.data.CourseData;
 import com.yanzi.pisces.data.LessonData;
 import com.yanzi.pisces.data.TermData;
@@ -268,6 +270,7 @@ public class UserController extends BaseController<ViewResponseBase> {
   */
     @ResponseBody
     @RequestMapping(value="/user/purchase",method = { RequestMethod.GET,RequestMethod.POST })
+    
     public ResponseEntity<ResponseEntityWrapper> purchaseTerm(@Valid UserLoadTermInfoParams params){
     	long userId = paramsUtils.getUserId(params);
     	long termId = params.getTermId();
@@ -275,7 +278,17 @@ public class UserController extends BaseController<ViewResponseBase> {
     	long coins = params.getPrice();
     	 // TODO  支付过程
         userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);
-        return packageSuccessData(new ViewResponseBase());
+        
+        userCollegeService.userPurchase(userId, courseId, termId, coins);
+        ViewUserPurchaseResponse response=new ViewUserPurchaseResponse();
+        BillsInfo billsInfo=new BillsInfo();
+        billsInfo.setUserId(userId);
+        billsInfo.setCourseId(courseId);
+        billsInfo.setNumber(coins);
+        billsInfo.setState(false);
+        billsInfo.setTermId(termId);
+        response.setBillsInfo(billsInfo);
+        return packageSuccessData(response);
         
     }
     

@@ -5,7 +5,7 @@
 	<resultMap type="AccountInfo" id="AccountInfo">
 		<result property="id" column="id" />
 		<result property="phoneNo" column="phoneNo" />
-		<result property="password" column="password" />
+		<result property="password" column="pass_word" />
 		<result property="token" column="token" />
 	</resultMap>
 
@@ -24,6 +24,14 @@
 		<result property="userId" column="userId" />
 		<result property="thirdPartyId" column="thirdPartyId" />
 		<result property="source" column="source" />
+	</resultMap>
+	
+	<resultMap type="BillsInfo" id="BillsInfo">
+		<result property="userId" column="userId" />
+		<result property="courseId" column="courseId" />
+		<result property="termId" column="termId" />
+		<result property="state" column="state" />
+		<result property="number" column="coins" />
 	</resultMap>
 
     <insert id="insertAccountInfo" useGeneratedKeys="true"
@@ -77,6 +85,22 @@
 		    `thirdPartyId` = #{thirdPartyInfo.thirdPartyId}
 		]]>
 	</insert>
+	
+	<insert id="addUserCoins">
+        <![CDATA[
+        INSERT INTO
+        User.Userbills (`userId`, `state`,`number`)
+        VALUES (#{userId}, 1,#{number})
+        ]]>
+    </insert>
+    <update id="addUserbills">
+	    <![CDATA[
+	    UPDATE User.BasicInfo
+	    SET `coins` = `coins`+#{number}
+	    WHERE id = #{userId}
+	    ]]>
+	    
+	</update>
 
 	<update id="updateAccountInfo">
 	    <![CDATA[
@@ -113,6 +137,16 @@
         ]]>
 	</select>
 
+	<select id="getUserBillsByUserId" resultMap="BillsInfo">
+	    <![CDATA[
+	    SELECT `userId`, `state`,`number`
+	    FROM User.Userbills
+	    WHERE `userId` = #{userId}
+	    AND `number`= #{number}
+        ]]>
+	</select>
+	
+	
 	<select id="selectThirdPartyInfoByUserId" resultMap="ThirdPartyInfo">
 	    <![CDATA[
 	    SELECT `userId`, `thirdPartyId`, `source` 
@@ -120,6 +154,9 @@
 	    WHERE `userId` = #{userId}
         ]]>
 	</select>
+	
+	
+	
 
 	
 <!-- 	<sql id="select">   -->

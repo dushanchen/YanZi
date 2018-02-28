@@ -2,8 +2,8 @@ package com.yanzi.taurus.service;
 
 import java.util.List;
 
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.entity.user.TagInfo;
-import org.apache.ibatis.annotations.Param;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.service.CUserService;
 import com.yanzi.taurus.entity.AccountInfo;
@@ -48,4 +48,11 @@ public interface UserService extends CUserService{
     public void addUserFeedback(long userId,String message);
     
     public List<UserInfo> fetchFriends(long userId,String nickName);
+    
+    public void addUserCoins(long userId,long number);
+    
+    public void addUserbills(long userId,long number);
+    
+    public List<BillsInfo> getUserBillsByUserId(long userId,long number);
+
 }

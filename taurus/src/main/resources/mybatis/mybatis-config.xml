@@ -12,6 +12,7 @@
 <!-- 		<typeAlias alias="PermissionInfo" type="com.yanzi.gemini.entity.user.PermissionInfo" /> -->
 		<typeAlias alias="Feedback" type="com.yanzi.taurus.entity.FeedbackInfo" />
 		<typeAlias alias="ImageInfo" type="com.yanzi.taurus.entity.ImageInfo" />
+		<typeAlias alias="BillsInfo" type="com.yanzi.common.entity.user.BillsInfo" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/User.xml" />

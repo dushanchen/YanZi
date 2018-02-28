@@ -1,5 +1,6 @@
 package com.yanzi.taurus.controller;
 
+import java.util.ArrayList;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.params.UserActionParamsBase;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.entity.user.TagInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.utils.ParamsUtils;
@@ -34,6 +36,7 @@ import com.yanzi.taurus.controller.params.ModifyPhoneNoParams;
 import com.yanzi.taurus.controller.params.RaiseAppDurationParams;
 import com.yanzi.taurus.controller.params.RegisterParams;
 import com.yanzi.taurus.controller.params.ResetPasswordParams;
+import com.yanzi.taurus.controller.params.UserReChargeParams;
 import com.yanzi.taurus.entity.AccountInfo;
 import com.yanzi.taurus.entity.FeedbackInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
@@ -46,6 +49,7 @@ import com.yanzi.taurus.service.RegisterService;
 import com.yanzi.taurus.service.TagService;
 import com.yanzi.taurus.service.UserService;
 import com.yanzi.taurus.view.ViewFeedbackResponse;
+import com.yanzi.taurus.view.ViewBillResponse;
 import com.yanzi.taurus.view.ViewDurationResponse;
 import com.yanzi.taurus.view.ViewFriengListResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
@@ -336,5 +340,31 @@ public class UserController extends BaseController<ViewResponseBase> implements 
                 "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKVEdd3fjuFzjG1/1kX8qXpuIQV9KpTn1rtnFQiV51p3qytp2iB8Z+teFoN/z+4yg6aS3EB/1vHrIGVxtLlU/+T4+NDh5h5N/dlRuOV3iiNK/Et8xMrtejwvq9PuqX65yq8J2v9hLlBnQkS8kKhP/BY+51B+6fVbhX43Ay1dKlVPAgMBAAECgYBpUhCfPcoLaRyz54UBAvxqdmZ63gJV9M1GjnG8D/PpFlwyBXopu75qI4LLeJdlIDH/5JWSUSYE86eonmbiuQV9tSt/Hd7mpvxW+AXreK+ox6ztiYMg10tq/8K8UpvGjkMrRVUHb/STRUY8r3Kv/ZeFXJmxcOpNsVz3f2iQlU2FiQJBAP21mktp0XzlKIXnZNgOhvAV/TUmWPWUkFbxtO//lzYOcnkvgW0EndGkUI/ua1mCTVrvib0ojtn1mTh3VuUsJNUCQQCmwnE1XOt2SyfEqOW51swHToyp2MWMT1rbIBRIzL/vmsKKmY1hw9d8M2qnb8oU03dazQKoNYoCqhfOTOAP7/OTAkEApkkCqe7fOObRWoJA3EMZOf6PiOhrYfpPaEzfdHWm2+04Jil2wMdH0QHLM6rmfTIkFTfupSYSCtUn6ZR+RZJbSQJAEup3gQAbTX3U8v/dnyj4V9PXLOUD85iEy9plsqRXGUzKyIIGgZJ/fP0wGfIaUCZ0oX4j0QTRtN+qd6JMwEINtQJAFGMK7tBMRvW8tIW1F87NfLkBm8ygdkR+JWm+fdXT1o8D+97/ltOxIrE42CTef8N7UCK0axaXoA9RhKCi9R526w==");
     }
     
+    
+    /**
+     * 用户充值
+     * @param params(token,number)
+     * @return
+     * @author hx
+     */
+    @ResponseBody
+	@RequestMapping(value = "/user/recharge", method = { RequestMethod.GET, RequestMethod.POST })
+	public ResponseEntity<ResponseEntityWrapper> userReCharge(@Valid UserReChargeParams params) {
+	      long userId = paramsUtils.getUserId(params);
+	      long number = params.getNumber();
+	      
+	      userService.addUserCoins(userId,number);//增加用户coins
+	      userService.addUserbills(userId,number);//生成流水
+	      
+	      
+	      ViewBillResponse response = new ViewBillResponse();
+	      response.setUserBill(userService.getUserBillsByUserId(userId,number));
+	      return packageSuccessData(response);
+	      
+	      
+	  }
+	  
+	  
+	  
     
 }

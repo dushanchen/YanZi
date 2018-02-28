@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import com.yanzi.common.entity.college.course.CourseInfo;
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.service.CUserCollegeService;
 import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.UserLessonStatus;
@@ -93,4 +94,6 @@ public interface UserCollegeService extends CUserCollegeService {
      * @return
      */
     List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
+    
+    public void userPurchase(long userId,long courseId,long termId,long coins);
 }
