@@ -17,6 +17,7 @@ import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.params.UserActionParamsBase;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
+import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.entity.user.PermissionInfo;
 import com.yanzi.common.entity.user.TagInfo;
 import com.yanzi.common.entity.user.UserInfo;
@@ -55,11 +56,14 @@ public class BasicController extends BaseController<ViewResponseBase> {
     //@Deprecated
     public ResponseEntity<ResponseEntityWrapper> loadBasicInfo(@Valid UserActionParamsBase params) {
         long userId = paramsUtils.getUserId(params);
+        
         ViewBasicInfoResponse response = new ViewBasicInfoResponse();
         UserInfo userInfo = userService.loadUserInfo(userId);
         response.setBasicInfo(userInfo);
+ 
         UserCourseInfo userCourseInfo = userService.loadUserCourseInfo(userId);
         response.setUserCourseInfo(userCourseInfo);
+        
         long userAppDuration = userService.loadUserAppDuration(userId);
         response.setUserAppDuration(userAppDuration);
         
@@ -69,8 +73,12 @@ public class BasicController extends BaseController<ViewResponseBase> {
         long fansCount = userService.getFansCount(userId);
         friendInfo.setFansCount(fansCount);
         response.setUserFriendInfo(friendInfo);
+        
         PermissionInfo permissionInfo = userService.loadPermissionInfo(userId);
         response.setPermissionInfo(permissionInfo);
+        
+        int gottenCoins=userService.getGottenCoins(userId);
+        response.setGottenCoins(gottenCoins);
         
         return packageSuccessData(response);
     }

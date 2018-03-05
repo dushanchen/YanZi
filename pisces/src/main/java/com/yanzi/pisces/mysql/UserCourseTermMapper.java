@@ -11,8 +11,8 @@ import com.yanzi.pisces.entity.UserTermCourseEntity;
 public interface UserCourseTermMapper {
     public List<UserTermCourseEntity> selectUserCourseTermByUserId(@Param(value = "userId") long userId);
 
-    @Deprecated
-    public Long selectUserTermIdByUserIdAndCourseId(@Param(value = "userId") long userId, @Param(value = "courseId") long courseId);
+   
+    public long selectUserTermIdByUserIdAndCourseId(@Param(value = "userId") long userId, @Param(value = "courseId") long courseId);
     
     /**
      * 用户购买学期
@@ -46,5 +46,6 @@ public interface UserCourseTermMapper {
 	public List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
 	
 	public void userPurchase(@Param(value="userId")long userId,@Param(value="courseId")long courseId,@Param(value="termId")long termId,@Param(value="coins")long coins);
-	
+
+	public long loadLatestLesson(@Param(value="termId") long termId);
 }

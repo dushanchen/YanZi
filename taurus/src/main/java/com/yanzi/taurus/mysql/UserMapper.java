@@ -56,4 +56,10 @@ public interface UserMapper {
     public void addUserbills(@Param("userId")long userId,@Param("number")long number);
     
     public List<BillsInfo> getUserBillsByUserId(@Param("userId")long userId,@Param("number")long number);
+    
+    public int getNowCoins(@Param(value="userId") long userId);
+    
+    public int getReCoins(@Param(value="userId")long userId);
+    
+    public int getUsedCoins(@Param(value="userId")long userId);
 }

@@ -25,7 +25,7 @@ public enum RedisPrefixCode {
 //    USER_CURRICULUM_SUSTAIN_COMPLETE_AIM_DAY_COUNT("21&&"),
 //    USER_CURRICULUM_KNOWLEDGE_COUNT("22&&"),
 //    USER_DIALOG_RELATION("23&&"),
-//    USER_APP_DURATION("24&&"),
+//    USER_APP_DURATION("24&&"),						//用户在线时长
 //    USER_CURRICULUM_WEEK_EXP_V3("25&&"),
 //    USER_CURRICULUM_LATEST_COMPLETED_LESSON("26&&"),
 //    USER_ID_TO_IDOL("27&&"),
@@ -53,6 +53,7 @@ public enum RedisPrefixCode {
     USER_COLLEGE_COURSE_TERM_DAY_COMPLETE("B00105&&"),               // 用户course 天完成
     USER_COLLEGE_COURSE_TERM_WEEK_EXP("B00106&&"),
     USER_COLLEGE_COURSE_TERM_LEVEL("B00107&&"),
+    
     USER_COLLEGE_COURSE_TERM_LESSON_MAX_KNOWLEDGE("B00201&&"),       // 用户course lesson最大正确数
     USER_COLLEGE_COURSE_TERM_LESSON_KNOWLEDGE("B00202&&"),           // 用户course lesson最大正确数
 

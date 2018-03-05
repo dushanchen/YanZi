@@ -5,54 +5,54 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class BillsInfo {
 	@JSONField(serialize = false)
 	public static final BillsInfo DEFAULT = new BillsInfo();
-	private long userid;
-	private long courseid;
-	private long termid;
+	private long userId;
+	private long courseId;
+	private long termId;
 	private boolean state;
 	private long number;
 	public BillsInfo() {
     }
 
-    public BillsInfo(long userid) {
-        this.userid = userid;
+    public BillsInfo(long userId) {
+        this.userId = userId;
     }
 
-    public BillsInfo(long userid,boolean state,long number) {
-        this.userid =userid;
+    public BillsInfo(long userId,boolean state,long number) {
+        this.userId = userId;
         this.state = state;
         this.number = number;
     }
     
-    public BillsInfo(long userid,long courseid,long termid,boolean state,long number) {
-        this.userid =userid;
-        this.courseid=courseid;
-        this.termid=termid;
+    public BillsInfo(long userId,long courseId,long termId,boolean state,long number) {
+        this.userId =userId;
+        this.courseId=courseId;
+        this.termId=termId;
         this.state = state;
         this.number = number;
     }
     
     public long getUserId(){
-        return userid;
+        return userId;
     }
 
-    public long setUserId(long userid) {
-        return this.userid = userid;
+    public long setUserId(long userId) {
+        return this.userId = userId;
     }
     
     public long getCourseId() {
-        return courseid;
+        return courseId;
     }
 
-    public long setCourseId(long courseid) {
-        return this.courseid = courseid;
+    public long setCourseId(long courseId) {
+        return this.courseId = courseId;
     }
     
     public long getTermId() {
-        return termid;
+        return termId;
     }
 
-    public long setTermId(long termid) {
-        return this.termid = termid;
+    public long setTermId(long termId) {
+        return this.termId = termId;
     }
     
     public boolean getState() {

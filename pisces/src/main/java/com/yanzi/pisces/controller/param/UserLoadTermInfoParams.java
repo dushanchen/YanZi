@@ -11,7 +11,17 @@ public class UserLoadTermInfoParams extends UserActionParamsBase {
     
     private long lessonId;
     
-    private long price;
+    private long beatCount;
+    
+    public long getBeatCount() {
+		return beatCount;
+	}
+
+	public void setBeatCount(long beatCount) {
+		this.beatCount = beatCount;
+	}
+
+	private long price;
     public long getTermId() {
         return termId;
     }

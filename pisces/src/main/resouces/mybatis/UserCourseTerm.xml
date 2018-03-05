@@ -8,6 +8,8 @@
 		<result property="courseId" column="courseId" />
 	</resultMap>
 	
+	
+	
 	<resultMap type="BillsInfo" id="BillsInfo">
 		<result property="userId" column="userId" />
 		<result property="courseId" column="courseId" />
@@ -15,6 +17,8 @@
 		<result property="state" column="state" />
 		<result property="number" column="coins" />
 	</resultMap>
+	
+	
 
 	<select id="selectUserCourseTermByUserId" resultMap="UserTermCourseMap">
         <![CDATA[
@@ -34,6 +38,7 @@
 		AND `courseId` = #{courseId}
 		]]>
 	</select>
+	
 	<!--用户购买学期  -->
 	<insert id="userPurchaseTerm" >
 		INSERT INTO
@@ -62,6 +67,17 @@
 		AND `courseId`=#{courseId}
 		AND `termId`=#{termId}
 		AND `coins`=#{coins}
+	</select>
+	
+	<select id="loadLatestLesson" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT `lessonId`
+		FROM
+		test.Lesson
+		WHERE `t_Id` = 2
+		ORDER BY rand() 
+		LIMIT 1 
+		]]>
 	</select>
 	
 	

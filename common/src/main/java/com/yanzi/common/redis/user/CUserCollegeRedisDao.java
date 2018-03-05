@@ -101,5 +101,5 @@ public interface CUserCollegeRedisDao {
     
     void saveLatestLesson(long userId,long lessonId);
     
-    long  loadLatestLesson(long userId);
+    //long  loadLatestLesson(long userId,long couseId);
 }

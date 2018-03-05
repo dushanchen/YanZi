@@ -96,4 +96,6 @@ public interface UserCollegeService extends CUserCollegeService {
     List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
     
     public void userPurchase(long userId,long courseId,long termId,long coins);
+    
+    public int loadCourseTermRank(long userId,long courseId,long termId,List<UserRank> userRanks);
 }

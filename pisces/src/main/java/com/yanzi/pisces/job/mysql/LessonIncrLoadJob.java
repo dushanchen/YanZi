@@ -80,14 +80,18 @@ public class LessonIncrLoadJob extends MysqlLoadJob implements InitializingBean{
         LessonSummary lessonSummary = lessonMapper.selectSummaryBaseById(lessonId);
 //        List<Summary> summaries = lessonMapper.selectSummaryDetailById(lessonId, envUtils.getEnvValid().getValue());
         String summaryContent = lessonInfo.getSummaryContent();
+        try{
+        	 List<Summary> summaries = new Gson().fromJson(summaryContent, new TypeToken<List<Summary>>() {}.getType()); 
         
-        List<Summary> summaries = new Gson().fromJson(summaryContent, new TypeToken<List<Summary>>() {}.getType()); 
-        
-        for(int i=0;i<summaries.size();i++){
-        	summaries.get(i).setLessonId(lessonId);
+	        for(int i=0;i<summaries.size();i++){
+	        	summaries.get(i).setLessonId(lessonId);
+	        }
+	        lessonSummary.setSummaries(summaries);
+	        lessonSummaryMap.put(lessonId, lessonSummary);
+        }catch(Exception e){
+        	System.out.println(summaryContent);
         }
-        lessonSummary.setSummaries(summaries);
-        lessonSummaryMap.put(lessonId, lessonSummary);
+       
     }
 
     private void oldDataProcess(LessonInfo lessonInfo) {

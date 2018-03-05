@@ -44,7 +44,7 @@ public interface CUserCollegeService {
 
     long loadCourseTermLevel(long userId, long courseId, long termId);
 
-    long loadLatestLesson(long userId);
+    //long loadLatestLesson(long userId,long CourseId);
     
     void saveLatestLesson(long userId,long lessonId);
 }

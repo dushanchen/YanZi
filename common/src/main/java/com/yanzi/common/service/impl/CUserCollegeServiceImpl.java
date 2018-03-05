@@ -180,12 +180,13 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
     protected void saveCourseTermLevel(long userId, long courseId, long termId, long levelId) {
         cUserCollegeRedisDao.saveCourseTermLevel(userId, courseId, termId, levelId);
     }
-    
+    /*
     @Override
-    public long loadLatestLesson(long userId){
-    	return cUserCollegeRedisDao.loadLatestLesson(userId);
+    public long loadLatestLesson(long userId,long courseId){
+    	return cUserCollegeRedisDao.loadLatestLesson(userId,courseId);
     	
     }
+    */
     public void saveLatestLesson(long userId,long lessonId){
     	cUserCollegeRedisDao.saveLatestLesson(userId, lessonId);
     }

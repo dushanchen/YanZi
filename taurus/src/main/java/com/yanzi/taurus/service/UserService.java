@@ -55,4 +55,6 @@ public interface UserService extends CUserService{
     
     public List<BillsInfo> getUserBillsByUserId(long userId,long number);
 
+	public int getGottenCoins(long userId);
+
 }

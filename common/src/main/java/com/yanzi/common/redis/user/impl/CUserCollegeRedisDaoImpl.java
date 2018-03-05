@@ -379,6 +379,7 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
         return RedisPrefixCode.USER_COLLEGE_COURSE_TERM_LESSON_KNOWLEDGE.getCode();
     }
 
+    
     private String getUserCourseTermLessonKnowledgeHashKey(long userId, long courseId, long termId,
             long lessonId) {
         return String.format("%s_%s_%s_%s", userId, courseId, termId, lessonId);
@@ -484,9 +485,17 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
 		
 	}
 
+	/**
 	@Override
-	public long loadLatestLesson(long userId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public long loadLatestLesson(long userId,long courseId) {
+		String key=RedisPrefixCode.USER_LATEST_COMPLETE_LESSON.getCode();
+		Set<String> lessonId_Ss = this.getHash(key, (Long.toString(userId),Long.toString(courseId)));
+		//?
+		String lessonId_S=new String();
+		if (StringUtils.isEmpty(lessonId_S)) {
+            return 0l;
+        }
+        return Long.parseLong(lessonId_S);
+    }
+	*/
 }

@@ -337,5 +337,16 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
     public List<BillsInfo> getUserBillsByUserId(long userId,long number){
     	return userMapper.getUserBillsByUserId(userId,number);
     }
+    	
+    public int getGottenCoins(long userId){
+    	int nowCoins=0;
+    	nowCoins=userMapper.getNowCoins(userId);
+    	int reCoins=0;
+    	reCoins=userMapper.getReCoins(userId);
+    	int usedCoins=userMapper.getUsedCoins(userId);
+    	
+    	return nowCoins+usedCoins-reCoins;
+    }
+    
     
 }

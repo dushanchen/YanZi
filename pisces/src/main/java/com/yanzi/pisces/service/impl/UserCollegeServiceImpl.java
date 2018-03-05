@@ -379,4 +379,13 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
 		// TODO Auto-generated method stub
 		return userCourseTermMapper.getCourseTermInfoByUserId(userId);
 	}
+	
+	public int loadCourseTermRank(long userId,long courseId,long termId,List<UserRank> userRanks){
+		for(int i=0;i<userRanks.size();i++){
+			//从List中hash出userId对应的userInfo和rankInfo
+			while (userId==userRanks.get(i).getRankInfo().getUserId())
+				return userRanks.get(i).getRankInfo().getRank();
+		}
+		return userRanks.size();
+	}
 }
