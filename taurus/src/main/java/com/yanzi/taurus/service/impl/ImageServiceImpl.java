@@ -16,8 +16,8 @@ import com.yanzi.taurus.service.ImageService;
 @Service
 public class ImageServiceImpl implements ImageService {
 	
-    private static final String ACCESS_KEY = "WTplbwbHC65heurdCiCSy4N_WHvfvgw7rNeKgCOW";
-    private static final String SECRET_KEY = "Z86FgQpTVFUO_5gXK5RkleGXwned1OWyfzZY_fQd";
+	private static final String ACCESS_KEY = "bMsxBlEhchY7vyVNBn8aZRMbQWNIITXd2oewsiQA";
+    private static final String SECRET_KEY = "B2hDo4x-wTlXcKfOUI9wnA3wrn9iGkqHtTV3eoQY";
     private static final String URL_PREFIX = "http://qiniu.image.yetter.cn/";
     private static final int TOKEN_EXPRIES = 5 * 60;
     private static final String BUCKET = "yetter";
