@@ -53,7 +53,7 @@
 		update BasicInfo f set f.coins = f.coins - #{coins} where f.Id=#{userId}
 	</update>
 	<select id="getCourseTermInfoByUserId" resultMap="UserTermCourseMap">
-		select courseId,termId from User.CourseTerm
+		select courseId,termId,userId from User.CourseTerm
 		Where `userId` = #{userId}
 	</select>
 	<insert id="userPurchase" >
@@ -80,6 +80,14 @@
 		]]>
 	</select>
 	
+	<select id="selectUserIdByTermId" resultType="java.lang.Long">
+		<![CDATA[
+		SELECT `userId`
+		FROM
+		User.CourseTerm
+		WHERE `termId` = #{termId}
+		]]>
+	</select>
 	
 	<resultMap id="UserCourseTermMap" type="com.yanzi.pisces.entity.CourseTermInfo" >
 	    <result column="courseId" property="courseId" jdbcType="BIGINT" />

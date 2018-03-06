@@ -1,9 +1,12 @@
 package com.yanzi.pisces.service.impl;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yanzi.common.entity.term.TermCourse;
 import com.yanzi.common.service.impl.CUserServiceImpl;
 import com.yanzi.pisces.mysql.UserCourseTermMapper;
 import com.yanzi.pisces.service.UserService;
@@ -21,6 +24,17 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService {
 	
 	public long selectUserTermIdByUserIdAndCourseId(long userId,long courseId){
 		return userCourseTermMapper.selectUserTermIdByUserIdAndCourseId(userId,courseId);
+	}
+
+	@Override
+	public List<TermCourse> selectUserTermIdByUserId(long userId) {
+		
+		return userCourseTermMapper.selectUserTermIdByUserId(userId);
+	}
+
+	@Override
+	public List<Long> selectUserIdByTermId(long termId) {
+		return userCourseTermMapper.selectUserIdByTermId(termId);
 	}
 	
 }

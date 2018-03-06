@@ -31,7 +31,7 @@ public class QuestionController extends BaseController<ViewResponseBase> {
         QuestionInfo questionInfo = questionService.loadQuestion(params.getLessonId(), params.getIndex());
         ViewLoadQuestionResponse response = new ViewLoadQuestionResponse();
         response.setQuestion(questionInfo);
-        return packageSuccessData(response);
+        return packageSuccessData(response); 
     }
     
     

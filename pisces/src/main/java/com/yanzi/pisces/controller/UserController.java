@@ -21,6 +21,7 @@ import com.yanzi.common.entity.college.lesson.LessonPrimer;
 import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.lesson.LessonInfo;
 import com.yanzi.common.entity.college.lesson.LessonSummary;
+import com.yanzi.common.entity.term.TermCourse;
 import com.yanzi.common.entity.term.TermInfo;
 import com.yanzi.common.entity.term.TermLesson;
 import com.yanzi.common.entity.term.TermPrimer;
@@ -89,15 +90,30 @@ public class UserController extends BaseController<ViewResponseBase> {
     public ResponseEntity<ResponseEntityWrapper> userLoadTerm(@Valid UserLoadTermsParams params) {
         ViewUserLoadTermsResponse response = new ViewUserLoadTermsResponse();
         long userId = paramsUtils.getUserId(params);
-        List<TermInfo> saleValidTerms = termData.getSaleValidList();//获取还没开课的学期
+        List<TermInfo> saleValidTerms = termData.getSaleValidList();//获取已开课的学期
         List<UserTermInfo> userTermInfos = new ArrayList<>();
         for (TermInfo termInfo : saleValidTerms) {
             long termId = termInfo.getId();
+            
             TermPrimer termPrimer = termData.getTermPrimer(termId);
             // TODO
             UserTermStatus userStatus = new UserTermStatus();//用户购买状态
+            List<Long> userIds =new ArrayList<>();
+            userIds = userService.selectUserIdByTermId(termId);
+            boolean check = false;
+            if (userIds!=null) {
+            	 for (Long userIdItem : userIds) {
+     				if (userIdItem==userId) {
+     					check = true;
+     				}
+     			}
+			} 
+            userStatus.setPurchase(check);
             // TODO
             TermStatus termStatus = new TermStatus();//购买人数
+            if (userIds!=null) {
+            	termStatus.setPurchaseCount(userIds.size());
+			}
             UserTermInfo userTermInfo = new UserTermInfo(termInfo, termPrimer, userStatus,
                     termStatus);
             userTermInfos.add(userTermInfo);
