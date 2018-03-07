@@ -49,12 +49,12 @@ public interface UserService extends CUserService{
     
     public List<UserInfo> fetchFriends(long userId,String nickName);
     
-    public void addUserCoins(long userId,long number);
+    public void addUserCoins(long userId,double number);
     
-    public void addUserbills(long userId,long number);
+    public void addUserbills(long userId,double number);
     
-    public List<BillsInfo> getUserBillsByUserId(long userId,long number);
+    public List<BillsInfo> getUserBillsByUserId(long userId,double number);
 
-	public int getGottenCoins(long userId);
+	public double getGottenCoins(long userId);
 
 }

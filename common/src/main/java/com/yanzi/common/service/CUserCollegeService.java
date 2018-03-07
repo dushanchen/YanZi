@@ -33,6 +33,8 @@ public interface CUserCollegeService {
     long loadCourseTermDayKnowledge(long userId, long courseId, long termId, String day);
 
     long loadCourseTermCompleteDayCount(long userId, long courseId, long termId);
+    
+    long loadCourseTermDayComplete(long userId, long courseId, long termId);
 
     boolean courseTermDayIsComplete(long userId, long courseId, long termId, String day);
 

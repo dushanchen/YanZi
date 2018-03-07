@@ -61,12 +61,11 @@
 		User.Userbills(`UserId`,`CourseId`,`TermId`,`State`,`Number`) 
 		VALUES (#{userId},#{courseId},#{termId},0,#{coins})
 	</insert>
-	<select id="getUserPurchase" resultMap="BillsInfo">
-		select * from User.Userbills
+	<select id="checkPurchase" resultMap="BillsInfo">
+		select courseId,termId,userId,state from User.Userbills
 		Where `userId` = #{userId}
-		AND `courseId`=#{courseId}
-		AND `termId`=#{termId}
-		AND `coins`=#{coins}
+		and `courseId` = #{courseId}
+		and `termId` = #{termId}
 	</select>
 	
 	<select id="loadLatestLesson" resultType="java.lang.Long">
@@ -80,12 +79,31 @@
 		]]>
 	</select>
 	
+
+	<select id="getUserId" resultType="java.lang.Long">
+		select userId from User.CourseTerm
+		Where `termId` = #{termId}
+		and `courseId` = #{courseId}
+	</select>
+	
 	<select id="selectUserIdByTermId" resultType="java.lang.Long">
 		<![CDATA[
 		SELECT `userId`
 		FROM
 		User.CourseTerm
-		WHERE `termId` = #{termId}
+		WHERE `courseId` = #{courseId}
+		AND `termId` = #{termId}
+		]]>
+	</select>
+	
+	
+	<select id="getUserByCourseIdTermId" resultType="java.lang.Long">
+		<![CDATA[
+		SELECT `userId`
+		FROM
+		User.CourseTerm
+		WHERE `courseId` = #{courseId}
+		AND `termId` = #{termId}
 		]]>
 	</select>
 	

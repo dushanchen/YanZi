@@ -13,6 +13,8 @@ public interface UserService extends CUserService {
 	
 	public long selectUserTermIdByUserIdAndCourseId(long userId,long courseId);
 
+	public List<Long> getUserByCourseIdTermId(long courseId, long termId);
+
 	public List<TermCourse> selectUserTermIdByUserId(long userId);
 
 	public List<Long> selectUserIdByTermId(long termId);

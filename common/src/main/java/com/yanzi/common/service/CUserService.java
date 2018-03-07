@@ -155,5 +155,6 @@ public interface CUserService {
      * @return
      */
     public long loadUserCourseLevel(long userId, long courseId,long termId);
-
+    
+    
 }

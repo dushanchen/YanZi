@@ -5,9 +5,9 @@ public class RechargeInfo {
 	@JSONField(serialize = false)
 	private long userId;
 	private boolean state;
-	private long number;
+	private double number;
 	
-	 public RechargeInfo(long userId,boolean state,long number) {
+	 public RechargeInfo(long userId,boolean state,double number) {
 	        this.userId = userId;
 	        this.state = state;
 	        this.number = number;
@@ -29,11 +29,11 @@ public class RechargeInfo {
 		this.state = state;
 	}
 
-	public long getNumber() {
+	public double getNumber() {
 		return number;
 	}
 
-	public void setNumber(long number) {
+	public void setNumber(double number) {
 		this.number = number;
 	}
 }

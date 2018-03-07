@@ -57,7 +57,7 @@ public interface CUserCollegeRedisDao {
     void saveCourseTermDayKnowledge(long userId, long courseId, long termId, long exp, String day);
 
     long loadCourseTermCompleteDayCount(long userId, long courseId, long termId);
-
+    
     void saveCourseTermCompleteDayCount(long userId, long courseId, long termId, long dayCount);
 
     boolean containCourseTermDayComplete(long userId, long courseId, long termId, String day);
@@ -100,6 +100,8 @@ public interface CUserCollegeRedisDao {
 	List<Long> getUserSubscribedCourseV2(long userId);
     
     void saveLatestLesson(long userId,long lessonId);
+
+	long loadCourseTermDayComplete(long userId, long courseId, long termId, String day);
     
     //long  loadLatestLesson(long userId,long couseId);
 }

@@ -3,13 +3,13 @@ package com.yanzi.taurus.controller.params;
 import com.yanzi.common.controller.params.UserActionParamsBase;
 
 public class UserReChargeParams extends UserActionParamsBase{
-	private long number;
+	private double number;
 	
-	public long getNumber() {
+	public double getNumber() {
         return number;
     }
 
-    public void setNumber(long number) {
+    public void setNumber(double number) {
         this.number = number;
     }
 }

@@ -326,24 +326,24 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
      * @param number
      * @author hx
      */
-    public void addUserCoins(long userId,long number){
+    public void addUserCoins(long userId,double number){
     	userMapper.addUserCoins(userId, number);
     }
     
-    public void addUserbills(long userId,long number){
+    public void addUserbills(long userId,double number){
     	userMapper.addUserbills(userId, number);
     }
     
-    public List<BillsInfo> getUserBillsByUserId(long userId,long number){
+    public List<BillsInfo> getUserBillsByUserId(long userId,double number){
     	return userMapper.getUserBillsByUserId(userId,number);
     }
     	
-    public int getGottenCoins(long userId){
-    	int nowCoins=0;
+    public double getGottenCoins(long userId){
+    	double nowCoins=0;
     	nowCoins=userMapper.getNowCoins(userId);
-    	int reCoins=0;
+    	double reCoins=0;
     	reCoins=userMapper.getReCoins(userId);
-    	int usedCoins=userMapper.getUsedCoins(userId);
+    	double usedCoins=userMapper.getUsedCoins(userId);
     	
     	return nowCoins+usedCoins-reCoins;
     }

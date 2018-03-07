@@ -1,5 +1,8 @@
 package com.yanzi.common.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,11 +128,19 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
         return cUserCollegeRedisDao.loadCourseTermCompleteDayCount(userId, courseId, termId);
     }
 
+    public long loadCourseTermDayComplete(long userId, long courseId, long termId) {
+    	Date currentTime = new Date();
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+    	String dateString = formatter.format(currentTime);
+        return cUserCollegeRedisDao.loadCourseTermDayComplete(userId, courseId, termId,dateString);
+    }
+
     protected void saveCourseTermCompleteDayCount(long userId, long courseId, long termId,
             long dayCount) {
         cUserCollegeRedisDao.saveCourseTermCompleteDayCount(userId, courseId, termId, dayCount);
     }
-
+    
+    
     @Override
     public boolean courseTermDayIsComplete(long userId, long courseId, long termId, String day) {
         return cUserCollegeRedisDao.containCourseTermDayComplete(userId, courseId, termId, day);

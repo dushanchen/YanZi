@@ -83,7 +83,7 @@ public interface UserCollegeService extends CUserCollegeService {
      * @param termId
      * @author dusc
      */
-    void userPurchaseTerm(long userId,long courseId,long termId,long coins);
+    void userPurchaseTerm(long userId,long courseId,long termId,double coins);
     /**
      * 获取全部课程
      * @return
@@ -96,9 +96,19 @@ public interface UserCollegeService extends CUserCollegeService {
      */
     List<UserTermCourseEntity> selectUserCourseTermByUserId(Long userId);
     
-    public void userPurchase(long userId,long courseId,long termId,long coins);
+    public void userPurchase(long userId,long courseId,long termId,double coins);
+    
+    public List<BillsInfo> checkPurchase(long userId,long courseId,long termId);
     
     public int loadCourseTermRank(long userId,long courseId,long termId,List<UserRank> userRanks);
     
+<<<<<<< HEAD
     public List<Boolean> loadCourseTermWeekCompleteStatus(long userId, long courseId, long termId);
+=======
+    /**
+     * 获取课程下的购买用户
+     * @return
+     */
+    public List<Long> getUserId(long courseId,long termId);
+>>>>>>> refs/remotes/origin/master
 }

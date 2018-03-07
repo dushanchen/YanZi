@@ -20,17 +20,17 @@ public class ViewBasicInfoResponse extends ViewResponseBase {
     
     private FriendInfo userFriendInfo;
     
-    private int gottenCoins;//非充值获得的雁币
+    private double gottenCoins;//非充值获得的雁币
     
     public UserInfo getBasicInfo() {
         return basicInfo;
     }
 
-    public int getGottenCoins() {
+    public double getGottenCoins() {
 		return gottenCoins;
 	}
 
-	public void setGottenCoins(int gottenCoins) {
+	public void setGottenCoins(double gottenCoins) {
 		this.gottenCoins = gottenCoins;
 	}
 

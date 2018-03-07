@@ -157,8 +157,12 @@ public class UserController extends BaseController<ViewResponseBase> {
         List<UserCourseInfo> userCourses = new ArrayList<>();
         for (long userCourseId : userCourseIds) {
             CourseInfo courseInfo = courseData.get(userCourseId);
-            UserCourseInfo userCourseInfo = new UserCourseInfo(courseInfo);
-            userCourses.add(userCourseInfo);
+            if(courseInfo.getId()!=0){//valid参数为1时获取的对象为空 但valid参数默认为0 通过Id来筛选
+            	UserCourseInfo userCourseInfo = new UserCourseInfo(courseInfo);
+            	userCourses.add(userCourseInfo);
+            }
+            else
+            	continue;
         }
         response.setCourseInfos(userCourses);
         return packageSuccessData(response);
@@ -261,7 +265,7 @@ public class UserController extends BaseController<ViewResponseBase> {
             @Valid UserLoadCourseRankParams params) {
         long userId = paramsUtils.getUserId(params);
         long courseId = params.getCourseId();
-        long termId = userCollegeService.loadCourseTermId(userId, courseId);
+        long termId = userCollegeService.loadCourseTermId(userId, courseId);//
         ViewUserLoadRankResponse response = new ViewUserLoadRankResponse();
         List<UserRank> userRanks = userCollegeService.loadCourseTermRankList(userId, courseId,
                 termId);
@@ -296,11 +300,17 @@ public class UserController extends BaseController<ViewResponseBase> {
     	long userId = paramsUtils.getUserId(params);
     	long termId = params.getTermId();
     	long courseId = params.getCourseId();
-    	long coins = params.getPrice();
+    	double coins = params.getPrice();
     	 // TODO  支付过程
-        userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);
+    	
+    	//先查询该课程是否已经购买
+    	/**List<BillsInfo> billsinfo=userCollegeService.checkPurchase(userId,courseId, termId);
+    	if(billsinfo!=null||!billsinfo.isEmpty())
+   		 System.out.println("本课程您已购买");//checkPurchase函数也可以查CourseTerm里的数据
+    	*/
+        userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);//扣钱 加入人课索引关系（数据库插更 redis覆盖） 
         
-        userCollegeService.userPurchase(userId, courseId, termId, coins);
+        userCollegeService.userPurchase(userId, courseId, termId, coins);//生成流水
         ViewUserPurchaseResponse response=new ViewUserPurchaseResponse();
         BillsInfo billsInfo=new BillsInfo();
         billsInfo.setUserId(userId);

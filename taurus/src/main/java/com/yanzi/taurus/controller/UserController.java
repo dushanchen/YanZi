@@ -353,7 +353,7 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 	@RequestMapping(value = "/user/recharge", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseEntity<ResponseEntityWrapper> userReCharge(@Valid UserReChargeParams params) {
 	      long userId = paramsUtils.getUserId(params);
-	      long number = params.getNumber();
+	      double number = params.getNumber();
 	      
 	      userService.addUserCoins(userId,number);//增加用户coins
 	      userService.addUserbills(userId,number);//生成流水

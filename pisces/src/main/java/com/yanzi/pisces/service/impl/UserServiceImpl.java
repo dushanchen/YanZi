@@ -37,4 +37,7 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService {
 		return userCourseTermMapper.selectUserIdByTermId(termId);
 	}
 	
+	public List<Long> getUserByCourseIdTermId(long courseId, long termId){
+		return userCourseTermMapper.getUserByCourseIdTermId(courseId,termId);
+	}
 }
