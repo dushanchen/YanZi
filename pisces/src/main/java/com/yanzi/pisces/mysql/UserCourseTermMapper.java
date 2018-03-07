@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yanzi.common.entity.term.TermCourse;
 import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.UserTermCourseEntity;
@@ -43,16 +44,31 @@ public interface UserCourseTermMapper {
      * @param userId
      * @return
      */
-	public List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
+	List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
 	
 	public void userPurchase(@Param(value="userId")long userId,@Param(value="courseId")long courseId,@Param(value="termId")long termId,@Param(value="coins")double coins);
 	
 	public List<BillsInfo> checkPurchase(@Param(value="userId")long userId,@Param(value="courseId")long courseId,@Param(value="termId")long termId);
 	
 	public long loadLatestLesson(@Param(value="termId") long termId);
-	
+
 	public List<Long> getUserId(@Param(value="courseId")long courseId,@Param(value="termId")long termId);
 
 
 	public List<Long> getUserByCourseIdTermId(@Param(value="courseId")long courseId,@Param(value="termId")long termId);
+	
+
+    /*
+     * 查询用户的购买Term
+     * @param userId
+     * @return
+     */
+	public List<TermCourse> selectUserTermIdByUserId(long userId);
+
+	/*
+	 * 通过termId查询userId
+	 * @author fk
+	 */
+
+	public List<Long> selectUserIdByTermId(long termId);
 }

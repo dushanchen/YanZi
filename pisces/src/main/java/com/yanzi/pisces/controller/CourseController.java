@@ -29,6 +29,7 @@ import com.yanzi.pisces.data.CourseData;
 import com.yanzi.pisces.data.LevelData;
 import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.UserCourseInfo;
+import com.yanzi.pisces.entity.UserTermCourseEntity;
 import com.yanzi.pisces.service.UserCollegeService;
 
 @Controller
@@ -60,14 +61,16 @@ public class CourseController extends BaseController<ViewResponseBase> {
             RequestMethod.POST })
     public ResponseEntity<ResponseEntityWrapper> loadUserAllLevels(
             @Valid UserActionParamsBase params) {
-    	long userId = params.getUserId();
+//    	long userId = params.getUserId();
+    	long userId =paramsUtils.getUserId(params);
         ViewUserCourseLevelResponse response = new ViewUserCourseLevelResponse();
 //        List<Long> curriculumIds = cUserService.loadUserSubscribedCourseId(userId);
-        List<CourseTermInfo> courseTermIds = userCollegeService.getCourseTermInfoByUserId(userId);
+        List<UserTermCourseEntity> courseTermInfos = userCollegeService.selectUserCourseTermByUserId(userId);
         List<LevelInfo> levels = new ArrayList<>();
-        for (CourseTermInfo courseTermId : courseTermIds) {
-        	long courseId = courseTermId.getCourseId();
-        	long termId = courseTermId.getTermId();   	
+
+        for (UserTermCourseEntity courseTermInfo : courseTermInfos) {
+        	long courseId = courseTermInfo.getCourseId();
+        	long termId = courseTermInfo.getTermId();   	
         	long level = cUserService.loadUserCourseLevel(userId, courseId,termId);
 //        	LevelInfo levelInfo = levelData.get(level);
 //        	levels.add(levelInfo);
@@ -83,7 +86,7 @@ public class CourseController extends BaseController<ViewResponseBase> {
 //            long exp = cUserService.loadUserCourseExp(userId, courseId,termId);
 //            LevelInfo level = courseService.getLevelByExp(courseId, exp);
             
-        }
+        } 
         response.setLevels(levels);
         return packageSuccessData(response);
     }

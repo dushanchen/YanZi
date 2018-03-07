@@ -8,7 +8,7 @@ public class CourseInfo {
     private String enTitle;
     private String image;
     private int valid;
-
+    
     public String getTitle() {
         return title;
     }

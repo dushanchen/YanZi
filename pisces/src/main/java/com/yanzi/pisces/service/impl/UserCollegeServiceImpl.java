@@ -402,9 +402,9 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
      * 获取用户相关的课程id
      */
 	@Override
-	public List<CourseTermInfo> getCourseTermInfoByUserId(Long userId) {
+	public List<UserTermCourseEntity> selectUserCourseTermByUserId(Long userId) {
 		// TODO Auto-generated method stub
-		return userCourseTermMapper.getCourseTermInfoByUserId(userId);
+		return userCourseTermMapper.selectUserCourseTermByUserId(userId);
 	}
 	
 	public int loadCourseTermRank(long userId,long courseId,long termId,List<UserRank> userRanks){

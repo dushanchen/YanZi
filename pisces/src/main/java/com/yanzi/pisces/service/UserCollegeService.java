@@ -11,6 +11,7 @@ import com.yanzi.common.service.CUserCollegeService;
 import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.UserLessonStatus;
 import com.yanzi.pisces.entity.UserRank;
+import com.yanzi.pisces.entity.UserTermCourseEntity;
 import com.yanzi.pisces.entity.UserCollegeStatus;
 import com.yanzi.pisces.entity.UserCourseTermStatus;
 
@@ -93,7 +94,7 @@ public interface UserCollegeService extends CUserCollegeService {
      * 
      * @return
      */
-    List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
+    List<UserTermCourseEntity> selectUserCourseTermByUserId(Long userId);
     
     public void userPurchase(long userId,long courseId,long termId,double coins);
     

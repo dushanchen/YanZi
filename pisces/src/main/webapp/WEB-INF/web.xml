@@ -13,6 +13,9 @@
 			classpath*:*-bean.xml
 		</param-value>
 	</context-param>
+	
+	
+	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>
