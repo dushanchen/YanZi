@@ -1,6 +1,8 @@
 package com.yanzi.pisces.service.impl;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +25,7 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService {
 		return userCourseTermMapper.selectUserTermIdByUserIdAndCourseId(userId,courseId);
 	}
 	
+	public List<Long> getUserByCourseIdTermId(long courseId, long termId){
+		return userCourseTermMapper.getUserByCourseIdTermId(courseId,termId);
+	}
 }

@@ -240,7 +240,7 @@ public class UserController extends BaseController<ViewResponseBase> {
             @Valid UserLoadCourseRankParams params) {
         long userId = paramsUtils.getUserId(params);
         long courseId = params.getCourseId();
-        long termId = userCollegeService.loadCourseTermId(userId, courseId);
+        long termId = userCollegeService.loadCourseTermId(userId, courseId);//
         ViewUserLoadRankResponse response = new ViewUserLoadRankResponse();
         List<UserRank> userRanks = userCollegeService.loadCourseTermRankList(userId, courseId,
                 termId);
@@ -275,11 +275,17 @@ public class UserController extends BaseController<ViewResponseBase> {
     	long userId = paramsUtils.getUserId(params);
     	long termId = params.getTermId();
     	long courseId = params.getCourseId();
-    	long coins = params.getPrice();
+    	double coins = params.getPrice();
     	 // TODO  支付过程
-        userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);
+    	
+    	//先查询该课程是否已经购买
+    	/**List<BillsInfo> billsinfo=userCollegeService.checkPurchase(userId,courseId, termId);
+    	if(billsinfo!=null||!billsinfo.isEmpty())
+   		 System.out.println("本课程您已购买");//checkPurchase函数也可以查CourseTerm里的数据
+    	*/
+        userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);//扣钱 加入人课索引关系（数据库插更 redis覆盖） 
         
-        userCollegeService.userPurchase(userId, courseId, termId, coins);
+        userCollegeService.userPurchase(userId, courseId, termId, coins);//生成流水
         ViewUserPurchaseResponse response=new ViewUserPurchaseResponse();
         BillsInfo billsInfo=new BillsInfo();
         billsInfo.setUserId(userId);

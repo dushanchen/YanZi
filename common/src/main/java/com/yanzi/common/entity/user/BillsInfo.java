@@ -9,7 +9,7 @@ public class BillsInfo {
 	private long courseId;
 	private long termId;
 	private boolean state;
-	private long number;
+	private double number;
 	public BillsInfo() {
     }
 
@@ -17,13 +17,20 @@ public class BillsInfo {
         this.userId = userId;
     }
 
-    public BillsInfo(long userId,boolean state,long number) {
+    public BillsInfo(long userId,boolean state,double number) {
         this.userId = userId;
         this.state = state;
         this.number = number;
     }
     
-    public BillsInfo(long userId,long courseId,long termId,boolean state,long number) {
+    public BillsInfo(long userId,long courseId,long termId,boolean state) {
+        this.userId =userId;
+        this.courseId=courseId;
+        this.termId=termId;
+        this.state = state;
+    }
+    
+    public BillsInfo(long userId,long courseId,long termId,boolean state,double number) {
         this.userId =userId;
         this.courseId=courseId;
         this.termId=termId;
@@ -63,11 +70,11 @@ public class BillsInfo {
         return this.state = state;
     }
     
-    public long getNumber() {
+    public double getNumber() {
         return number;
     }
 
-    public long setNumber(long number) {
+    public double setNumber(double number) {
         return this.number = number;
     }
     

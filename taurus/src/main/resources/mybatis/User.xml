@@ -155,7 +155,7 @@
         ]]>
 	</select>
 	
-	<select id="getNowCoins" resultType="java.lang.Integer">
+	<select id="getNowCoins" resultType="java.lang.Double">
         <![CDATA[
         SELECT `coins`
         FROM User.BasicInfo
@@ -163,7 +163,7 @@
 		]]>
 	</select>
 	
-	<select id="getReCoins" resultType="java.lang.Integer">
+	<select id="getReCoins" resultType="java.lang.Double">
         <![CDATA[
         SELECT SUM(`number`)
 		FROM User.Userbills
@@ -172,7 +172,7 @@
 		]]>
 	</select>
 	
-	<select id="getUsedCoins" resultType="java.lang.Integer">
+	<select id="getUsedCoins" resultType="java.lang.Double">
         <![CDATA[
         SELECT SUM(`number`)
 		FROM User.Userbills

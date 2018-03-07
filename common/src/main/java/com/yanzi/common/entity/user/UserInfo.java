@@ -15,7 +15,7 @@ public class UserInfo{
     /**
      * 雁币
      */
-    private long coins = 0;
+    private double coins = 0;
 
     public UserInfo() {
     }
@@ -94,11 +94,11 @@ public class UserInfo{
         this.id = id;
     }
 
-	public long getCoins() {
+	public double getCoins() {
 		return coins;
 	}
 
-	public void setCoins(long coins) {
+	public void setCoins(double coins) {
 		this.coins = coins;
 	}
     

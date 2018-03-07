@@ -12,7 +12,7 @@ public class LevelInfo {
     @JSONField(serialize = false)
     private long minExp;
     @JSONField(serialize = false)
-    private long coin;
+    private double coin;
     @JSONField(serialize = false)
     private int valid;
 
@@ -64,11 +64,11 @@ public class LevelInfo {
         this.courseId = courseId;
     }
 
-    public long getCoin() {
+    public double getCoin() {
         return coin;
     }
 
-    public void setCoin(long coin) {
+    public void setCoin(double coin) {
         this.coin = coin;
     }
 }

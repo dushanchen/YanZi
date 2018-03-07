@@ -77,7 +77,7 @@ public class BasicController extends BaseController<ViewResponseBase> {
         PermissionInfo permissionInfo = userService.loadPermissionInfo(userId);
         response.setPermissionInfo(permissionInfo);
         
-        int gottenCoins=userService.getGottenCoins(userId);
+        double gottenCoins=userService.getGottenCoins(userId);
         response.setGottenCoins(gottenCoins);
         
         return packageSuccessData(response);
