@@ -70,13 +70,18 @@ public class QuestionIncrLoadJob extends MysqlLoadJob implements InitializingBea
     private void buildQuestion(QuestionInfo questionInfo){
 //        long questionId = questionInfo.getId();
 //        List<QuestionTextInfo> questionTextInfoList = questionMapper.selectQuestionTextByQuestionId(questionId);
-        try{
-        	String jsonText = questionInfo.getJsonContent();
+    	String jsonText = "";
+    	try{
+        	jsonText = questionInfo.getJsonContent();
+        	if(questionInfo.getId() == 14){
+        		System.out.println(questionInfo.getJsonContent());
+        	}
 	        if(jsonText != null && !jsonText.equals("")){
 	        	List<QuestionTextInfo> questionTextInfoList = new Gson().fromJson(jsonText, new TypeToken<List<QuestionTextInfo>>() {}.getType()); 
 	        	questionInfo.build(questionTextInfoList);
 	        }
         }catch(Exception e){
+        	System.out.println(jsonText);
         	e.printStackTrace();
         }
     	
