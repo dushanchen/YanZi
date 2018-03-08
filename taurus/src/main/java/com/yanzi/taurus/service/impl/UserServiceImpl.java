@@ -25,6 +25,7 @@ import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.exception.CommonException;
 import com.yanzi.common.redis.user.CUserFriendRedisDao;
 import com.yanzi.common.redis.user.CUserRedisDao;
+import com.yanzi.common.service.CUserCollegeService;
 import com.yanzi.common.service.impl.CUserServiceImpl;
 import com.yanzi.common.utils.HttpClientUtils;
 import com.yanzi.common.utils.PageIndexCalUtil;
@@ -51,11 +52,14 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
     private SMSServiceImpl smsService;
     @Autowired
     private PhoneService phoneService;
+    
 
     @Autowired
     private CUserFriendRedisDao cUserFriendRedisDao;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CUserCollegeService cUserCollegeService;
     @Autowired
     private CUserRedisDao cUserRedisDao;
     @Autowired
@@ -327,6 +331,7 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
      * @author hx
      */
     public void addUserCoins(long userId,double number){
+    	cUserCollegeService.replaceReUserCoins(userId,number);//redis雁币加值
     	userMapper.addUserCoins(userId, number);
     }
     

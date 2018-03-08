@@ -375,7 +375,8 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     	 
     	 userCourseTermMapper.userPurchaseTerm(userId,courseId, termId);
     	 userCourseTermMapper.reduceCoins(userId, coins);
-    	 this.replaceCourseTermId(userId, courseId, termId, true);//
+    	 this.replaceCourseTermId(userId, courseId, termId, true);//redis课程用户关系 更新
+    	 this.replaceUserCoins(userId,coins); //redis用户雁币更新
      }
      
      /**

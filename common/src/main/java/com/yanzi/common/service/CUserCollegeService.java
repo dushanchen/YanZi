@@ -9,6 +9,10 @@ public interface CUserCollegeService {
     long loadCourseTermId(long userId, long courseId);
 
     void replaceCourseTermId(long userId, long courseId, long termId, boolean replace);
+    
+    void replaceUserCoins(long userId,double coins);
+
+    void replaceReUserCoins(long userId,double coins);
 
     long loadExp(long userId);
 

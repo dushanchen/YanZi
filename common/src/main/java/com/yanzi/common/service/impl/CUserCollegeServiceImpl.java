@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.yanzi.common.constants.ReturnCode;
 import com.yanzi.common.entity.college.course.CourseInfo;
+import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.exception.CommonException;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
+import com.yanzi.common.redis.user.CUserRedisDao;
 import com.yanzi.common.service.CUserCollegeService;
 
 @Service("cUserCollegeService")
@@ -19,6 +21,9 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
 
     @Autowired
     private CUserCollegeRedisDao cUserCollegeRedisDao;
+    
+    @Autowired
+    private CUserRedisDao cUserRedisDao;
 
     @Override
     public long loadCourseTermId(long userId, long courseId) {
@@ -35,6 +40,19 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
             cUserCollegeRedisDao.saveCourseTerm(userId, courseId, termId);
         }
     }
+    
+    @Override
+    public void replaceUserCoins(long userId,double coins) {
+            UserInfo userInfo=cUserRedisDao.getUserInfoById(userId);
+            userInfo.setCoins(userInfo.getCoins()-coins);
+            cUserRedisDao.saveUserInfoById(userId, userInfo);
+    }
+    
+    public void replaceReUserCoins(long userId,double coins) {
+        UserInfo userInfo=cUserRedisDao.getUserInfoById(userId);
+        userInfo.setCoins(userInfo.getCoins()+coins);
+        cUserRedisDao.saveUserInfoById(userId, userInfo);
+}
 
     @Override
     public long loadExp(long userId) {
