@@ -433,4 +433,8 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     	}
     	return fri;
     }
+	
+	public long getCourseIdByTermId(long termId){
+		return userCourseTermMapper.getCourseIdByTermId(termId);
+	}
 }

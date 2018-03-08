@@ -114,5 +114,7 @@ public interface UserCollegeService extends CUserCollegeService {
     
 
     public boolean checkFriend(long userId,long friendId);
+    
+    public long getCourseIdByTermId(long termId);
 
 }

@@ -39,6 +39,15 @@
 		]]>
 	</select>
 	
+	<select id="getCourseIdByTermId" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT `courseId`
+		FROM
+		test.t_Term
+		WHERE `t_Id` = #{termId}
+		]]>
+	</select>
+	
 	<!--用户购买学期  -->
 	<insert id="userPurchaseTerm" >
 		INSERT INTO
