@@ -18,6 +18,7 @@ import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.entity.college.lesson.LessonPrimer;
+import com.yanzi.common.entity.Date;
 import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.lesson.LessonInfo;
 import com.yanzi.common.entity.college.lesson.LessonSummary;
@@ -27,7 +28,9 @@ import com.yanzi.common.entity.term.TermLesson;
 import com.yanzi.common.entity.term.TermPrimer;
 import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
+import com.yanzi.common.service.CUserCollegeService;
 import com.yanzi.common.utils.ParamsUtils;
+import com.yanzi.common.utils.TimeUtils;
 import com.yanzi.pisces.controller.param.SubmitQuestionParams;
 import com.yanzi.pisces.controller.param.UserLoadCourseRankParams;
 import com.yanzi.pisces.controller.param.UserLoadCourseStatusParams;
@@ -81,6 +84,8 @@ public class UserController extends BaseController<ViewResponseBase> {
     private UserCollegeService userCollegeService;
     @Autowired
     private CUserCollegeRedisDao cUserCollegeRedisDao;
+    @Autowired
+    private CUserCollegeService cUserCollegeService;
 /**
  * 获取所有的学期信息，及用户的学期信息
  * @param params
@@ -352,6 +357,22 @@ public class UserController extends BaseController<ViewResponseBase> {
         
         response.setNewExp(newExp);
         userCollegeService.saveLatestLesson(userId,lessonId);//保存用户最近完成的关卡 dusc
+        boolean courseTermDayIsComplete = false;
+        long termId = userService.selectUserTermIdByUserIdAndCourseId(userId, courseId);
+        Date date = TimeUtils.getDate();
+        courseTermDayIsComplete = cUserCollegeService.courseTermDayIsComplete(userId, courseId, termId, date.getDay());
+        List<Boolean>  loadCourseTermWeekCompleteStatus = userCollegeService.loadCourseTermWeekCompleteStatus(userId, courseId, termId);
+        boolean flag = true;
+    	for(int i=0;i<loadCourseTermWeekCompleteStatus.size();i++){
+    		if(!loadCourseTermWeekCompleteStatus.get(i)){
+    			flag = false;
+    			break;
+    		}
+    	}
+        response.setCourseTermDayIsComplete(courseTermDayIsComplete);
+        response.setLoadCourseTermWeekCompleteStatus(flag);
+        		
+        		
         return packageSuccessData(response);
       
     }

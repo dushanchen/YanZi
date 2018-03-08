@@ -341,10 +341,11 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
     public double getGottenCoins(long userId){
     	double nowCoins=0;
     	nowCoins=userMapper.getNowCoins(userId);
+    	
     	double reCoins=0;
     	reCoins=userMapper.getReCoins(userId);
-    	double usedCoins=userMapper.getUsedCoins(userId);
-    	
+    	double usedCoins=0;
+    	usedCoins=userMapper.getUsedCoins(userId);
     	return nowCoins+usedCoins-reCoins;
     }
     

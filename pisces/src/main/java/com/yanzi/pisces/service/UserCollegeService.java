@@ -102,12 +102,17 @@ public interface UserCollegeService extends CUserCollegeService {
     
     public int loadCourseTermRank(long userId,long courseId,long termId,List<UserRank> userRanks);
     
+
+    public List<Boolean> loadCourseTermWeekCompleteStatus(long userId, long courseId, long termId);
+
     /**
      * 获取课程下的购买用户
      * @return
      */
     public List<Long> getUserId(long courseId,long termId);
+
     
 
     public boolean checkFriend(long userId,long friendId);
+
 }

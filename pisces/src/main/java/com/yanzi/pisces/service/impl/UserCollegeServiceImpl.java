@@ -248,6 +248,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
         status.setExp(exp);
         int questionCount = lessonData.getQuestionCount(lessonId);
         double correctPercent = knowledge * 1.0 / questionCount;
+        
         status.setCorrectPercent(correctPercent);
         return status;
     }
