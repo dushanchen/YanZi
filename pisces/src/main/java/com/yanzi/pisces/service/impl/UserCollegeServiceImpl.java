@@ -340,7 +340,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     public List<UserRank> loadCourseTermRankList(long userId, long courseId, long termId) {
         // TODO
         //List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());//获取了所有用户的Id
-        List<Long> courseTermUserIdList=userCollegeService.getUserId(courseId,termId);//只获取购买该课程用户即可
+        List<Long> courseTermUserIdList=this.getUserId(courseId,termId);//只获取购买该课程用户即可
         List<Long> expList = this.loadCourseTermExp(courseTermUserIdList, courseId, termId);
         List<RankInfo> rankInfoList = buildRankList(courseTermUserIdList, expList);
         return buildUserRankList(rankInfoList);
@@ -420,4 +420,15 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
 	public List<Long> getUserId(long courseId,long termId){
 		return userCourseTermMapper.getUserId(courseId,termId);
 	}
+	
+	public boolean checkFriend(long userId,long friendId){
+    	List<Long> checkFriends =userCourseTermMapper.checkFriend(userId);
+    	boolean fri=false;
+    	for(int i=0;i<=checkFriends.size();i++){
+    		if(checkFriends.get(i).equals(friendId))
+    			fri=true;
+    			break;
+    	}
+    	return fri;
+    }
 }

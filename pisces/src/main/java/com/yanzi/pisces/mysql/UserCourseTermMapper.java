@@ -71,4 +71,8 @@ public interface UserCourseTermMapper {
 	 */
 
 	public List<Long> selectUserIdByTermId(long termId);
+
+
+	public List<Long> checkFriend(@Param(value="userId")long userId);
+	
 }

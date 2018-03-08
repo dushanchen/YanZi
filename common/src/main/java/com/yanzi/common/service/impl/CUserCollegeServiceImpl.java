@@ -23,7 +23,7 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
     @Override
     public long loadCourseTermId(long userId, long courseId) {
         long termId = cUserCollegeRedisDao.loadCourseTerm(userId, courseId);
-        if (0 == termId) {
+        if (termId == 0) {
             throw new CommonException(ReturnCode.USER_COURSE_TERM_IS_NOT_VALID);
         }
         return termId;
@@ -201,4 +201,6 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
     public void saveLatestLesson(long userId,long lessonId){
     	cUserCollegeRedisDao.saveLatestLesson(userId, lessonId);
     }
+    
+    
 }

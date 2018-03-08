@@ -37,6 +37,7 @@ import com.yanzi.pisces.controller.param.UserLoadLessonsParams;
 import com.yanzi.pisces.controller.param.UserLoadRankParams;
 import com.yanzi.pisces.controller.param.UserLoadTermInfoParams;
 import com.yanzi.pisces.controller.param.UserLoadTermsParams;
+import com.yanzi.pisces.controller.response.ViewCheckPurchaseResponse;
 import com.yanzi.pisces.controller.response.ViewSubmitQuestionResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadCourseStatusResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadCoursesResponse;
@@ -299,22 +300,30 @@ public class UserController extends BaseController<ViewResponseBase> {
     	 // TODO  支付过程
     	
     	//先查询该课程是否已经购买
-    	/**List<BillsInfo> billsinfo=userCollegeService.checkPurchase(userId,courseId, termId);
-    	if(billsinfo!=null||!billsinfo.isEmpty())
-   		 System.out.println("本课程您已购买");//checkPurchase函数也可以查CourseTerm里的数据
-    	*/
-        userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);//扣钱 加入人课索引关系（数据库插更 redis覆盖） 
-        
-        userCollegeService.userPurchase(userId, courseId, termId, coins);//生成流水
-        ViewUserPurchaseResponse response=new ViewUserPurchaseResponse();
-        BillsInfo billsInfo=new BillsInfo();
-        billsInfo.setUserId(userId);
-        billsInfo.setCourseId(courseId);
-        billsInfo.setNumber(coins);
-        billsInfo.setState(false);
-        billsInfo.setTermId(termId);
-        response.setBillsInfo(billsInfo);
-        return packageSuccessData(response);
+    	List<BillsInfo> billsinfo=userCollegeService.checkPurchase(userId,courseId, termId);
+    	if(billsinfo!=null||!billsinfo.isEmpty()){
+   		 	ViewCheckPurchaseResponse response=new ViewCheckPurchaseResponse();//checkPurchase函数也可以查CourseTerm里的数据
+   		 	long type=1;
+   		 	String des="您已购买此课程";
+   		 	response.setType(type);
+   		 	response.setDes(des);
+   		 	return packageSuccessData(response);
+   		 	
+    	}
+    	else{
+	        userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);//扣钱 加入人课索引关系（数据库插更 redis覆盖） 
+	        
+	        userCollegeService.userPurchase(userId, courseId, termId, coins);//生成流水
+	        ViewUserPurchaseResponse response=new ViewUserPurchaseResponse();
+	        BillsInfo billsInfo=new BillsInfo();
+	        billsInfo.setUserId(userId);
+	        billsInfo.setCourseId(courseId);
+	        billsInfo.setNumber(coins);
+	        billsInfo.setState(false);
+	        billsInfo.setTermId(termId);
+	        response.setBillsInfo(billsInfo);
+	        return packageSuccessData(response);
+    	}
         
     }
     

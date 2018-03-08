@@ -91,8 +91,7 @@
 		SELECT `userId`
 		FROM
 		User.CourseTerm
-		WHERE `courseId` = #{courseId}
-		AND `termId` = #{termId}
+		WHERE `termId` = #{termId}
 		]]>
 	</select>
 	
@@ -104,6 +103,15 @@
 		User.CourseTerm
 		WHERE `courseId` = #{courseId}
 		AND `termId` = #{termId}
+		]]>
+	</select>
+	
+	<select id="checkFriend" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT `friendId`
+		FROM
+		User.UserFriend
+		WHERE `userId` = #{userId}
 		]]>
 	</select>
 	

@@ -107,4 +107,7 @@ public interface UserCollegeService extends CUserCollegeService {
      * @return
      */
     public List<Long> getUserId(long courseId,long termId);
+    
+
+    public boolean checkFriend(long userId,long friendId);
 }
