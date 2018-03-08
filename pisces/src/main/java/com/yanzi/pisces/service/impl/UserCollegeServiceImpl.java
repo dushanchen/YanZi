@@ -59,6 +59,8 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     private CourseMapper courseMapper;
     @Autowired
     private LevelMapper levelMapper;
+    @Autowired
+    private UserCollegeService userCollegeService;
 
     @Override
     public List<Long> loadCourseIdList(long userId) {
@@ -140,7 +142,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
         //更新等级状态
         long levelId = this.loadCourseTermLevel(userId, courseId, termId);//用户当前等级
         LevelInfo level = levelData.getByCourseIdAndExp(courseId, courseExp);//当前课程经验值更新后对应的等级
-        long coins = 0;
+        double coins = 0;
         if(level.getId() != levelId){//升级，增加雁币
         	this.saveCourseTermLevel(userId, courseId, termId, level.getId());
         	coins += level.getCoin();
@@ -187,27 +189,36 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     @Override
     public UserCourseTermStatus loadCourseTermStatus(long userId, long courseId, long termId) {
         UserCourseTermStatus status = new UserCourseTermStatus();
+        
         Date date = TimeUtils.getDate();
-        long exp = this.loadCourseTermExp(userId, courseId, termId);
+        long exp = this.loadCourseTermExp(userId, courseId, termId);//经验
         status.setExp(exp);
-        long totalKnowledge = this.loadCourseTermKnowledge(userId, courseId, termId);
+        
+        long totalKnowledge = this.loadCourseTermKnowledge(userId, courseId, termId);//知识点
         status.setTotalKnowledge(totalKnowledge);
+        
         long dayKnowledge = this.loadCourseTermDayKnowledge(userId, courseId, termId,
-                date.getDay());
+                date.getDay());//每日知识点数
         status.setDayKnowledge(dayKnowledge);
-        long completeDayCount = this.loadCourseTermCompleteDayCount(userId, courseId, termId);
-        status.setSustainedCompleteDayCount(completeDayCount);
+        
+        
+        long sCompleteDayCount = this.loadCourseTermDayComplete(userId, courseId, termId);
+        status.setSustainedCompleteDayCount(sCompleteDayCount);
+        
         // week complete
         List<Boolean> weekCompleteStatus = this.loadCourseTermWeekCompleteStatus(userId, courseId,
                 termId);
         status.setWeekCompleteStatus(weekCompleteStatus);
+        
         // get rank
         int rank = this.loadCourseTermRankValue(userId, courseId, termId);
         status.setRank(rank);
+        
         // get level
         long levelId = this.loadCourseTermLevel(userId, courseId, termId);
         LevelInfo level = levelData.get(levelId);
         status.setLevel(level);
+        
         return status;
     }
 
@@ -237,6 +248,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
         status.setExp(exp);
         int questionCount = lessonData.getQuestionCount(lessonId);
         double correctPercent = knowledge * 1.0 / questionCount;
+        
         status.setCorrectPercent(correctPercent);
         return status;
     }
@@ -263,7 +275,10 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     @Override
     public int loadCourseTermRankValue(long userId, long courseId, long termId) {
         // TODO
-        List<Long> courseTermUserIdList = new ArrayList<>();
+        //List<Long> courseTermUserIdList = new ArrayList<>();
+        
+        List<Long> courseTermUserIdList=userService.getUserByCourseIdTermId(courseId,termId);
+        
         List<Long> expList = this.loadCourseTermExp(courseTermUserIdList, courseId, termId);
         List<RankInfo> rankInfoList = buildRankList(courseTermUserIdList, expList);
         return buildUserRankValue(userId, rankInfoList);
@@ -325,7 +340,8 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     @Override
     public List<UserRank> loadCourseTermRankList(long userId, long courseId, long termId) {
         // TODO
-        List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());
+        //List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());//获取了所有用户的Id
+        List<Long> courseTermUserIdList=this.getUserId(courseId,termId);//只获取购买该课程用户即可
         List<Long> expList = this.loadCourseTermExp(courseTermUserIdList, courseId, termId);
         List<RankInfo> rankInfoList = buildRankList(courseTermUserIdList, expList);
         return buildUserRankList(rankInfoList);
@@ -355,14 +371,27 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
      * 购买课程
      * @author dusc
      */
-     public void userPurchaseTerm(long userId,long courseId,long termId,long coins){
+     public void userPurchaseTerm(long userId,long courseId,long termId,double coins){
+    	 
     	 userCourseTermMapper.userPurchaseTerm(userId,courseId, termId);
     	 userCourseTermMapper.reduceCoins(userId, coins);
-    	 this.replaceCourseTermId(userId, courseId, termId, true);
+    	 this.replaceCourseTermId(userId, courseId, termId, true);//redis课程用户关系 更新
+    	 this.replaceUserCoins(userId,coins); //redis用户雁币更新
      }
      
-     public void userPurchase(long userId,long courseId,long termId,long coins){
+     /**
+      * 购买课程检验去重
+      * @author dusc
+      */
+     
+     public void userPurchase(long userId,long courseId,long termId,double coins){
     	 userCourseTermMapper.userPurchase(userId, courseId, termId, coins);
+     }
+     
+ 
+	public List<BillsInfo> checkPurchase(long userId,long courseId,long termId){
+    	 List<BillsInfo> billsinfo=userCourseTermMapper.checkPurchase(userId, courseId, termId);
+    	 return billsinfo;
      }
 
 	@Override
@@ -375,8 +404,37 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
      * 获取用户相关的课程id
      */
 	@Override
-	public List<CourseTermInfo> getCourseTermInfoByUserId(Long userId) {
+	public List<UserTermCourseEntity> selectUserCourseTermByUserId(Long userId) {
 		// TODO Auto-generated method stub
-		return userCourseTermMapper.getCourseTermInfoByUserId(userId);
+		return userCourseTermMapper.selectUserCourseTermByUserId(userId);
+	}
+	
+	public int loadCourseTermRank(long userId,long courseId,long termId,List<UserRank> userRanks){
+		for(int i=0;i<userRanks.size();i++){
+			//从List中hash出userId对应的userInfo和rankInfo
+			while (userId==userRanks.get(i).getRankInfo().getUserId())
+				return userRanks.get(i).getRankInfo().getRank();
+		}
+		return userRanks.size();
+	}
+	
+	
+	public List<Long> getUserId(long courseId,long termId){
+		return userCourseTermMapper.getUserId(courseId,termId);
+	}
+	
+	public boolean checkFriend(long userId,long friendId){
+    	List<Long> checkFriends =userCourseTermMapper.checkFriend(userId);
+    	boolean fri=false;
+    	for(int i=0;i<=checkFriends.size();i++){
+    		if(checkFriends.get(i).equals(friendId))
+    			fri=true;
+    			break;
+    	}
+    	return fri;
+    }
+	
+	public long getCourseIdByTermId(long termId){
+		return userCourseTermMapper.getCourseIdByTermId(termId);
 	}
 }

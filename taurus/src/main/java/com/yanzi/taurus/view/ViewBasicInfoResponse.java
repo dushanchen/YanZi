@@ -20,11 +20,21 @@ public class ViewBasicInfoResponse extends ViewResponseBase {
     
     private FriendInfo userFriendInfo;
     
+    private double gottenCoins;//非充值获得的雁币
+    
     public UserInfo getBasicInfo() {
         return basicInfo;
     }
 
-    public UserCourseInfo getUserCourseInfo() {
+    public double getGottenCoins() {
+		return gottenCoins;
+	}
+
+	public void setGottenCoins(double gottenCoins) {
+		this.gottenCoins = gottenCoins;
+	}
+
+	public UserCourseInfo getUserCourseInfo() {
 		return userCourseInfo;
 	}
 

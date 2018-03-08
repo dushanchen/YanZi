@@ -22,6 +22,7 @@ import com.yanzi.common.controller.params.UserActionParamsBase;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.entity.user.BillsInfo;
+import com.yanzi.common.entity.user.RechargeInfo;
 import com.yanzi.common.entity.user.TagInfo;
 import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.utils.ParamsUtils;
@@ -52,6 +53,7 @@ import com.yanzi.taurus.view.ViewFeedbackResponse;
 import com.yanzi.taurus.view.ViewBillResponse;
 import com.yanzi.taurus.view.ViewDurationResponse;
 import com.yanzi.taurus.view.ViewFriengListResponse;
+import com.yanzi.taurus.view.ViewRechargeResponse;
 import com.yanzi.taurus.view.ViewUserNoResponse;
 import com.yanzi.taurus.view.ViewUserPersonalCenterResponse;
 import com.yanzi.taurus.view.ViewUserResponseBase;
@@ -351,14 +353,15 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 	@RequestMapping(value = "/user/recharge", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseEntity<ResponseEntityWrapper> userReCharge(@Valid UserReChargeParams params) {
 	      long userId = paramsUtils.getUserId(params);
-	      long number = params.getNumber();
+	      double number = params.getNumber();
 	      
 	      userService.addUserCoins(userId,number);//增加用户coins
 	      userService.addUserbills(userId,number);//生成流水
 	      
 	      
-	      ViewBillResponse response = new ViewBillResponse();
-	      response.setUserBill(userService.getUserBillsByUserId(userId,number));
+	      ViewRechargeResponse response = new ViewRechargeResponse();
+	      RechargeInfo rechargeInfo=new RechargeInfo(userId, true, number);
+	      response.setRechargeInfo(rechargeInfo);
 	      return packageSuccessData(response);
 	      
 	      

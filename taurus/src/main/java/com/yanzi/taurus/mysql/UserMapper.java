@@ -51,9 +51,15 @@ public interface UserMapper {
     
     public void updateThirdPartUserId(@Param("thirdPartyId") String thirdPartyId,@Param("source") int source,@Param("userId") long userId);
     
-    public void addUserCoins(@Param("userId")long userId,@Param("number")long number);
+    public void addUserCoins(@Param("userId")long userId,@Param("number")double number);
     
-    public void addUserbills(@Param("userId")long userId,@Param("number")long number);
+    public void addUserbills(@Param("userId")long userId,@Param("number")double number);
     
-    public List<BillsInfo> getUserBillsByUserId(@Param("userId")long userId,@Param("number")long number);
+    public List<BillsInfo> getUserBillsByUserId(@Param("userId")long userId,@Param("number")double number);
+    
+    public double getNowCoins(@Param(value="userId") long userId);
+    
+    public double getReCoins(@Param(value="userId")long userId);
+    
+    public double getUsedCoins(@Param(value="userId")long userId);
 }

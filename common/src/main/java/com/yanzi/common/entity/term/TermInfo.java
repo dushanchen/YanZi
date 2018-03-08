@@ -21,8 +21,17 @@ public class TermInfo {
      * @author dsczijizuo
      */
     private int count;
+    private long courseId;
 
-    public long getId() {
+    public long getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(long courseId) {
+		this.courseId = courseId;
+	}
+
+	public long getId() {
         return id;
     }
 

@@ -9,6 +9,10 @@ public interface CUserCollegeService {
     long loadCourseTermId(long userId, long courseId);
 
     void replaceCourseTermId(long userId, long courseId, long termId, boolean replace);
+    
+    void replaceUserCoins(long userId,double coins);
+
+    void replaceReUserCoins(long userId,double coins);
 
     long loadExp(long userId);
 
@@ -33,6 +37,8 @@ public interface CUserCollegeService {
     long loadCourseTermDayKnowledge(long userId, long courseId, long termId, String day);
 
     long loadCourseTermCompleteDayCount(long userId, long courseId, long termId);
+    
+    long loadCourseTermDayComplete(long userId, long courseId, long termId);
 
     boolean courseTermDayIsComplete(long userId, long courseId, long termId, String day);
 
@@ -44,7 +50,8 @@ public interface CUserCollegeService {
 
     long loadCourseTermLevel(long userId, long courseId, long termId);
 
-    long loadLatestLesson(long userId);
+    //long loadLatestLesson(long userId,long CourseId);
     
     void saveLatestLesson(long userId,long lessonId);
+    
 }

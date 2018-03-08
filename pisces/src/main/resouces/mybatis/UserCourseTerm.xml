@@ -8,6 +8,8 @@
 		<result property="courseId" column="courseId" />
 	</resultMap>
 	
+	
+	
 	<resultMap type="BillsInfo" id="BillsInfo">
 		<result property="userId" column="userId" />
 		<result property="courseId" column="courseId" />
@@ -15,6 +17,8 @@
 		<result property="state" column="state" />
 		<result property="number" column="coins" />
 	</resultMap>
+	
+	
 
 	<select id="selectUserCourseTermByUserId" resultMap="UserTermCourseMap">
         <![CDATA[
@@ -34,6 +38,16 @@
 		AND `courseId` = #{courseId}
 		]]>
 	</select>
+	
+	<select id="getCourseIdByTermId" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT `courseId`
+		FROM
+		test.t_Term
+		WHERE `t_Id` = #{termId}
+		]]>
+	</select>
+	
 	<!--用户购买学期  -->
 	<insert id="userPurchaseTerm" >
 		INSERT INTO
@@ -48,7 +62,7 @@
 		update BasicInfo f set f.coins = f.coins - #{coins} where f.Id=#{userId}
 	</update>
 	<select id="getCourseTermInfoByUserId" resultMap="UserTermCourseMap">
-		select courseId,termId from User.CourseTerm
+		select courseId,termId,userId from User.CourseTerm
 		Where `userId` = #{userId}
 	</select>
 	<insert id="userPurchase" >
@@ -56,14 +70,59 @@
 		User.Userbills(`UserId`,`CourseId`,`TermId`,`State`,`Number`) 
 		VALUES (#{userId},#{courseId},#{termId},0,#{coins})
 	</insert>
-	<select id="getUserPurchase" resultMap="BillsInfo">
-		select * from User.Userbills
+	<select id="checkPurchase" resultMap="BillsInfo">
+		select courseId,termId,userId,state from User.Userbills
 		Where `userId` = #{userId}
-		AND `courseId`=#{courseId}
-		AND `termId`=#{termId}
-		AND `coins`=#{coins}
+		and `courseId` = #{courseId}
+		and `termId` = #{termId}
 	</select>
 	
+	<select id="loadLatestLesson" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT `lessonId`
+		FROM
+		test.Lesson
+		WHERE `t_Id` = 2
+		ORDER BY rand() 
+		LIMIT 1 
+		]]>
+	</select>
+	
+
+	<select id="getUserId" resultType="java.lang.Long">
+		select userId from User.CourseTerm
+		Where `termId` = #{termId}
+		and `courseId` = #{courseId}
+	</select>
+	
+	<select id="selectUserIdByTermId" resultType="java.lang.Long">
+		<![CDATA[
+		SELECT `userId`
+		FROM
+		User.CourseTerm
+		WHERE `termId` = #{termId}
+		]]>
+	</select>
+	
+	
+	<select id="getUserByCourseIdTermId" resultType="java.lang.Long">
+		<![CDATA[
+		SELECT `userId`
+		FROM
+		User.CourseTerm
+		WHERE `courseId` = #{courseId}
+		AND `termId` = #{termId}
+		]]>
+	</select>
+	
+	<select id="checkFriend" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT `friendId`
+		FROM
+		User.UserFriend
+		WHERE `userId` = #{userId}
+		]]>
+	</select>
 	
 	<resultMap id="UserCourseTermMap" type="com.yanzi.pisces.entity.CourseTermInfo" >
 	    <result column="courseId" property="courseId" jdbcType="BIGINT" />

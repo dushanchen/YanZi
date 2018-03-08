@@ -10,6 +10,7 @@ public class ViewShareCurriculumKnowledgeResponse extends ViewResponseBase {
     private UserInfo userInfo;
     private LessonPrimer lesson;
 //    private LessonBackgroud lessonBackgroud;
+    private long insistTime;
 
     public long getKnowledge() {
         return knowledge;
@@ -33,6 +34,14 @@ public class ViewShareCurriculumKnowledgeResponse extends ViewResponseBase {
 
 	public void setLesson(LessonPrimer lesson) {
 		this.lesson = lesson;
+	}
+
+	public long getDurationTime() {
+		return insistTime;
+	}
+
+	public void setDurationTime(long insistTime) {
+		this.insistTime = insistTime;
 	}
 
 //	public LessonBackgroud getLessonBackgroud() {

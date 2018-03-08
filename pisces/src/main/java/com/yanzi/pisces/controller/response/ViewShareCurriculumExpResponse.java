@@ -13,8 +13,18 @@ public class ViewShareCurriculumExpResponse extends ViewResponseBase {
     
     private LevelInfo levelInfo;
     
+    private int beatCount;
     
-    public UserInfo getUserInfo() {
+    
+    public int getBeatCount() {
+		return beatCount;
+	}
+
+	public void setBeatCount(int beatCount) {
+		this.beatCount = beatCount;
+	}
+
+	public UserInfo getUserInfo() {
 		return userInfo;
 	}
 

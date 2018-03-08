@@ -1,6 +1,9 @@
 package com.yanzi.common.redis.user.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.yanzi.common.constants.RedisPrefixCode;
+import com.yanzi.common.entity.Date;
 import com.yanzi.common.redis.RedisBaseDao;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
 import com.yanzi.common.utils.CollectionParseUtils;
@@ -338,12 +342,42 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
     }
 
     @Override
-    public void saveCourseTermDayComplete(long userId, long courseId, long termId, String day) {
+    public void saveCourseTermDayComplete(long userId, long courseId, long termId, String day){
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");   
+        Calendar cd = Calendar.getInstance();   
+        
+        try {   
+            cd.setTime(sdf.parse(day)); //今天的String转换成Date  
+        } catch (ParseException e) {               
+            e.printStackTrace();   
+        }   
+               //cd.add(Calendar.DATE, 1);//增加一天        
+        cd.add(Calendar.DATE, -1);      //减一天 
+        java.util.Date date=cd.getTime();      
+        String lastday=sdf.format(date);     //把昨天的Date转回String
+        
+        long value=this.loadCourseTermDayComplete(userId,courseId,termId,lastday);
+    	value=value+1;
+    	
+    	
+        String key = getUserCourseTermDayCompletePrefix();
+        String hashKey = this.getUserCourseTermDayKnowledgeHashKey(userId, courseId, termId, day);
+        this.cacheHash(key, hashKey, Long.toString(value));
+        
+    }
+    
+    @Override
+    public long loadCourseTermDayComplete(long userId, long courseId, long termId,String day) {
         String key = getUserCourseTermDayCompletePrefix();
         String hashKey = this.getUserCourseTermDayCompleteHashKey(userId, courseId, termId, day);
-        this.cacheHash(key, hashKey, "1");
+        String valStr = this.getHash(key, hashKey);
+        if (StringUtils.isEmpty(valStr)) {
+            return 0;
+        }
+        return Long.parseLong(valStr);
     }
-
+    
     private String getUserCourseTermLessonMaxKnowledgePrefix() {
         return RedisPrefixCode.USER_COLLEGE_COURSE_TERM_LESSON_MAX_KNOWLEDGE.getCode();
     }
@@ -379,6 +413,7 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
         return RedisPrefixCode.USER_COLLEGE_COURSE_TERM_LESSON_KNOWLEDGE.getCode();
     }
 
+    
     private String getUserCourseTermLessonKnowledgeHashKey(long userId, long courseId, long termId,
             long lessonId) {
         return String.format("%s_%s_%s_%s", userId, courseId, termId, lessonId);
@@ -484,9 +519,19 @@ public class CUserCollegeRedisDaoImpl extends RedisBaseDao implements CUserColle
 		
 	}
 
+	
+
+	/**
 	@Override
-	public long loadLatestLesson(long userId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public long loadLatestLesson(long userId,long courseId) {
+		String key=RedisPrefixCode.USER_LATEST_COMPLETE_LESSON.getCode();
+		Set<String> lessonId_Ss = this.getHash(key, (Long.toString(userId),Long.toString(courseId)));
+		//?
+		String lessonId_S=new String();
+		if (StringUtils.isEmpty(lessonId_S)) {
+            return 0l;
+        }
+        return Long.parseLong(lessonId_S);
+    }
+	*/
 }

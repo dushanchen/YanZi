@@ -1,5 +1,7 @@
 package com.yanzi.pisces.job.mysql;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -78,6 +80,9 @@ public class QuestionIncrLoadJob extends MysqlLoadJob implements InitializingBea
         	}
 	        if(jsonText != null && !jsonText.equals("")){
 	        	List<QuestionTextInfo> questionTextInfoList = new Gson().fromJson(jsonText, new TypeToken<List<QuestionTextInfo>>() {}.getType()); 
+	        	for(int i=0;i<questionTextInfoList.size();i++) {
+	        		questionTextInfoList.get(i).setQuestionId(questionInfo.getId());
+	        	}
 	        	questionInfo.build(questionTextInfoList);
 	        }
         }catch(Exception e){

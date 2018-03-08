@@ -1,5 +1,8 @@
 package com.yanzi.common.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.yanzi.common.constants.ReturnCode;
 import com.yanzi.common.entity.college.course.CourseInfo;
+import com.yanzi.common.entity.user.UserInfo;
 import com.yanzi.common.exception.CommonException;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
+import com.yanzi.common.redis.user.CUserRedisDao;
 import com.yanzi.common.service.CUserCollegeService;
 
 @Service("cUserCollegeService")
@@ -16,11 +21,14 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
 
     @Autowired
     private CUserCollegeRedisDao cUserCollegeRedisDao;
+    
+    @Autowired
+    private CUserRedisDao cUserRedisDao;
 
     @Override
     public long loadCourseTermId(long userId, long courseId) {
         long termId = cUserCollegeRedisDao.loadCourseTerm(userId, courseId);
-        if (0 == termId) {
+        if (termId == 0) {
             throw new CommonException(ReturnCode.USER_COURSE_TERM_IS_NOT_VALID);
         }
         return termId;
@@ -32,6 +40,19 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
             cUserCollegeRedisDao.saveCourseTerm(userId, courseId, termId);
         }
     }
+    
+    @Override
+    public void replaceUserCoins(long userId,double coins) {
+            UserInfo userInfo=cUserRedisDao.getUserInfoById(userId);
+            userInfo.setCoins(userInfo.getCoins()-coins);
+            cUserRedisDao.saveUserInfoById(userId, userInfo);
+    }
+    
+    public void replaceReUserCoins(long userId,double coins) {
+        UserInfo userInfo=cUserRedisDao.getUserInfoById(userId);
+        userInfo.setCoins(userInfo.getCoins()+coins);
+        cUserRedisDao.saveUserInfoById(userId, userInfo);
+}
 
     @Override
     public long loadExp(long userId) {
@@ -125,11 +146,19 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
         return cUserCollegeRedisDao.loadCourseTermCompleteDayCount(userId, courseId, termId);
     }
 
+    public long loadCourseTermDayComplete(long userId, long courseId, long termId) {
+    	Date currentTime = new Date();
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+    	String dateString = formatter.format(currentTime);
+        return cUserCollegeRedisDao.loadCourseTermDayComplete(userId, courseId, termId,dateString);
+    }
+
     protected void saveCourseTermCompleteDayCount(long userId, long courseId, long termId,
             long dayCount) {
         cUserCollegeRedisDao.saveCourseTermCompleteDayCount(userId, courseId, termId, dayCount);
     }
-
+    
+    
     @Override
     public boolean courseTermDayIsComplete(long userId, long courseId, long termId, String day) {
         return cUserCollegeRedisDao.containCourseTermDayComplete(userId, courseId, termId, day);
@@ -180,13 +209,16 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
     protected void saveCourseTermLevel(long userId, long courseId, long termId, long levelId) {
         cUserCollegeRedisDao.saveCourseTermLevel(userId, courseId, termId, levelId);
     }
-    
+    /*
     @Override
-    public long loadLatestLesson(long userId){
-    	return cUserCollegeRedisDao.loadLatestLesson(userId);
+    public long loadLatestLesson(long userId,long courseId){
+    	return cUserCollegeRedisDao.loadLatestLesson(userId,courseId);
     	
     }
+    */
     public void saveLatestLesson(long userId,long lessonId){
     	cUserCollegeRedisDao.saveLatestLesson(userId, lessonId);
     }
+    
+    
 }

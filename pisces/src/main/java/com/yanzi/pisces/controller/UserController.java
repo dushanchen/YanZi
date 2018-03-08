@@ -18,15 +18,19 @@ import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
 import com.yanzi.common.entity.college.lesson.LessonPrimer;
+import com.yanzi.common.entity.Date;
 import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.lesson.LessonInfo;
 import com.yanzi.common.entity.college.lesson.LessonSummary;
+import com.yanzi.common.entity.term.TermCourse;
 import com.yanzi.common.entity.term.TermInfo;
 import com.yanzi.common.entity.term.TermLesson;
 import com.yanzi.common.entity.term.TermPrimer;
 import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.common.redis.user.CUserCollegeRedisDao;
+import com.yanzi.common.service.CUserCollegeService;
 import com.yanzi.common.utils.ParamsUtils;
+import com.yanzi.common.utils.TimeUtils;
 import com.yanzi.pisces.controller.param.SubmitQuestionParams;
 import com.yanzi.pisces.controller.param.UserLoadCourseRankParams;
 import com.yanzi.pisces.controller.param.UserLoadCourseStatusParams;
@@ -36,6 +40,7 @@ import com.yanzi.pisces.controller.param.UserLoadLessonsParams;
 import com.yanzi.pisces.controller.param.UserLoadRankParams;
 import com.yanzi.pisces.controller.param.UserLoadTermInfoParams;
 import com.yanzi.pisces.controller.param.UserLoadTermsParams;
+import com.yanzi.pisces.controller.response.ViewCheckPurchaseResponse;
 import com.yanzi.pisces.controller.response.ViewSubmitQuestionResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadCourseStatusResponse;
 import com.yanzi.pisces.controller.response.ViewUserLoadCoursesResponse;
@@ -79,6 +84,8 @@ public class UserController extends BaseController<ViewResponseBase> {
     private UserCollegeService userCollegeService;
     @Autowired
     private CUserCollegeRedisDao cUserCollegeRedisDao;
+    @Autowired
+    private CUserCollegeService cUserCollegeService;
 /**
  * 获取所有的学期信息，及用户的学期信息
  * @param params
@@ -89,15 +96,30 @@ public class UserController extends BaseController<ViewResponseBase> {
     public ResponseEntity<ResponseEntityWrapper> userLoadTerm(@Valid UserLoadTermsParams params) {
         ViewUserLoadTermsResponse response = new ViewUserLoadTermsResponse();
         long userId = paramsUtils.getUserId(params);
-        List<TermInfo> saleValidTerms = termData.getSaleValidList();//获取还没开课的学期
+        List<TermInfo> saleValidTerms = termData.getSaleValidList();//获取已开课的学期
         List<UserTermInfo> userTermInfos = new ArrayList<>();
         for (TermInfo termInfo : saleValidTerms) {
             long termId = termInfo.getId();
+            termInfo.setCourseId(userCollegeService.getCourseIdByTermId(termId));
             TermPrimer termPrimer = termData.getTermPrimer(termId);
             // TODO
             UserTermStatus userStatus = new UserTermStatus();//用户购买状态
+            List<Long> userIds =new ArrayList<>();
+            userIds = userService.selectUserIdByTermId(termId);
+            boolean check = false;
+            if (userIds!=null) {
+            	 for (Long userIdItem : userIds) {
+     				if (userIdItem==userId) {
+     					check = true;
+     				}
+     			}
+			} 
+            userStatus.setPurchase(check);
             // TODO
             TermStatus termStatus = new TermStatus();//购买人数
+            if (userIds!=null) {
+            	termStatus.setPurchaseCount(userIds.size());
+			}
             UserTermInfo userTermInfo = new UserTermInfo(termInfo, termPrimer, userStatus,
                     termStatus);
             userTermInfos.add(userTermInfo);
@@ -136,8 +158,12 @@ public class UserController extends BaseController<ViewResponseBase> {
         List<UserCourseInfo> userCourses = new ArrayList<>();
         for (long userCourseId : userCourseIds) {
             CourseInfo courseInfo = courseData.get(userCourseId);
-            UserCourseInfo userCourseInfo = new UserCourseInfo(courseInfo);
-            userCourses.add(userCourseInfo);
+            if(courseInfo.getId()!=0){//valid参数为1时获取的对象为空 但valid参数默认为0 通过Id来筛选
+            	UserCourseInfo userCourseInfo = new UserCourseInfo(courseInfo);
+            	userCourses.add(userCourseInfo);
+            }
+            else
+            	continue;
         }
         response.setCourseInfos(userCourses);
         return packageSuccessData(response);
@@ -240,7 +266,7 @@ public class UserController extends BaseController<ViewResponseBase> {
             @Valid UserLoadCourseRankParams params) {
         long userId = paramsUtils.getUserId(params);
         long courseId = params.getCourseId();
-        long termId = userCollegeService.loadCourseTermId(userId, courseId);
+        long termId = userCollegeService.loadCourseTermId(userId, courseId);//
         ViewUserLoadRankResponse response = new ViewUserLoadRankResponse();
         List<UserRank> userRanks = userCollegeService.loadCourseTermRankList(userId, courseId,
                 termId);
@@ -275,20 +301,36 @@ public class UserController extends BaseController<ViewResponseBase> {
     	long userId = paramsUtils.getUserId(params);
     	long termId = params.getTermId();
     	long courseId = params.getCourseId();
-    	long coins = params.getPrice();
+    	double coins = params.getPrice();
     	 // TODO  支付过程
-        userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);
-        
-        userCollegeService.userPurchase(userId, courseId, termId, coins);
-        ViewUserPurchaseResponse response=new ViewUserPurchaseResponse();
-        BillsInfo billsInfo=new BillsInfo();
-        billsInfo.setUserId(userId);
-        billsInfo.setCourseId(courseId);
-        billsInfo.setNumber(coins);
-        billsInfo.setState(false);
-        billsInfo.setTermId(termId);
-        response.setBillsInfo(billsInfo);
-        return packageSuccessData(response);
+    	
+    	//先查询该课程是否已经购买
+    	List<BillsInfo> billsinfo=userCollegeService.checkPurchase(userId,courseId, termId);//checkPurchase函数也可以查CourseTerm里的数据
+    	if(billsinfo.isEmpty()){
+   		 	
+   		 	
+   		 userCollegeService.userPurchaseTerm(userId,courseId, termId,coins);//扣钱 加入人课索引关系（数据库插更 redis覆盖） 
+	        
+	        userCollegeService.userPurchase(userId, courseId, termId, coins);//生成流水
+	        ViewUserPurchaseResponse response=new ViewUserPurchaseResponse();
+	        BillsInfo billsInfo=new BillsInfo();
+	        billsInfo.setUserId(userId);
+	        billsInfo.setCourseId(courseId);
+	        billsInfo.setNumber(coins);
+	        billsInfo.setState(false);
+	        billsInfo.setTermId(termId);
+	        response.setBillsInfo(billsInfo);
+	        return packageSuccessData(response);
+   		 	
+    	}
+    	else{
+    		ViewCheckPurchaseResponse response=new ViewCheckPurchaseResponse();
+   		 	long type=1;
+   		 	String des="您已购买此课程";
+   		 	response.setType(type);
+   		 	response.setDes(des);
+   		 	return packageSuccessData(response);
+    	}
         
     }
     
@@ -317,6 +359,22 @@ public class UserController extends BaseController<ViewResponseBase> {
         
         response.setNewExp(newExp);
         userCollegeService.saveLatestLesson(userId,lessonId);//保存用户最近完成的关卡 dusc
+        boolean courseTermDayIsComplete = false;
+        long termId = userService.selectUserTermIdByUserIdAndCourseId(userId, courseId);
+        Date date = TimeUtils.getDate();
+        courseTermDayIsComplete = cUserCollegeService.courseTermDayIsComplete(userId, courseId, termId, date.getDay());
+        List<Boolean>  loadCourseTermWeekCompleteStatus = userCollegeService.loadCourseTermWeekCompleteStatus(userId, courseId, termId);
+        boolean flag = true;
+    	for(int i=0;i<loadCourseTermWeekCompleteStatus.size();i++){
+    		if(!loadCourseTermWeekCompleteStatus.get(i)){
+    			flag = false;
+    			break;
+    		}
+    	}
+        response.setCourseTermDayIsComplete(courseTermDayIsComplete);
+        response.setLoadCourseTermWeekCompleteStatus(flag);
+        		
+        		
         return packageSuccessData(response);
       
     }

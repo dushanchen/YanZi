@@ -11,7 +11,17 @@ public class UserLoadTermInfoParams extends UserActionParamsBase {
     
     private long lessonId;
     
-    private long price;
+    private long beatCount;
+    
+    public long getBeatCount() {
+		return beatCount;
+	}
+
+	public void setBeatCount(long beatCount) {
+		this.beatCount = beatCount;
+	}
+
+	private double price;
     public long getTermId() {
         return termId;
     }
@@ -36,11 +46,11 @@ public class UserLoadTermInfoParams extends UserActionParamsBase {
 		this.lessonId = lessonId;
 	}
 
-	public long getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(long price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
     

@@ -155,6 +155,33 @@
         ]]>
 	</select>
 	
+	<select id="getNowCoins" resultType="java.lang.Double">
+        <![CDATA[
+        SELECT `coins`
+        FROM User.BasicInfo
+		WHERE `id` = #{userId}
+		]]>
+	</select>
+	
+	<select id="getReCoins" resultType="java.lang.Double">
+        <![CDATA[
+        SELECT IFNULL(SUM(`number`), 0.0)
+		FROM User.Userbills
+		WHERE `userId` = #{userId}
+		AND `state`= 1
+		]]>
+	</select>
+	
+	<select id="getUsedCoins" resultType="java.lang.Double">
+        <![CDATA[
+        SELECT IFNULL(SUM(`number`), 0.0)
+		FROM User.Userbills
+		WHERE `userId` = #{userId}
+		AND `state`= 0
+		]]>
+	</select>
+		
+	
 	
 	
 

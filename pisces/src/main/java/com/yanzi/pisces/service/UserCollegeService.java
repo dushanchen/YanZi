@@ -11,6 +11,7 @@ import com.yanzi.common.service.CUserCollegeService;
 import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.UserLessonStatus;
 import com.yanzi.pisces.entity.UserRank;
+import com.yanzi.pisces.entity.UserTermCourseEntity;
 import com.yanzi.pisces.entity.UserCollegeStatus;
 import com.yanzi.pisces.entity.UserCourseTermStatus;
 
@@ -82,7 +83,7 @@ public interface UserCollegeService extends CUserCollegeService {
      * @param termId
      * @author dusc
      */
-    void userPurchaseTerm(long userId,long courseId,long termId,long coins);
+    void userPurchaseTerm(long userId,long courseId,long termId,double coins);
     /**
      * 获取全部课程
      * @return
@@ -93,7 +94,27 @@ public interface UserCollegeService extends CUserCollegeService {
      * 
      * @return
      */
-    List<CourseTermInfo> getCourseTermInfoByUserId(Long userId);
+    List<UserTermCourseEntity> selectUserCourseTermByUserId(Long userId);
     
-    public void userPurchase(long userId,long courseId,long termId,long coins);
+    public void userPurchase(long userId,long courseId,long termId,double coins);
+    
+    public List<BillsInfo> checkPurchase(long userId,long courseId,long termId);
+    
+    public int loadCourseTermRank(long userId,long courseId,long termId,List<UserRank> userRanks);
+    
+
+    public List<Boolean> loadCourseTermWeekCompleteStatus(long userId, long courseId, long termId);
+
+    /**
+     * 获取课程下的购买用户
+     * @return
+     */
+    public List<Long> getUserId(long courseId,long termId);
+
+    
+
+    public boolean checkFriend(long userId,long friendId);
+    
+    public long getCourseIdByTermId(long termId);
+
 }
