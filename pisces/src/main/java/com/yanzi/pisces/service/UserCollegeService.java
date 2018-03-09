@@ -102,6 +102,7 @@ public interface UserCollegeService extends CUserCollegeService {
     
     public int loadCourseTermRank(long userId,long courseId,long termId,List<UserRank> userRanks);
     
+
     public List<Boolean> loadCourseTermWeekCompleteStatus(long userId, long courseId, long termId);
 
     /**
@@ -109,5 +110,11 @@ public interface UserCollegeService extends CUserCollegeService {
      * @return
      */
     public List<Long> getUserId(long courseId,long termId);
+
+
+    public boolean checkFriend(long userId,long friendId);
+    
+    public long getCourseIdByTermId(long termId);
+
 
 }

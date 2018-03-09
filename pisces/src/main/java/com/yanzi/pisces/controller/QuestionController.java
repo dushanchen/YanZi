@@ -33,10 +33,4 @@ public class QuestionController extends BaseController<ViewResponseBase> {
         response.setQuestion(questionInfo);
         return packageSuccessData(response); 
     }
-    
-    
-  
-    
-    
-    
 }

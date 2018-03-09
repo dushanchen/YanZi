@@ -18,6 +18,11 @@
 		<result property="number" column="coins" />
 	</resultMap>
 	
+	<resultMap type="UserFriendInfo" id="UserFriendInfo">
+		<result property="userId" column="userId" />
+		<result property="friendId" column="friendId" />
+	</resultMap>
+	
 	
 
 	<select id="selectUserCourseTermByUserId" resultMap="UserTermCourseMap">
@@ -36,6 +41,15 @@
 		User.CourseTerm
 		WHERE `userId` = #{userId}
 		AND `courseId` = #{courseId}
+		]]>
+	</select>
+	
+	<select id="getCourseIdByTermId" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT `courseId`
+		FROM
+		test.t_Term
+		WHERE `t_Id` = #{termId}
 		]]>
 	</select>
 	
@@ -91,8 +105,7 @@
 		SELECT `userId`
 		FROM
 		User.CourseTerm
-		WHERE `courseId` = #{courseId}
-		AND `termId` = #{termId}
+		WHERE `termId` = #{termId}
 		]]>
 	</select>
 	
@@ -104,6 +117,16 @@
 		User.CourseTerm
 		WHERE `courseId` = #{courseId}
 		AND `termId` = #{termId}
+		]]>
+	</select>
+	
+	<select id="checkFriend" resultType="UserFriendInfo">
+        <![CDATA[
+		SELECT `userId`,`friendId`
+		FROM
+		User.UserFriend
+		WHERE `userId` = #{userId}
+		AND `friendId` = #{friendId}
 		]]>
 	</select>
 	

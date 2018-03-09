@@ -55,7 +55,7 @@ public class LoginController extends BaseController<ViewLoginResponse> implement
     public ResponseEntity<ResponseEntityWrapper> loginByThirdPartyParams(
             @Valid LoginThirdPartyParams params) {
         String loginStr = new String(
-                RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));
+                RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));//BUG来源于decrypt函数
         ThirdPartyInfo thirdPartyInfo = JSON.parseObject(loginStr, ThirdPartyInfo.class);
 
         DeviceInfo deviceInfo = new DeviceInfo();
@@ -65,6 +65,8 @@ public class LoginController extends BaseController<ViewLoginResponse> implement
                 accountInfo.getToken());
         return packageSuccessData(response);
     }
+    
+    
     @RequestMapping(value = "/bind/thirdparty", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> bindThirdPartInfo(
@@ -81,6 +83,8 @@ public class LoginController extends BaseController<ViewLoginResponse> implement
        
         return packageSuccessData(new ViewLoginResponse(userId,params.getToken()));
     }
+    
+    
     @RequestMapping(value = "/login/token", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loginByToken(@Valid LoginTokenParams params) {

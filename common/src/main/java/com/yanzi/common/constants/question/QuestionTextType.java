@@ -17,6 +17,7 @@ public enum QuestionTextType {
     ANSWER_STYLE_4(3004), 
     DIALOG_STYLE_1(4001),
     BLANK_STYLE_1(5001),
+    CHANGE_OVER_STYLE(6001),//过渡段
     ;
     private static Map<Integer, QuestionTextType> map = new HashMap<>();
 
@@ -33,6 +34,7 @@ public enum QuestionTextType {
         map.put(ANSWER_STYLE_3.getType(), ANSWER_STYLE_3);
         map.put(ANSWER_STYLE_4.getType(), ANSWER_STYLE_4);
         map.put(DIALOG_STYLE_1.getType(), DIALOG_STYLE_1);
+        map.put(CHANGE_OVER_STYLE.getType(), CHANGE_OVER_STYLE);
     }
 
     private int type;

@@ -165,7 +165,7 @@
 	
 	<select id="getReCoins" resultType="java.lang.Double">
         <![CDATA[
-        SELECT SUM(`number`)
+        SELECT IFNULL(SUM(`number`), 0.0)
 		FROM User.Userbills
 		WHERE `userId` = #{userId}
 		AND `state`= 1
@@ -174,7 +174,7 @@
 	
 	<select id="getUsedCoins" resultType="java.lang.Double">
         <![CDATA[
-        SELECT SUM(`number`)
+        SELECT IFNULL(SUM(`number`), 0.0)
 		FROM User.Userbills
 		WHERE `userId` = #{userId}
 		AND `state`= 0

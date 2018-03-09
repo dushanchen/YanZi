@@ -1,8 +1,10 @@
 package com.yanzi.pisces.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.params.UserActionParamsBase;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
+import com.yanzi.common.service.CUserCollegeService;
+import com.yanzi.common.utils.ArrayToListUtil;
 import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.pisces.service.UserCollegeService;
 import com.yanzi.pisces.service.UserService;
@@ -26,6 +30,7 @@ import com.yanzi.pisces.controller.response.ViewShareCurriculumLessonResponse;
 import com.yanzi.pisces.data.LessonData;
 import com.yanzi.pisces.data.LevelData;
 import com.yanzi.pisces.entity.UserRank;
+import com.yanzi.pisces.entity.UserTermInfo;
 @Controller
 public class ShareController extends BaseController<ViewResponseBase> {
 
@@ -35,6 +40,8 @@ public class ShareController extends BaseController<ViewResponseBase> {
 	private UserCollegeService userCollegeService;
 	@Autowired
 	private UserCollegeService collegeService;
+	@Autowired
+	private CUserCollegeService cUserCollegeService;	
 	@Autowired
     private LessonData lessonData;
 	@Autowired
@@ -67,8 +74,8 @@ public class ShareController extends BaseController<ViewResponseBase> {
         response.setLesson(lessonData.getLessonBrief(lessonId));
 //        response.setLessonBackgroud(curriculumData.getLessonBackgroudById(lessonId));
         
-        long durationTime=userService.loadAppDuration(userId);//在线时长获取
-        response.setDurationTime(durationTime);
+        long insistTime=cUserCollegeService.loadCourseTermCompleteDayCount(userId,courseId,termId);//课程坚持天数获取
+        response.setDurationTime(insistTime);
         
         
         return packageSuccessData(response);
@@ -89,10 +96,10 @@ public class ShareController extends BaseController<ViewResponseBase> {
 		response.setUserInfo(userService.loadUserInfo(userId));
 		long exp = collegeService.loadExp(userId);
 	    response.setExp(exp);
-	    response.setLevelInfo(levelData.getByCourseIdAndExp(params.getCourseId(), exp));
+	    response.setLevelInfo(levelData.getByCourseIdAndExp(courseId, exp));
 	    
 	    //打败好友数获取
-	    long termId = userCollegeService.loadCourseTermId(userId, courseId);
+	    long termId = userCollegeService.loadCourseTermId(userId, courseId); //获取termId
 	    List<UserRank> userRanks = userCollegeService.loadCourseTermRankList(userId, courseId,
                 termId);
 	    int all=userRanks.size();

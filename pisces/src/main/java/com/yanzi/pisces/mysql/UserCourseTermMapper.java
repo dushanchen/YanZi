@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.yanzi.common.entity.term.TermCourse;
 import com.yanzi.common.entity.user.BillsInfo;
 import com.yanzi.pisces.entity.CourseTermInfo;
+import com.yanzi.pisces.entity.UserFriendInfo;
 import com.yanzi.pisces.entity.UserTermCourseEntity;
 
 public interface UserCourseTermMapper {
@@ -71,4 +72,10 @@ public interface UserCourseTermMapper {
 	 */
 
 	public List<Long> selectUserIdByTermId(long termId);
+
+
+	public List<UserFriendInfo> checkFriend(@Param(value="userId")long userId,@Param(value="friendId")long friendId);
+	
+	public long getCourseIdByTermId(@Param(value="termId")long termId);
+	
 }
