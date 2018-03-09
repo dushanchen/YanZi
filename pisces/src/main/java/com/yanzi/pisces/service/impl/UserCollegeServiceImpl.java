@@ -24,6 +24,7 @@ import com.yanzi.pisces.entity.CourseTermInfo;
 import com.yanzi.pisces.entity.RankInfo;
 import com.yanzi.pisces.entity.UserCollegeStatus;
 import com.yanzi.pisces.entity.UserCourseTermStatus;
+import com.yanzi.pisces.entity.UserFriendInfo;
 import com.yanzi.pisces.entity.UserLessonStatus;
 import com.yanzi.pisces.entity.UserRank;
 import com.yanzi.pisces.entity.UserTermCourseEntity;
@@ -341,9 +342,18 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     public List<UserRank> loadCourseTermRankList(long userId, long courseId, long termId) {
         // TODO
         //List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());//获取了所有用户的Id
-        List<Long> courseTermUserIdList=this.getUserId(courseId,termId);//只获取购买该课程用户即可
-        List<Long> expList = this.loadCourseTermExp(courseTermUserIdList, courseId, termId);
-        List<RankInfo> rankInfoList = buildRankList(courseTermUserIdList, expList);
+        List<Long> courseTermUserIdList=this.getUserId(courseId,termId);//获取购买了该课程该期的用户们
+        //好友筛选
+        List<Long> fUserIdList=new ArrayList<>();
+	    for(int i=0;i<courseTermUserIdList.size();i++){
+	    	long tempId=courseTermUserIdList.get(i);//获取每个对象的userId     
+	    	if(userCollegeService.checkFriend(userId,tempId)){ //判断是否好友
+		    	fUserIdList.add(tempId);
+	    	}
+	    }
+	    fUserIdList.add(userId);//用户本身加入排行
+        List<Long> expList = this.loadCourseTermExp(fUserIdList, courseId, termId);//获取大家的exp
+        List<RankInfo> rankInfoList = buildRankList(fUserIdList, expList);		//构建排行	
         return buildUserRankList(rankInfoList);
     }
 
@@ -424,12 +434,10 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
 	}
 	
 	public boolean checkFriend(long userId,long friendId){
-    	List<Long> checkFriends =userCourseTermMapper.checkFriend(userId);
+    	List<UserFriendInfo> checkFriends =userCourseTermMapper.checkFriend(userId,friendId);
     	boolean fri=false;
-    	for(int i=0;i<=checkFriends.size();i++){
-    		if(checkFriends.get(i).equals(friendId))
-    			fri=true;
-    			break;
+    	if (!checkFriends.isEmpty()){   //索引到记录就是好友 所以返判友为真
+    		fri=true;
     	}
     	return fri;
     }

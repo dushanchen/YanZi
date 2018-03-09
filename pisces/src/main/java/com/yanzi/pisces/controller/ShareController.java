@@ -99,24 +99,12 @@ public class ShareController extends BaseController<ViewResponseBase> {
 	    response.setLevelInfo(levelData.getByCourseIdAndExp(courseId, exp));
 	    
 	    //打败好友数获取
-	    long termId = userCollegeService.loadCourseTermId(userId, courseId);
+	    long termId = userCollegeService.loadCourseTermId(userId, courseId); //获取termId
 	    List<UserRank> userRanks = userCollegeService.loadCourseTermRankList(userId, courseId,
                 termId);
-	    //获取的List进行好友筛选???
-	    List<UserRank> fuserRanks=new ArrayList<>();
-	    for(UserRank userRank:userRanks){
-	    	long tempId=userRank.getUserInfo().getId();//获取每个对象的userId
-	    	UserRank fuserRank= new UserRank();     
-	    	if(userCollegeService.checkFriend(userId,tempId)){ //判断是否好友
-		    	fuserRank.setUserInfo(userRank.getUserInfo());//新List容器接收好友RankList
-		    	fuserRank.setRankInfo(userRank.getRankInfo());
-		    	fuserRanks.add(fuserRank);
-	    	}
-	    }
-	    
-	    int all=fuserRanks.size();
+	    int all=userRanks.size();
 	    int rank=userCollegeService.loadCourseTermRank(userId, courseId,
-                termId,fuserRanks);
+                termId,userRanks);
 	    response.setBeatCount(all-rank);//好友总数-rank排名
 	    return packageSuccessData(response);
 	}

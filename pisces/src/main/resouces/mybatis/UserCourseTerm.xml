@@ -18,6 +18,11 @@
 		<result property="number" column="coins" />
 	</resultMap>
 	
+	<resultMap type="UserFriendInfo" id="UserFriendInfo">
+		<result property="userId" column="userId" />
+		<result property="friendId" column="friendId" />
+	</resultMap>
+	
 	
 
 	<select id="selectUserCourseTermByUserId" resultMap="UserTermCourseMap">
@@ -115,12 +120,13 @@
 		]]>
 	</select>
 	
-	<select id="checkFriend" resultType="java.lang.Long">
+	<select id="checkFriend" resultType="UserFriendInfo">
         <![CDATA[
-		SELECT `friendId`
+		SELECT `userId`,`friendId`
 		FROM
 		User.UserFriend
 		WHERE `userId` = #{userId}
+		AND `friendId` = #{friendId}
 		]]>
 	</select>
 	

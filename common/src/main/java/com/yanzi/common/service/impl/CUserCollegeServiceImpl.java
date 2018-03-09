@@ -29,7 +29,7 @@ public class CUserCollegeServiceImpl implements CUserCollegeService {
     public long loadCourseTermId(long userId, long courseId) {
         long termId = cUserCollegeRedisDao.loadCourseTerm(userId, courseId);
         if (termId == 0) {
-            throw new CommonException(ReturnCode.USER_COURSE_TERM_IS_NOT_VALID);
+            throw new CommonException(ReturnCode.USER_COURSE_TERM_IS_NOT_VALID);//判空
         }
         return termId;
     }
