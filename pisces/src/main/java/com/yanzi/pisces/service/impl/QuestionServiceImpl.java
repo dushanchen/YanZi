@@ -18,10 +18,10 @@ public class QuestionServiceImpl  implements QuestionService{
     private QuestionData questionData;
 
     public QuestionInfo loadQuestion(long lessonId, int index){
-       List<Long> questionIdList = lessonData.getQuestionIdList(lessonId);
+       List<Long> questionIdList = lessonData.getQuestionIdList(lessonId);//lessonId找questionId 的List
        if(questionIdList.size() < index || index <= 0) {
            return QuestionInfo.DEFAULT;
        }
-       return questionData.getQuestion(questionIdList.get(index-1));
+       return questionData.getQuestion(questionIdList.get(index-1));//questionId找questionInfo
     }
 }

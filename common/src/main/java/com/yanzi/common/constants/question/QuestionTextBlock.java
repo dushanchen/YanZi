@@ -12,6 +12,7 @@ public enum QuestionTextBlock {
     ANALYSIS_EXT_TEXT(5), 
     ANALYSIS_IMAGE(6), 
     DIALOG(7),
+    INTRODUCE(8)
     ;
 
     private static Map<Integer, QuestionTextBlock> map = new HashMap<>();
@@ -24,6 +25,7 @@ public enum QuestionTextBlock {
         map.put(ANALYSIS_EXT_TEXT.getBlock(), ANALYSIS_EXT_TEXT);
         map.put(ANALYSIS_IMAGE.getBlock(), ANALYSIS_IMAGE);
         map.put(DIALOG.getBlock(), DIALOG);
+        map.put(INTRODUCE.getBlock(), INTRODUCE);
     }
 
     private int block;

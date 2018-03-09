@@ -26,7 +26,9 @@ public class QuestionInfo {
     private int index;
     private int valid;
     private String jsonContent;
-    private List<StyleBase> questionImages = new ArrayList<>();
+
+
+	private List<StyleBase> questionImages = new ArrayList<>();
     
     private List<StyleBase> questionTexts = new ArrayList<>();
 
@@ -38,7 +40,18 @@ public class QuestionInfo {
 
     private List<StyleBase> analysisImages = new ArrayList<>();
 
-    private List<StyleBase> dialogs = new ArrayList<>();
+    public List<StyleBase> getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(List<StyleBase> introduce) {
+		this.introduce = introduce;
+	}
+
+	private List<StyleBase> dialogs = new ArrayList<>();
+    
+    private List<StyleBase> introduce = new ArrayList<>();
+    
 
     public void build(List<QuestionTextInfo> textInfoList) {
         QuestionTextComparator comparator = new QuestionTextComparator();
@@ -67,12 +80,17 @@ public class QuestionInfo {
                 case DIALOG:
                     buildDialgs(textInfo);
                     break;
+                case INTRODUCE:
+                	buildIntroduce(textInfo);
                 default:
                     break;
             }
         }
     }
 
+    private void buildIntroduce(QuestionTextInfo textInfo) {
+    	introduce.add(new TextStyle(textInfo));
+	}
     private void buildQuestionImage(QuestionTextInfo textInfo) {
         switch (QuestionTextType.getByType(textInfo.getType())) {
             case IMAGE_STYLE_1:
@@ -82,7 +100,6 @@ public class QuestionInfo {
                 break;
         }
     }
-
     private void buildQuestionText(QuestionTextInfo textInfo) {
         switch (QuestionTextType.getByType(textInfo.getType())) {
             case TEXT_STYLE_NORMAL:
