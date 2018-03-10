@@ -6,6 +6,13 @@ import com.yanzi.common.entity.college.lesson.LessonSummary;
 import com.yanzi.common.entity.term.TermLesson;
 
 public class UserLessonInfo {
+	
+	public static final UserLessonInfo DEFAULT = new UserLessonInfo();
+	
+	public UserLessonInfo(){
+		
+	}
+	
     private LessonInfo lessonInfo;
     private LessonPrimer lessonPrimer;
     private LessonSummary lessonSummary;
@@ -32,6 +39,10 @@ public class UserLessonInfo {
         this.lessonSummary = lessonSummary;
         this.questionCount = questionCount;
         this.userLessonStatus = userLessonStatus;
+        long now = System.currentTimeMillis();
+        if (now > termLesson.getStartTime()) {
+            this.isStart = true;
+        }
     }
 
     public LessonInfo getLessonInfo() {
