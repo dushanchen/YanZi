@@ -205,12 +205,13 @@ public class UserController extends BaseController<ViewResponseBase> {
         ViewUserLoadLessonsResponse response = new ViewUserLoadLessonsResponse();
         long userId = paramsUtils.getUserId(params);
         long courseId = params.getCourseId();
-        long termId = userCollegeService.loadCourseTermId(userId, courseId);
-        List<TermLesson> termLessonList = termData.getTermLessonList(termId); //termId获取 term-lesson对应
-        List<Long> lessonIds = courseData.getLessonIdList(courseId);  //courseId获取 lessonId List
+        long termId = userCollegeService.loadCourseTermId(userId, courseId); //用户买了该课程哪期
+        List<TermLesson> termLessonList = termData.getTermLessonList(termId); //该期下有哪些lessonId
+        List<Long> lessonIds = courseData.getLessonIdList(courseId);  //该课程下有哪些lessonId
+        
         List<LessonInfo> lessonInfos = lessonData.get(lessonIds);     //lessonId List获取lessonInfo List
         List<UserLessonInfo> userLessonInfos = new ArrayList<>();
-        UserLessonInfo userLessonInfo = new UserLessonInfo();
+        
         for (TermLesson termLesson : termLessonList) {   	//期下所有关卡遍历
         	for (LessonInfo lessonInfo : lessonInfos) {     //lessonInfo中的Id和期内关卡Id对应上了
                 if (termLesson.getLessonId() == lessonInfo.getId()) {
@@ -222,8 +223,7 @@ public class UserController extends BaseController<ViewResponseBase> {
                     LessonPrimer lessonPrimer=lessonData.getLessonBrief(lessonId);
                     LessonSummary lessonSummary=lessonData.getLessonSummary(lessonId);
                     int questionCount=lessonData.getQuestionCount(lessonId);
-                    
-                    
+                    UserLessonInfo userLessonInfo = new UserLessonInfo();//容器不可以放循环体外面
                     userLessonInfo.setLessonInfo(lessonInfo);
                     userLessonInfo.setLessonPrimer(lessonPrimer);
                     userLessonInfo.setLessonSummary(lessonSummary);
@@ -232,7 +232,7 @@ public class UserController extends BaseController<ViewResponseBase> {
                     
                     userLessonInfos.add(userLessonInfo);
                 }
-            }
+            }	
         }
         response.setLessonInfos(userLessonInfos);
         return packageSuccessData(response);
