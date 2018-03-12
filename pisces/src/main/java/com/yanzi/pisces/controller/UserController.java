@@ -191,8 +191,16 @@ public class UserController extends BaseController<ViewResponseBase> {
         UserLessonStatus userLessonStatus = userCollegeService.loadLessonStatus(userId, courseId,
                 termId, lessonId);
         int questionCount = lessonData.getQuestionCount(lessonId);
-        UserLessonInfo userLessonInfo = new UserLessonInfo(lessonInfo, lessonPrimer, lessonSummary,
-                userLessonStatus, questionCount);
+        
+        UserLessonInfo userLessonInfo = new UserLessonInfo();
+//        userLessonInfo = new UserLessonInfo(lessonInfo,lessonPrimer,
+//                lessonSummary,userLessonStatus,questionCount);
+        userLessonInfo.setLessonInfo(lessonInfo);
+        userLessonInfo.setLessonPrimer(lessonPrimer);
+        userLessonInfo.setLessonSummary(lessonSummary);
+        userLessonInfo.setQuestionCount(questionCount);
+        userLessonInfo.setUserLessonStatus(userLessonStatus);
+        
         response.setLessonInfo(userLessonInfo);
         return packageSuccessData(response);
     }
