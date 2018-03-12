@@ -71,20 +71,7 @@
 		]]>
 	</select> -->
 	
-	<resultMap type="TermLesson" id="termLessonMap">
-		<result property="termId" column="t_Id" />
-		<result property="lessonId" column="LessonId" />
-		<result property="startTime" column="StartTime" />
-	</resultMap>
 	
-	<select id="selectTermLesson" resultMap="termLessonMap">
-        <![CDATA[
-		SELECT `termId`, `lessonId`,`startTime`	
-		FROM
-		test.Lesson
-		WHERE LessonId = #{lessonId}
-		]]>
-	</select>
 	
 	
 

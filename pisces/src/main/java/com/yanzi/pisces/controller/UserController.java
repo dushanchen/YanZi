@@ -24,6 +24,7 @@ import com.yanzi.common.entity.Date;
 import com.yanzi.common.entity.college.course.CourseInfo;
 import com.yanzi.common.entity.college.lesson.LessonInfo;
 import com.yanzi.common.entity.college.lesson.LessonSummary;
+import com.yanzi.common.entity.comparator.LessonComparator;
 import com.yanzi.common.entity.term.TermCourse;
 import com.yanzi.common.entity.term.TermInfo;
 import com.yanzi.common.entity.term.TermLesson;
@@ -216,14 +217,14 @@ public class UserController extends BaseController<ViewResponseBase> {
         long userId = paramsUtils.getUserId(params);
         long courseId = params.getCourseId();
         long termId = userCollegeService.loadCourseTermId(userId, courseId); //用户买了该课程哪期
-        List<TermLesson> termLessonList = termData.getTermLessonList(termId); //该期下有哪些lessonId
+        List<TermLesson> termLessonList = termData.getTermLessonList(termId); //该期下有哪些lessonId及他们的开课状态
         List<Long> lessonIds = courseData.getLessonIdList(courseId);  //该课程下有哪些lessonId
         
         List<LessonInfo> lessonInfos = lessonData.get(lessonIds);     //lessonId List获取lessonInfo List
         List<UserLessonInfo> userLessonInfos = new ArrayList<>();
         
-        for (TermLesson termLesson : termLessonList) {   	//期下所有关卡遍历
-        	for (LessonInfo lessonInfo : lessonInfos) {     //lessonInfo中的Id和期内关卡Id对应上了
+        for (LessonInfo lessonInfo : lessonInfos) {	//course内关卡遍历
+        	for (TermLesson termLesson : termLessonList) {   	//买了的lessonId和期内关卡Id对应上
                 if (termLesson.getLessonId() == lessonInfo.getId()) {
                 	long lessonId=lessonInfo.getId();
                     UserLessonStatus userStatus = userCollegeService.loadLessonStatus(userId,
@@ -233,15 +234,18 @@ public class UserController extends BaseController<ViewResponseBase> {
                     LessonPrimer lessonPrimer=lessonData.getLessonBrief(lessonId);
                     LessonSummary lessonSummary=lessonData.getLessonSummary(lessonId);
                     int questionCount=lessonData.getQuestionCount(lessonId);
-                    TermLesson termLessonInfo=lessonData.getTermLesson(lessonId);
+                    
                     
                     UserLessonInfo userLessonInfo = new UserLessonInfo(); //容器不可以放循环体外面
                     userLessonInfo.setLessonInfo(lessonInfo);
-                    userLessonInfo.setTermLesson(termLessonInfo);
                     userLessonInfo.setLessonPrimer(lessonPrimer);
                     userLessonInfo.setLessonSummary(lessonSummary);
                     userLessonInfo.setQuestionCount(questionCount);
                     userLessonInfo.setUserLessonStatus(userStatus);
+                    
+
+                    userLessonInfo.setTermLesson(termLesson);
+                    userLessonInfo.setIsStart(termLesson.getIsStart());
                     
                     userLessonInfos.add(userLessonInfo);
                 }

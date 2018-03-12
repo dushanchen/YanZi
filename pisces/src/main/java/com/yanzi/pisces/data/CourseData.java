@@ -30,6 +30,7 @@ public class CourseData {
         if (null == lessonIds) {
             return Collections.emptyList();
         }
+        Collections.sort(lessonIds);
         return lessonIds;
     }
 

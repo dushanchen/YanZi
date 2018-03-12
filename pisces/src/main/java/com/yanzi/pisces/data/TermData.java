@@ -93,11 +93,14 @@ public class TermData implements InitializingBean {
     }
 
     public List<TermLesson> getTermLessonList(long id) {
-        List<TermLesson> termLessonList = termLessonListMap.get(id);
-        if (null == termLessonList) {
+        List<TermLesson> termLessonLists = termLessonListMap.get(id);
+        if (null == termLessonLists) {
             return Collections.emptyList();
         }
-        return termLessonList;
+        for(TermLesson termLessonList:termLessonLists){
+        	termLessonList.setTermId(id);
+        }
+        return termLessonLists;
     }
 
     public Map<Long, TermInfo> getTermInfoMap() {

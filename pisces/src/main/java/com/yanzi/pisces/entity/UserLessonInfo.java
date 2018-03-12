@@ -60,10 +60,7 @@ public class UserLessonInfo {
 
     public void setTermLesson(TermLesson termLesson) {
         this.termLesson = termLesson;
-        long now = System.currentTimeMillis();
-        if (now > termLesson.getStartTime()) {
-            this.isStart = true;
-         	}
+         	
     }
 
     public UserLessonStatus getUserLessonStatus() {

@@ -18,8 +18,6 @@ public interface LessonMapper {
     public LessonPrimer selectPrimerById(@Param(value = "lessonId") long lessonId);
 
     public LessonSummary selectSummaryBaseById(@Param(value = "lessonId") long lessonId);
-    
-    public TermLesson selectTermLesson(@Param(value = "lessonId") long lessonId);
 
     public List<Summary> selectSummaryDetailById(@Param(value = "lessonId") long lessonId, @Param(value = "valid") int valid);
 }
