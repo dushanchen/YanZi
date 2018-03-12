@@ -18,8 +18,6 @@
 		FROM
 		test.Lesson l left join test.t_Term t on l.t_Id = t.t_Id
 		left join test.Course c on c.courseId = t.courseId
-		WHERE l.UpdateTime >= #{beginTime}
-		AND l.UpdateTime < #{endTime}
 		]]>
 	</select>
 
@@ -72,5 +70,22 @@
 		ORDER BY `index`
 		]]>
 	</select> -->
+	
+	<resultMap type="TermLesson" id="termLessonMap">
+		<result property="termId" column="t_Id" />
+		<result property="lessonId" column="LessonId" />
+		<result property="startTime" column="StartTime" />
+	</resultMap>
+	
+	<select id="selectTermLesson" resultMap="termLessonMap">
+        <![CDATA[
+		SELECT `termId`, `lessonId`,`startTime`	
+		FROM
+		test.Lesson
+		WHERE LessonId = #{lessonId}
+		]]>
+	</select>
+	
+	
 
 </mapper>

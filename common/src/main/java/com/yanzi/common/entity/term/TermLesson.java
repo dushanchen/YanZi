@@ -4,18 +4,11 @@ public class TermLesson {
 
     public static final TermLesson DEFAULT = new TermLesson();
 
-    private long id;
     private long termId;
     private long lessonId;
     private long startTime;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+   
 
     public long getStartTime() {
         return startTime;

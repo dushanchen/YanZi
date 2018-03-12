@@ -16,7 +16,7 @@ public class UserLessonInfo {
     private LessonInfo lessonInfo;
     private LessonPrimer lessonPrimer;
     private LessonSummary lessonSummary;
-    private TermLesson termLesson;
+    private TermLesson termLesson;//lessonId->lesson和term对应关系
     private UserLessonStatus userLessonStatus;
     private boolean isStart = false;
     private int questionCount;
@@ -32,9 +32,10 @@ public class UserLessonInfo {
         }
     }
 
-    public UserLessonInfo(LessonInfo lessonInfo, LessonPrimer lessonPrimer,
+    public UserLessonInfo(LessonInfo lessonInfo,TermLesson termLesson, LessonPrimer lessonPrimer,
             LessonSummary lessonSummary, UserLessonStatus userLessonStatus, int questionCount) {
         this.lessonInfo = lessonInfo;
+        this.termLesson = termLesson;
         this.lessonPrimer = lessonPrimer;
         this.lessonSummary = lessonSummary;
         this.questionCount = questionCount;
@@ -59,6 +60,10 @@ public class UserLessonInfo {
 
     public void setTermLesson(TermLesson termLesson) {
         this.termLesson = termLesson;
+        long now = System.currentTimeMillis();
+        if (now > termLesson.getStartTime()) {
+            this.isStart = true;
+         	}
     }
 
     public UserLessonStatus getUserLessonStatus() {

@@ -351,7 +351,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
 		    	fUserIdList.add(tempId);
 	    	}
 	    }
-	    fUserIdList.add(userId);//用户本身加入排行
+	    fUserIdList.add(userId);//用户自身加入list
         List<Long> expList = this.loadCourseTermExp(fUserIdList, courseId, termId);//获取大家的exp
         List<RankInfo> rankInfoList = buildRankList(fUserIdList, expList);		//构建排行	
         return buildUserRankList(rankInfoList);
@@ -436,8 +436,9 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
 	public boolean checkFriend(long userId,long friendId){
     	List<UserFriendInfo> checkFriends =userCourseTermMapper.checkFriend(userId,friendId);
     	boolean fri=false;
-    	if (!checkFriends.isEmpty()){   //索引到记录就是好友 所以返判友为真
-    		fri=true;
+    	if (checkFriends.size() !=0){   //索引到记录就是好友 所以返判友为真
+    		if(checkFriends.get(0).getFriendId() != userId)
+    			fri=true;
     	}
     	return fri;
     }

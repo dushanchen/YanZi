@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yanzi.common.constants.ReturnCode;
+import com.yanzi.common.constants.SuccessCode;
 import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
@@ -101,7 +103,7 @@ public class UserController extends BaseController<ViewResponseBase> {
     public ResponseEntity<ResponseEntityWrapper> userLoadTerm(@Valid UserLoadTermsParams params) {
         ViewUserLoadTermsResponse response = new ViewUserLoadTermsResponse();
         long userId = paramsUtils.getUserId(params);
-        List<TermInfo> saleValidTerms = termData.getSaleValidList();//获取已开课的学期
+        List<TermInfo> saleValidTerms = termData.getSaleValidList();//获取学期
         List<UserTermInfo> userTermInfos = new ArrayList<>();
         for (TermInfo termInfo : saleValidTerms) {
             long termId = termInfo.getId();
@@ -227,12 +229,15 @@ public class UserController extends BaseController<ViewResponseBase> {
                     UserLessonStatus userStatus = userCollegeService.loadLessonStatus(userId,
                             courseId, termId, lessonId); //获取该课程的课程状态
                     
-                    //2018.3.10 primer summary字段补充 hx
+                    //2018.3.10 primer summary termLessonInfo字段补充 hx
                     LessonPrimer lessonPrimer=lessonData.getLessonBrief(lessonId);
                     LessonSummary lessonSummary=lessonData.getLessonSummary(lessonId);
                     int questionCount=lessonData.getQuestionCount(lessonId);
-                    UserLessonInfo userLessonInfo = new UserLessonInfo();//容器不可以放循环体外面
+                    TermLesson termLessonInfo=lessonData.getTermLesson(lessonId);
+                    
+                    UserLessonInfo userLessonInfo = new UserLessonInfo(); //容器不可以放循环体外面
                     userLessonInfo.setLessonInfo(lessonInfo);
+                    userLessonInfo.setTermLesson(termLessonInfo);
                     userLessonInfo.setLessonPrimer(lessonPrimer);
                     userLessonInfo.setLessonSummary(lessonSummary);
                     userLessonInfo.setQuestionCount(questionCount);
@@ -352,17 +357,20 @@ public class UserController extends BaseController<ViewResponseBase> {
     	}
     	else{
     		ViewCheckPurchaseResponse response=new ViewCheckPurchaseResponse();
-   		 	long type=1;
-   		 	String des="您已购买此课程";
+   		 	int type=100002;
+   		 	String des="用户已购买该期课程";
    		 	response.setType(type);
    		 	response.setDes(des);
-   		 	return packageSuccessData(response);
+   		 	//return packageSuccessData(response);
+   		 	return packageSuccessData(response,2,type);//2是SuccesssCode的code参数
     	}
         
     }
     
     
-    /**
+    
+
+	/**
      * 提交问题
      * @author 朱江游
      * @param params

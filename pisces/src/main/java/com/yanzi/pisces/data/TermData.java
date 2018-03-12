@@ -60,9 +60,9 @@ public class TermData implements InitializingBean {
         Collection<TermInfo> allTerms = termInfoMap.values();
         List<TermInfo> result = new ArrayList<>();
         for (TermInfo termInfo : allTerms) {
-            if (isStart(termInfo)) {
+            //if (isStart(termInfo)) {
                 result.add(termInfo);
-            }
+            //}
         }
         Collections.sort(result, comparator);
         return result;

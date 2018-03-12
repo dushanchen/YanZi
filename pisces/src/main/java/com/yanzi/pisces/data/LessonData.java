@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.yanzi.common.entity.college.lesson.LessonPrimer;
 import com.yanzi.common.entity.college.lesson.LessonInfo;
 import com.yanzi.common.entity.college.lesson.LessonSummary;
+import com.yanzi.common.entity.term.TermLesson;
 
 @Component
 public class LessonData {
@@ -21,6 +22,8 @@ public class LessonData {
     private Map<Long, LessonSummary> lessonSummaryMap = new ConcurrentHashMap<>();
 
     private Map<Long, List<Long>> lessonQuestionIdListMap = new ConcurrentHashMap<>();
+    
+    private Map<Long, TermLesson> termLessonMap = new ConcurrentHashMap<>();
 
     public LessonInfo get(long id) {
         LessonInfo lessonInfo = lessonInfoMap.get(id);
@@ -59,20 +62,30 @@ public class LessonData {
         return questionIdList.size();
     }
 
+    public TermLesson getTermLesson(long id) {
+    	TermLesson termLesson = termLessonMap.get(id);
+        if (null == termLesson) {
+            return termLesson.DEFAULT;
+        }
+        return termLesson;
+    }
+
+    
+
+	public LessonSummary getLessonSummary(long id) {
+        LessonSummary lessonSummary = lessonSummaryMap.get(id);
+        if (null == lessonSummary) {
+            return LessonSummary.DEFAULT;
+        }
+        return lessonSummary;
+    }
+    
     public LessonPrimer getLessonBrief(long id) {
         LessonPrimer lessonBrief = lessonBriefMap.get(id);
         if (null == lessonBrief) {
             return LessonPrimer.DEFAULT;
         }
         return lessonBrief;
-    }
-
-    public LessonSummary getLessonSummary(long id) {
-        LessonSummary lessonSummary = lessonSummaryMap.get(id);
-        if (null == lessonSummary) {
-            return LessonSummary.DEFAULT;
-        }
-        return lessonSummary;
     }
 
     public Map<Long, LessonInfo> getLessonInfoMap() {
@@ -106,4 +119,12 @@ public class LessonData {
     public void setLessonSummaryMap(Map<Long, LessonSummary> lessonSummaryMap) {
         this.lessonSummaryMap = lessonSummaryMap;
     }
+    
+    public Map<Long, TermLesson> getTermLessonMap() {
+		return termLessonMap;
+	}
+
+	public void setTermLessonMap(Map<Long, TermLesson> termLessonMap) {
+		this.termLessonMap = termLessonMap;
+	}
 }

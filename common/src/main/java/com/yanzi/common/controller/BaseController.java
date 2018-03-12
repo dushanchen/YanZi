@@ -68,4 +68,5 @@ public class BaseController<T> {
     protected ResponseEntity<ResponseEntityWrapper> packageSuccessData(T data){
         return packageSuccessData(data, SuccessCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getCode());
     }
+    
 }

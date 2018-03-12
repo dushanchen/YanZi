@@ -58,6 +58,8 @@ public enum ReturnCode {
     ENCRYPT_MSG_SIZE_INVALID(80002, "密文错误"),
     
     USER_COURSE_TERM_IS_NOT_VALID(100001, "用户数据异常，不存在指定课程"),
+    
+    USER_COURSE_TERM_BOUGHT(100002,"用户已购买该期课程"),//
     ;
 
 	private int code;
@@ -67,7 +69,7 @@ public enum ReturnCode {
 		this.code = code;
 		this.message = message;
 	}
-
+	
 	public int getCode() {
 		return code;
 	}

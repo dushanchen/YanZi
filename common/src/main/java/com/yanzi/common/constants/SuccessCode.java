@@ -1,7 +1,7 @@
 package com.yanzi.common.constants;
 
 public enum SuccessCode {
-	UNKNOWN_ERROR(-1), SUCCESS(0), PARAMS_IS_NULL(1);
+	UNKNOWN_ERROR(-1), SUCCESS(0), PARAMS_IS_NULL(1),NONEED(2);//NONEED为没有必要的用户错误操作
 
 	private int code;
 
@@ -11,6 +11,10 @@ public enum SuccessCode {
 
 	public int getCode() {
 		return code;
+	}
+	
+	public void setCode(int code) {
+		this.code=code;
 	}
 
 	public static SuccessCode getByName(String name) {

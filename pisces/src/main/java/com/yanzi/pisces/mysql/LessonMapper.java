@@ -9,6 +9,7 @@ import com.yanzi.common.entity.college.lesson.LessonPrimer;
 import com.yanzi.common.entity.college.lesson.LessonInfo;
 import com.yanzi.common.entity.college.lesson.LessonSummary;
 import com.yanzi.common.entity.college.lesson.Summary;
+import com.yanzi.common.entity.term.TermLesson;
 
 public interface LessonMapper {
     public List<LessonInfo> selectByRangTime(@Param(value = "beginTime") Timestamp beginTime,
@@ -17,6 +18,8 @@ public interface LessonMapper {
     public LessonPrimer selectPrimerById(@Param(value = "lessonId") long lessonId);
 
     public LessonSummary selectSummaryBaseById(@Param(value = "lessonId") long lessonId);
+    
+    public TermLesson selectTermLesson(@Param(value = "lessonId") long lessonId);
 
     public List<Summary> selectSummaryDetailById(@Param(value = "lessonId") long lessonId, @Param(value = "valid") int valid);
 }
