@@ -108,8 +108,8 @@ public class UserController extends BaseController<ViewResponseBase> {
         List<UserTermInfo> userTermInfos = new ArrayList<>();
         for (TermInfo termInfo : saleValidTerms) {
             long termId = termInfo.getId();
-            long courseId=userCollegeService.getCourseIdByTermId(termId);
-            termInfo.setCourseId(courseId);
+//            long courseId=userCollegeService.getCourseIdByTermId(termId);
+//            termInfo.setCourseId(courseId);
             TermPrimer termPrimer = termData.getTermPrimer(termId);
             // TODO
             UserTermStatus userStatus = new UserTermStatus();//用户购买状态
