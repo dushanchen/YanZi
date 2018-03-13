@@ -10,6 +10,6 @@ public interface QuestionMapper {
     public List<QuestionInfo> selectByRangTime(@Param(value = "beginTime") Timestamp beginTime,
             @Param(value = "endTime") Timestamp endTime);
 
-    public List<QuestionTextInfo> selectQuestionTextByQuestionId(
-            @Param(value = "questionId") long questionId);
+//    public List<QuestionTextInfo> selectQuestionTextByQuestionId(
+//            @Param(value = "questionId") long questionId);
 }

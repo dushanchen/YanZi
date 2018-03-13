@@ -21,9 +21,7 @@
         <![CDATA[
 		SELECT t_Id, `t_Title`, `t_Brief`, `t_Price`, `t_Discount`, `t_Desc`, `t_term`, `t_Image`, unix_timestamp(`t_StartTime`)*1000 t_StartTime, unix_timestamp(`t_EndTime`)*1000 t_EndTime, `t_Index`, `Valid`, `CourseId`
 		FROM
-		test.t_Term
-		WHERE valid=0 and UpdateTime >= #{beginTime}
-		AND UpdateTime < #{endTime}
+		test.t_Term 
 		]]>
 	</select>
 	<!-- <select id="selectByRangTime" resultMap="TermInfoMap">

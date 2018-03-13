@@ -16,8 +16,6 @@
 		SELECT QuestionId, JsonContent,`LessonId`, `Type`, `t_Index`, `Valid`
 		FROM
 		test.Question
-		WHERE UpdateTime >= #{beginTime}
-		AND UpdateTime < #{endTime}
 		]]>
 	</select>
 

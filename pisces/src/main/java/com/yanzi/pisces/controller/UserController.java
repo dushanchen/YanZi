@@ -217,7 +217,7 @@ public class UserController extends BaseController<ViewResponseBase> {
         long userId = paramsUtils.getUserId(params);
         long courseId = params.getCourseId();
         long termId = userCollegeService.loadCourseTermId(userId, courseId); //用户买了该课程哪期
-        List<TermLesson> termLessonList = termData.getTermLessonList(termId); //该期下有哪些lessonId及他们的开课状态
+        List<TermLesson> termLessonList = termData.getTermLessonList(termId); //该期下有哪些lessonId
         List<Long> lessonIds = courseData.getLessonIdList(courseId);  //该课程下有哪些lessonId
         
         List<LessonInfo> lessonInfos = lessonData.get(lessonIds);     //lessonId List获取lessonInfo List
