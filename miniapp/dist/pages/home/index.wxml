@@ -1,0 +1,151 @@
+
+  <view class="root _297a26d">
+
+    <view class="root-buy _297a26d"  wx:if="{{first === false}}">
+
+      <!-- Header -->
+      <view class="header-root _297a26d">
+
+        <!-- Header Bg -->
+        <image class="header-bg _297a26d" src="../../assets/img/global/header.png"/>
+
+        <!-- Header Menu -->
+        <image class="header-img _297a26d" src="{{ userInfo.avatarUrl }}" bindtap="clickMain"/>
+
+        <view class="header-menu _297a26d">
+
+          <image wx:if="{{menuStatus[1] === false}}" class="menu-item _297a26d" bindtap="clickMenuOne" src="../../assets/img/global/sl.png"/>
+
+          <image class="menu-item _297a26d" bindtap="clickMenuOne" wx:if="{{menuStatus[1] === true}}" src="../../assets/img/global/sl-selected.png"/>
+
+
+          <image bindtap="clickMenuTwo" wx:if="{{menuStatus[2] === false}}" class="menu-item _297a26d" src="../../assets/img/global/medal.png"/>
+
+          <image bindtap="clickMenuTwo" wx:if="{{menuStatus[2] === true}}" class="menu-item _297a26d" src="../../assets/img/global/medal-selected.png"/>
+
+          <image bindtap="clickMenuThree" wx:if="{{menuStatus[3] === false}}" class="menu-item _297a26d" src="../../assets/img/global/coin.png"/>  
+
+          <image bindtap="clickMenuThree" wx:if="{{menuStatus[3] === true}}" class="menu-item _297a26d" src="../../assets/img/global/coin-selected.png"/>  
+        </view>
+
+        <!-- Header Page -->
+        <view class="header-page _297a26d {{menuStatus[0] === true || menuStatus[3] === true || menuStatus[2] === true ? 'header-page-show-360' : ''}} {{menuStatus[1] === true ? 'header-page-show-680' : ''}}" >
+          
+          <view class="page-course _297a26d">
+
+            <scroll-view wx:if="{{menuStatus[0] === true}}" class="scroll-view-course _297a26d" scroll-x="true" style="width: 750rpx;">
+              <view class="course-item _297a26d" wx:for="{{courses}}" wx:key="index">
+                <view class="course-inner _297a26d" bindtap="handleClickCourse" data-wpyhandleclickcourse-a="{{index}}" data-wpyhandleclickcourse-b="wepy" data-wpyhandleclickcourse-c="otherparams">
+                  <view class="img-border _297a26d">
+                    <image class="inner-img _297a26d" src="{{item.courseInfo.image}}"/>
+                  </view>
+                  
+                    {{item.courseInfo.title}}
+                </view>
+              </view>
+            </scroll-view>
+
+            
+          </view>
+
+          <view class="page-time _297a26d" wx:if="{{menuStatus[1] === true}}">
+            <view class="count _297a26d">
+              <image class="shalou _297a26d" src="{{url.shalou}}"/>
+              <view class="data _297a26d">
+                <text class="day _297a26d">已坚持本课程5天</text>
+                <view class="point _297a26d">
+                  <view class="point-item _297a26d">
+                    <text class="point-self _297a26d">62</text>
+                    <text class="point-name _297a26d">课程知识点</text>
+                  </view>
+                  <view class="point-item _297a26d">
+                    <text class="point-self _297a26d">120</text>
+                    <text class="point-name _297a26d">总知识点</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="week _297a26d">
+            </view>
+            <view class="target _297a26d">
+              今日课程目标
+            </view>
+          </view>
+
+          <view class="page-medal _297a26d" wx:if="{{menuStatus[2] === true}}">
+            <image class="medal-img _297a26d" src="{{url.medal}}"/>
+            <view class="medal-data _297a26d">
+              <view class="data-other _297a26d">
+              </view>
+              <view class="data-count _297a26d">
+                  <view class="data-item _297a26d">
+                    <text class="data-self _297a26d">25</text>
+                    <text class="data-name _297a26d">课程经验值</text>
+                  </view>
+                  <view class="data-item _297a26d">
+                    <text class="data-self _297a26d">300</text>
+                    <text class="data-name _297a26d">总经验值</text>
+                  </view>
+                </view>
+            </view>
+          </view>
+
+
+          <view class="page-store _297a26d" wx:if="{{menuStatus[3] === true}}">
+              <image src="{{url.store_img}}" class="store-img _297a26d"/>
+              <view class="coin-view _297a26d">
+                <text>您获得了8雁币作为奖学金</text>
+                <image class="coin-button _297a26d" src="{{url.store_button}}"/>
+
+              </view>
+            </view>
+        </view>
+      </view>
+
+      <!-- Lessons -->
+      <scroll-view scroll-y="true" class="lessons _297a26d" bindscroll="scroll" style="height: {{windowH - 45 +'px'}};">
+        <view style="height: 100rpx">
+        </view>
+        <block wx:for="{{lessons}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+          
+    <view class="lesson-root _65e8642" bindtap="$LessonItem$goLesson" data-com-index="{{index}}">  
+      <view class="inner _65e8642">
+        <view class="pic _65e8642">
+          <image class="pic-inner _65e8642" src="{{item.lessonInfo.image}}"/>
+          <view class="text-info _65e8642">
+            <span>
+              第{{item.lessonInfo.index}}关
+            </span>
+            <span>
+              {{item.termLesson.startTimeCn}}
+            </span>
+          </view>
+        </view>
+        <view class="info _65e8642">
+          <view class="title _65e8642">
+            {{item.lessonInfo.title}}
+          </view>
+          <view class="persent _65e8642">
+            <view class="line _65e8642">
+              <view class="line-inner _65e8642" style="width: {{item.userLessonStatus.correctPercent * 80 +'rpx'}};">
+              </view>
+            </view>
+            <view class="text _65e8642">
+              {{item.userLessonStatus.correctPercent * 100}}%
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+        </block>
+        <view style="height: 100rpx">
+        </view>
+      </scroll-view>
+      
+      
+    </view>
+
+    <view class="root-first _297a26d"  wx:if="{{first === true}}" style="height: {{windowH +'px'}};">
+      <image style="height: 100%; width: 100%;" src="../../assets/img/global/first.jpg"/>
+    </view>
+  </view>

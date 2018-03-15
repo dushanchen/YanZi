@@ -1,0 +1,37 @@
+
+  <view class="container _5304ca8">
+    <scroll-view  wx:if="{{!loading}}" bindscroll="scroll" class="lesson-list _5304ca8" scroll-y="true" bindscrolltolower="getData" style="height: {{windowH+'px'}};">
+        <block wx:for="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+          
+    <view class="root _9b4da9a" bindtap="$ClassItem$goBuy" data-com-index="{{index}}">  
+      <view class="date _9b4da9a">
+        <view class="order _9b4da9a">
+          第{{item.termInfo.term}}期
+        </view>
+        <view class="time _9b4da9a">
+          {{item.termInfo.startTimeCn}}
+        </view>
+      </view>
+      <view class="info _9b4da9a">
+        <view class="title _9b4da9a">
+          {{item.termInfo.title}}
+        </view>
+        <view class="context _9b4da9a">
+          {{item.termInfo.desc}}
+        </view>
+      </view>
+      <view class="price _9b4da9a">
+        <view class="message _9b4da9a">
+          <span class="rmb _9b4da9a">RMB:{{item.termInfo.price}}</span>
+          <span class="add _9b4da9a">（一百天100个知识点）</span>
+        </view>
+        <view class="people_num _9b4da9a">
+          100人已报名
+        </view>
+      </view>
+    </view>
+        </block>
+        <view class="list-bottom _5304ca8">
+        </view>
+    </scroll-view>
+  </view>

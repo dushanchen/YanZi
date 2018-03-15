@@ -1,0 +1,11 @@
+@import "./../../components/discovery/classItem.wxss";
+.list._5304ca8 {
+  margin-top: 20rpx;
+}
+.lesson-list._5304ca8 {
+  margin-left: 40rpx;
+  width: 710rpx;
+}
+.list-bottom._5304ca8 {
+  height: 100px;
+}

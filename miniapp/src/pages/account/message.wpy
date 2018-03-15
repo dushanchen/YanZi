@@ -1,0 +1,71 @@
+<template lang="wxml">
+  <view class="message-root">
+    <form 
+      bindsubmit="bindFormSubmit">
+      <textarea placeholder="请输入你的留言" name="textarea"/>
+      <button form-type="submit">提交</button>
+    </form>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class AccountMessage extends wepy.page {
+  config = {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: '留言',
+    navigationBarTextStyle: 'black'
+  }
+  methods = {
+    
+  }
+  data = {
+    bindValue: ''
+  }
+  onLoad() {
+
+  }
+  goBack() {
+
+  }
+  bindFormSubmit(e) {
+    console.log(e.detail.value.textarea)
+    let url = 'taurus/add/feedback'
+    wepy.request({
+      url: this.$parent.globalData.domain + url,
+      method: 'POST',
+      data: {
+        token: this.$parent.globalData.token,
+        message: e.detail.value.textarea
+      }
+    }).then((r) => {
+      console.dir(r)
+      if (r.statusCode === 200) {
+        wx.showToast({
+          title: '提交成功',
+          icon: 'success',
+          duration: 2000,
+          success: function () {
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 2000);
+          }
+        })
+      }
+    })
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .message-root {
+    .text-area {
+      width: 650rpx;
+      height: 400rpx;
+      margin: 50rpx;
+      border: 1px solid #cccccc
+    }
+  }
+</style>
+

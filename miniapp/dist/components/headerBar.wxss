@@ -1,0 +1,22 @@
+.header-root._bc52b2d {
+  height: 150rpx;
+  width: 750rpx;
+  border-bottom: e5e5e5 1px solid;
+  position: relative;
+}
+.header-root .header-bg._bc52b2d {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.header-root .header-img._bc52b2d {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 20rpx;
+  width: 120rpx;
+  height: 120rpx;
+}

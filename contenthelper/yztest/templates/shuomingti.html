@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>json数据生成</title>
+
+    <style type="text/css">
+        input {
+            width: 800px;
+            height: 25px;
+
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div style="width: 50%;">
+    <table>
+        <tr>说明题标题<input id="title" type="text" name="title" ></tr><br>
+
+        <tr>第一张题目图片<input  id="qimage1" type="text" ></tr><br>
+        <tr>第二张题目图片<input  id="qimage2" type="text" ></tr><br>
+        <tr>第三张题目图片<input  id="qimage3" type="text" ></tr><br>
+
+        <tr>输入所有对话，每个对话用句号结尾<textarea id="duihua1" rows="10" cols="131" ></textarea></tr><br>
+        <tr>问题一<input  id="question1" type="text"  name=""></tr><br>
+
+        <tr>问题一回答一<input  id="right1" type="text" ></tr><br>
+        <tr>问题一回答二<input  id="error1" type="text" ></tr><br>
+        <tr>问题一回答一的下一步说明<input  id="rightshuoming1" type="text" ></tr><br>
+        <tr>问题二回答二的下一步说明<input  id="errorshuoming1" type="text" ></tr><br>
+        <tr>输入第二个所有对话，每个对话用句号结尾<textarea id="duihua2" rows="10" cols="131" ></textarea></tr><br>
+        <tr>输入第二个问题<input  id="question2" type="text" ></tr><br>
+        <tr>问题二回答一<input  id="right2" type="text" ></tr><br>
+        <tr>问题二回答二<input  id="error2" type="text" ></tr><br>
+        <tr>问题二回答一的下一步说明<input  id="rightshuoming2" type="text" ></tr><br>
+        <tr>问题二回答二的下一步说明<input  id="errorshuoming2" type="text" ></tr><br>
+        <tr>输入第三个所有对话，每个对话用句号结尾<textarea id="duihua3" rows="10" cols="131" ></textarea></tr><br>
+        <tr>第一张图片<input  id="image1" type="text" ></tr><br>
+        <tr>第二张图片<input  id="image2" type="text" ></tr><br>
+        <tr>第三张图片<input  id="image3" type="text" ></tr><br>
+        <tr>第四张图片<input  id="image4" type="text" ></tr><br>
+
+
+        <tr><button>生成json</button></tr>
+    </table>
+    </div>
+    <textarea id="tarea" rows="20" cols="100"></textarea>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(function(){
+
+        $("button").click(function(){
+
+        var title = $("#title").val();
+        var duihua1 = $("#duihua1").val();
+        var question1 = $("#question1").val();
+        var right1 = $("#right1").val();
+        var error1 = $("#error1").val();
+        var rightshuoming1 = $("#rightshuoming1").val();
+        var errorshuoming1 = $("#errorshuoming1").val();
+        var duihua2 = $("#duihua2").val();
+        var question2 = $("#question2").val();
+        var right2 = $("#right2").val();
+        var error2 = $("#error2").val();
+        var rightshuoming2 = $("#rightshuoming2").val();
+        var errorshuoming2 = $("#errorshuoming2").val();
+        var duihua3 = $("#duihua3").val();
+        var image1 = $("#image1").val();
+        var image2 = $("#image2").val();
+        var image3 = $("#image3").val();
+        var image4 = $("#image4").val();
+
+        var qimage1 = $("#qimage1").val();
+        var qimage2 = $("#qimage2").val();
+        var qimage3 = $("#qimage3").val();
+
+    　　 $.ajax({
+
+    　　　　url:"/shuomingti/",
+    　　　　type:"post",
+    　　　　dataType:"json",　　
+    　　　　data:{
+
+            action:'shuomingti',
+            title:title,
+            duihua1:duihua1,
+            question1:question1,
+            right1:right1,
+            error1:error1,
+            rightshuoming1:rightshuoming1,
+            errorshuoming1:errorshuoming1,
+            duihua2:duihua2,
+            question2:question2,
+            right2:right2,
+            error2:error2,
+            rightshuoming2:rightshuoming2,
+            errorshuoming2:errorshuoming2,
+            duihua3:duihua3,
+            image1:image1,
+            image2:image2,
+            image3:image3,
+            image4:image4,
+            qimage1:qimage1,
+            qimage2:qimage2,
+            qimage3:qimage3,
+
+          },
+    　　　　success:function(data){
+                // alert(data.title)
+
+                var newJson = [];
+                var txt = '['+
+                    '{"text":"'+data.dic1.text+'",'
+                    +'"id":'+data.dic1.id+','
+                    +'"block":'+data.dic1.block+','
+                    +'"type":'+data.dic1.type+','
+                    +'"userId":'+data.dic1.userId+'},'
+
+                    +'{"image":"'+data.dic19.image+'",'
+                    +'"id":'+data.dic19.id+','
+                    +'"block":'+data.dic19.block+','
+                    +'"index":'+data.dic19.index+','
+                    +'"type":'+data.dic19.type+','
+                    +'"userId":'+data.dic19.userId+'},'
+
+                    +'{"image":"'+data.dic20.image+'",'
+                    +'"id":'+data.dic20.id+','
+                    +'"block":'+data.dic20.block+','
+                    +'"index":'+data.dic20.index+','
+                    +'"type":'+data.dic20.type+','
+                    +'"userId":'+data.dic20.userId+'},'
+
+                    +'{"image":"'+data.dic21.image+'",'
+                    +'"id":'+data.dic21.id+','
+                    +'"block":'+data.dic21.block+','
+                    +'"index":'+data.dic21.index+','
+                    +'"type":'+data.dic21.type+','
+                    +'"userId":'+data.dic21.userId+'},'
+
+                    +'{"text":"'+data.dic2.text+'",'
+                    +'"id":'+data.dic2.id+','
+                    +'"block":'+data.dic2.block+','
+                    +'"index":'+data.dic2.index+','
+                    +'"type":'+data.dic2.type+','
+                    +'"userId":'+data.dic2.userId+'},'
+
+                    +'{"text":"'+data.dic3.text+'",'
+                    +'"id":'+data.dic3.id+','
+                    +'"type":'+data.dic3.type+','
+                    +'"block":'+data.dic3.block+','
+                    +'"index":'+data.dic3.index+','
+                    +'"userId":'+data.dic3.userId+'},'
+
+                    +'{"text":"'+data.dic4.text+'",'
+                    +'"id":'+data.dic4.id+','
+                    +'"correctId":'+data.dic4.correctId+','
+                    +'"type":'+data.dic4.type+','
+                    +'"block":'+data.dic4.block+','
+                    +'"index":'+data.dic4.index+','
+                    +'"parentId":'+data.dic4.parentId+','
+                    +'"userId":'+data.dic4.userId+'},'
+
+                    +'{"text":"'+data.dic5.text+'",'
+                    +'"id":'+data.dic5.id+','
+                    +'"type":'+data.dic5.type+','
+                    +'"block":'+data.dic5.block+','
+                    +'"index":'+data.dic5.index+','
+                    +'"correctId":'+data.dic5.correctId+','
+                    +'"parentId":'+data.dic5.parentId+','
+                    +'"userId":'+data.dic5.userId+'},'
+
+                    +'{"text":"'+data.dic6.text+'",'
+                    +'"id":'+data.dic6.id+','
+                    +'"type":'+data.dic6.type+','
+                    +'"block":'+data.dic6.block+','
+                    +'"index":'+data.dic6.index+','
+                    +'"parentId":'+data.dic6.parentId+','
+                    +'"userId":'+data.dic6.userId+'},'
+
+                    +'{"text":"'+data.dic7.text+'",'
+                    +'"id":'+data.dic7.id+','
+                    +'"type":'+data.dic7.type+','
+                    +'"block":'+data.dic7.block+','
+                    +'"index":'+data.dic7.index+','
+                    +'"parentId":'+data.dic7.parentId+','
+                    +'"userId":'+data.dic7.userId+'},'
+
+                    +'{"text":"'+data.dic8.text+'",'
+                    +'"id":'+data.dic8.id+','
+                    +'"block":'+data.dic8.block+','
+                    +'"index":'+data.dic8.index+','
+                    +'"type":'+data.dic8.type+','
+                    +'"userId":'+data.dic8.userId+'},'
+
+                    +'{"text":"'+data.dic9.text+'",'
+                    +'"id":'+data.dic9.id+','
+                    +'"block":'+data.dic9.block+','
+                    +'"index":'+data.dic9.index+','
+                    +'"type":'+data.dic9.type+','
+                    +'"userId":'+data.dic9.userId+'},'
+
+                    +'{"text":"'+data.dic10.text+'",'
+                    +'"id":'+data.dic10.id+','
+                    +'"block":'+data.dic10.block+','
+                    +'"index":'+data.dic10.index+','
+                    +'"correctId":'+data.dic10.correctId+','
+                    +'"type":'+data.dic10.type+','
+                    +'"parentId":'+data.dic10.parentId+','
+                    +'"userId":'+data.dic10.userId+'},'
+
+                    +'{"text":"'+data.dic11.text+'",'
+                    +'"id":'+data.dic11.id+','
+                    +'"block":'+data.dic11.block+','
+                    +'"index":'+data.dic11.index+','
+                    +'"correctId":'+data.dic11.correctId+','
+                    +'"type":'+data.dic11.type+','
+                    +'"parentId":'+data.dic11.parentId+','
+                    +'"userId":'+data.dic11.userId+'},'
+
+                    +'{"text":"'+data.dic12.text+'",'
+                    +'"id":'+data.dic12.id+','
+                    +'"type":'+data.dic12.type+','
+                    +'"block":'+data.dic12.block+','
+                    +'"index":'+data.dic12.index+','
+                    +'"parentId":'+data.dic12.parentId+','
+                    +'"userId":'+data.dic12.userId+'},'
+
+                    +'{"text":"'+data.dic13.text+'",'
+                    +'"id":'+data.dic13.id+','
+                    +'"block":'+data.dic13.block+','
+                    +'"index":'+data.dic13.index+','
+                    +'"type":'+data.dic13.type+','
+                    +'"parentId":'+data.dic13.parentId+','
+                    +'"userId":'+data.dic13.userId+'},'
+
+                    +'{"text":"'+data.dic14.text+'",'
+                    +'"id":'+data.dic14.id+','
+                    +'"block":'+data.dic14.block+','
+                    +'"index":'+data.dic14.index+','
+                    +'"type":'+data.dic14.type+','
+                    +'"userId":'+data.dic14.userId+'},'
+
+                    +'{"image":"'+data.dic15.image+'",'
+                    +'"id":'+data.dic2.id+','
+                    +'"type":'+data.dic2.type+','
+                    +'"userId":'+data.dic2.userId+'},'
+
+                    +'{"image":"'+data.dic16.image+'",'
+                    +'"id":'+data.dic16.id+','
+                    +'"type":'+data.dic16.type+','
+                    +'"userId":'+data.dic16.userId+'},'
+
+                    +'{"image":"'+data.dic17.image+'",'
+                    +'"id":'+data.dic17.id+','
+                    +'"type":'+data.dic17.type+','
+                    +'"userId":'+data.dic17.userId+'},'
+
+                    +'{"image":"'+data.dic18.image+'",'
+                    +'"id":'+data.dic18.id+','
+                    +'"type":'+data.dic18.type+','
+                    +'"userId":'+data.dic18.userId+'}'
+
+
+                    +']';
+                console.info(txt);
+                var context = '';
+                var json = $.parseJSON( txt );
+                for(var i=0;i<json.length;i++){
+                  var ele = json[i];
+                  if(ele.text==''){
+                    continue;
+                  }
+
+                    // if (ele.type==4001) {
+                    //     var index = 1;
+                    //     context = ele.text;
+                    //     var eles = context.split('++');
+                    //     for(var j=0;j<eles.length;j++){
+                    //     if(j != eles.length-1){
+                    //        var a ={
+                    //                 "id": 2,
+                    //                 "text": eles[j],
+                    //                 "type": 4001,
+                    //                 "userId": 0,
+                    //                 "block":7,
+                    //                 "index":index++,
+                    //              };
+                    //              newJson.push(a);
+                    //          }
+                    //     }
+                    //         continue;
+                    // }
+
+                  newJson.push(ele);
+                }
+                console.info(JSON.stringify(newJson));
+
+
+                $("#tarea").val(
+                    JSON.stringify(newJson)
+                    );
+              }
+
+    　　　　})
+
+      });
+});
+
+
+</script>
+</body>
+</html>

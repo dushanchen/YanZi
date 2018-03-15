@@ -1,0 +1,96 @@
+<style lang="less">
+@import './style/weui.wxss';
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/home/index',
+      'pages/home/lessons/index',
+      'pages/home/lessons/fill',
+      'pages/home/lessons/match',
+      'pages/discovery/index',
+      'pages/discovery/buy',
+      'pages/account/index',
+      'pages/account/reward',
+      'pages/account/medal',
+      'pages/account/setting',
+      'pages/account/message'
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: '雁字',
+      navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      color: '#888',
+      selectedColor: '#506fe6',
+      backgroundColor: '#fff',
+      borderStyle: 'black',
+      list: [
+        {
+          pagePath: 'pages/home/index',
+          text: '戏读',
+          iconPath: 'assets/img/global/home.png',
+          selectedIconPath: 'assets/img/global/home-selected.png'
+        },
+        {
+          pagePath: 'pages/discovery/index',
+          text: '发现',
+          iconPath: 'assets/img/global/discovery.png',
+          selectedIconPath: 'assets/img/global/discovery-selected.png'
+        },
+        {
+          pagePath: 'pages/account/index',
+          text: '我的',
+          iconPath: 'assets/img/global/account.png',
+          selectedIconPath: 'assets/img/global/account-selected.png'
+        }
+      ]
+    }
+  }
+
+  globalData = {
+    userInfo: {},
+    windowH: 0,
+    token: '242b710b-c7fd-4e10-b30a-aca32b073985',
+    domain: 'http://47.96.6.111:8080/'
+  }
+
+  constructor () {
+    super()
+    this.use('promisify');
+  }
+
+  onLaunch() {
+    this.init()
+    wepy.login().then((r) => {
+      console.dir(r)
+    })
+  }
+
+  init() {
+    wepy.getUserInfo().then( (r) => {
+      this.globalData.userInfo = r.userInfo
+    })
+    if (this.globalData.windowH) {
+      return this.globalData.windowH
+    }
+    wepy.getSystemInfo().then( (d) => {
+      this.globalData.windowH = d.windowHeight
+    })
+  }
+}
+</script>

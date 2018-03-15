@@ -1,0 +1,49 @@
+
+  <view class="my _95e63a9">
+    <view class="profile _95e63a9">
+      <view class="detail _95e63a9">
+        <image src="{{bgUrl}}" class="bg _95e63a9"/>
+        <view class="avatar _95e63a9">
+          <image class="avatar-inner _95e63a9" src="{{userInfo.avatarUrl}}"/>
+        </view>   
+        <view class="name _95e63a9">
+          {{userInfo.nickName}}
+        </view>    
+      </view>
+    </view>
+    <view class="data _95e63a9">
+      <view class="time _95e63a9">
+        <view class="top _95e63a9">20h</view>
+        <view class="bottom _95e63a9">总时长</view>
+      </view>
+      <view class="exp _95e63a9">
+        <view class="top _95e63a9">172</view>
+        <view class="bottom _95e63a9">经验值</view>
+        <view class="line _95e63a9"/>
+      </view>
+      <view class="point _95e63a9">
+        <view class="top _95e63a9">30</view>
+        <view class="bottom _95e63a9">知识点</view>
+      </view>
+    </view>
+    <view class="menu _95e63a9" bindtap="naviToAward">
+      <image class="icon _95e63a9" src="../../assets/img/account/award.png"/>
+      <view class="name _95e63a9">奖励</view>
+      <image class="arrow _95e63a9" src="../../assets/img/account/arrow.png"/>
+    </view>
+    <view class="menu _95e63a9" bindtap="naviToMedal">
+      <image class="icon _95e63a9" src="../../assets/img/account/medal.png"/>
+      <view class="name _95e63a9">勋章</view>
+      <image class="arrow _95e63a9" src="../../assets/img/account/arrow.png"/>
+    </view>
+    <view class="menu _95e63a9" bindtap="naviToSetting">
+      <image class="icon _95e63a9" src="../../assets/img/account/medal.png"/>
+      <view class="name _95e63a9">设置</view>
+      <image class="arrow _95e63a9" src="../../assets/img/account/arrow.png"/>
+    </view>
+    <view class="menu _95e63a9" bindtap="naviToMessage">
+      <image class="icon _95e63a9" src="../../assets/img/account/medal.png"/>
+      <view class="name _95e63a9">留言</view>
+      <image class="arrow _95e63a9" src="../../assets/img/account/arrow.png"/>
+    </view>
+  </view>

@@ -1,0 +1,35 @@
+
+  <view style="height: {{windowH + 55 +'px'}};" class="lessons-wrap _0478ace">
+    <image src="{{info.lessonSummary.image}}" class="lesson-bg _0478ace"/>
+    <view class="title _0478ace">
+      <view class="main-title _0478ace">
+        社交货币
+      </view>
+      <view class="sub-title _0478ace">
+        为什么有些事物和产品能传播的特别快？口碑传播的秘诀是什么？
+      </view>
+    </view>
+
+    <view class="middle _0478ace">
+      <view class="middle-left _0478ace">
+        <view>
+          <view>{{percent}}%</view>
+          <view>准确率</view>
+        </view>
+        <view>
+          <view>{{info.userLessonStatus.exp}}px</view>
+          <view>经验值</view>
+        </view>
+      </view>
+      <view class="middle-right _0478ace" style="word-break: break-all;">
+        <text decode="true">{{info.lessonPrimer.content}}</text>
+      </view>
+    </view>
+
+    <view class="button _0478ace">
+      <view class="button-inner _0478ace" bindtap="goFill">
+        <span  wx:if="{{info.isStart === true}}">重新闯关</span>
+        <span  wx:if="{{info.isStart === false}}">开始闯关</span>
+     </view>
+    </view>
+  </view>

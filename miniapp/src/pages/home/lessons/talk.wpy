@@ -1,0 +1,68 @@
+<template lang="wxml">
+  <scorll-view  
+  style="height: {{windowH +'px'}};"
+  class="fill-wrap">
+    <view class="title-bg">
+
+    </view>
+
+    <view class="question">
+      习惯降低用户对价格敏感度
+    </view>
+
+    <text class="content" style="word-break: break-all;">
+      blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla
+    </text>
+
+    <view>
+
+    </view>
+
+  </scorll-view>
+  
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class TalkPart extends wepy.page {
+  data = {
+    windowH: 0
+  }
+  onLoad(options) {
+    console.dir(options)
+    let that = this
+    wepy.getSystemInfo({
+      success: function(res) {
+        that.windowH = res.windowHeight
+      }
+    })
+    // this.windowH = this.$parent.globalData.windowH
+    // console.log(this.windowH)
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .fill-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    .title-bg {
+      height: 400rpx;
+      width: 100%;
+    }
+    .question {
+      height: 200rpx;
+      width: 700rpx;
+      padding: 0 25rpx;
+      font-size: 40rpx;
+    }
+    .content {
+      width: 700rpx;
+      padding: 0 25rpx;
+      font-size: 40rpx;
+    }
+
+  }
+</style>

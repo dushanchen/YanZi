@@ -1,0 +1,21 @@
+.fill-wrap._d0aa62e {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.fill-wrap .title-bg._d0aa62e {
+  height: 400rpx;
+  width: 100%;
+}
+.fill-wrap .question._d0aa62e {
+  height: 200rpx;
+  width: 700rpx;
+  padding: 0 25rpx;
+  font-size: 40rpx;
+}
+.fill-wrap .content._d0aa62e {
+  width: 700rpx;
+  padding: 0 25rpx;
+  font-size: 40rpx;
+}

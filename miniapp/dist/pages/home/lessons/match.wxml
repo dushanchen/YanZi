@@ -1,0 +1,59 @@
+
+  <scorll-view style="height: {{windowH +'px'}};" class="fill-wrap _c973a0c">
+    <view class="title-bg _c973a0c">
+
+    </view>
+
+    <view class="space _c973a0c"/>
+
+    <view class="content _c973a0c" style="word-break: break-all;">
+      <span  wx:for="{{q.questionTexts}}" item="{{item}}" wx:key="{{key}}"  class="_c973a0c {{item.type === 1002 ? 'c1002' : ''}} {{item.type === 1001 ? 'c1001' : ''}} {{item.type === 1003 ? 'c1003' : ''}}">
+        {{item.text}}
+        <span wx:if="{{item.type === 5001}}" class="c5001 _c973a0c">
+          <text wx:if="{{a.id === null}}" decode="true">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>
+          <span wx:if="{{a.id !== null}}">
+            {{a.text}}
+          </span>
+        </span>
+      </span>
+      
+    </view>
+
+    <view class="space _c973a0c"/>
+
+    <view class="answer-part _c973a0c">
+      <view class="remind _c973a0c">
+        长按选项查看讲解
+      </view>
+      <view class="choose _c973a0c">
+
+         <view bindlongpress="handleLongPress" bindtap="handleAnswer" class="button _c973a0c" data-wpyhandlelongpress-a="0" data-wpyhandleanswer-a="0">
+          {{q.answers[0].text}}
+        </view>
+
+        <view class="button _c973a0c" bindtap="handleAnswer" bindlongpress="handleLongPress" data-wpyhandleanswer-a="1" data-wpyhandlelongpress-a="1">
+          {{q.answers[1].text}}
+        </view>
+
+      </view>
+
+
+
+      <view class="other _c973a0c"  wx:if="{{longtap === true}}">
+        {{remind.breif}}
+
+      </view>
+    </view>
+
+    <view class="space _c973a0c"/>
+
+    <view   wx:if="{{a.id !== null}}" class="_c973a0c {{a.id !== null ? 'tips' : ''}}">
+      <view class="tips-content _c973a0c">
+        电子商务原本属高度碎片化、难以“赢家通吃”的产业。支付宝的诞生补足了淘宝电子商务的转换成本环节，改变了整个产业格局，第三方支付本书高度“赢家通吃”现象的产业。
+      </view>
+      <view class="next-button _c973a0c">
+        下一节
+      </view>
+    </view>
+
+  </scorll-view>
