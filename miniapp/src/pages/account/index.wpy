@@ -1,0 +1,204 @@
+<template lang="wxml">
+  <view class="my">
+    <view class="profile">
+      <view class="detail">
+        <image src="{{bgUrl}}" class="bg"/>
+        <view class="avatar">
+          <image class="avatar-inner" src="{{userInfo.avatarUrl}}" />
+        </view>   
+        <view class="name">
+          {{userInfo.nickName}}
+        </view>    
+      </view>
+    </view>
+    <view class="data">
+      <view class="time">
+        <view class="top">20h</view>
+        <view class="bottom">总时长</view>
+      </view>
+      <view class="exp">
+        <view class="top">172</view>
+        <view class="bottom">经验值</view>
+        <view class="line"></view>
+      </view>
+      <view class="point">
+        <view class="top">30</view>
+        <view class="bottom">知识点</view>
+      </view>
+    </view>
+    <view class="menu" @tap="naviToAward">
+      <image class="icon" src="../../assets/img/account/award.png"></image>
+      <view class="name">奖励</view>
+      <image class="arrow" src="../../assets/img/account/arrow.png" />
+    </view>
+    <view class="menu" @tap="naviToMedal">
+      <image class="icon" src="../../assets/img/account/medal.png"></image>
+      <view class="name">勋章</view>
+      <image class="arrow" src="../../assets/img/account/arrow.png" />
+    </view>
+    <view class="menu" @tap="naviToSetting">
+      <image class="icon" src="../../assets/img/account/medal.png"></image>
+      <view class="name">设置</view>
+      <image class="arrow" src="../../assets/img/account/arrow.png" />
+    </view>
+    <view class="menu" @tap="naviToMessage">
+      <image class="icon" src="../../assets/img/account/medal.png"></image>
+      <view class="name">留言</view>
+      <image class="arrow" src="../../assets/img/account/arrow.png" />
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class AccountIndex extends wepy.page {
+  config = {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: '我的',
+    navigationBarTextStyle: 'black'
+  }
+  data = {
+    userInfo: {
+      nickName: '加载中...'
+    },
+    bgUrl: 'http://qiniu.image.yetter.cn/bg.png'
+  }
+  onLoad() {
+    this.userInfo = this.$parent.globalData.userInfo
+  }
+  naviToAward() {
+    wepy.navigateTo({
+      url: 'reward'
+    })
+  }
+  naviToMedal() {
+    wepy.navigateTo({
+      url: 'medal'
+    })
+  }
+  naviToSetting() {
+    wepy.navigateTo({
+      url: 'setting'
+    })
+  }
+  naviToMessage() {
+    wepy.navigateTo({
+      url: 'message'
+    })
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .my {
+    width: 100%;
+    .data {
+      height: 120rpx;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: center;
+      border-bottom: 2rpx solid #f0f0f0;
+      .time {
+        width: 33%;
+        .top {
+          font-size: 30rpx;
+          margin-bottom: 7rpx;
+        }
+        .bottom {
+          font-size: 22rpx;          
+        }
+      }
+      .exp {
+        width: 34%;
+        position: relative;
+        .top {
+          font-size: 30rpx;
+          margin-bottom: 7rpx;
+        }
+        .bottom {
+          font-size: 22rpx;          
+        }
+        .line {
+          position: absolute;
+          top: 36rpx;
+          width: 100%;
+          height: 20rpx;
+          border-left: 4rpx solid black;
+          border-right: 4rpx solid black;
+        }
+      }
+      .point {
+        width: 33%;
+        .top {
+          font-size: 30rpx;
+          margin-bottom: 7rpx;
+        }
+        .bottom {
+          font-size: 22rpx;          
+        }
+      }
+    }
+    .profile {
+      height: 480rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      .detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .bg {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          z-index: 1;
+        }
+        .avatar {
+          // border: 4px white solid;
+          height: 150rpx;
+          width: 150rpx;
+          padding-bottom: 4rpx;
+          .avatar-inner {
+            border-radius: 50%;
+            height: 100%;
+            width: 100%;
+          }
+          z-index: 2;          
+        }
+        .name {
+          color: white;
+          z-index: 2;          
+        }
+      }
+    }
+    .menu {
+      height: 94rpx;
+      width: 670rpx;
+      margin-left: 40rpx;
+      border-bottom: 2rpx solid #f0f0f0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: relative;
+      .icon {
+        height: 40rpx;
+        width: 40rpx;
+        margin-left: 10rpx;
+        margin-right: 40rpx;
+      }
+      .name {
+        font-size: 32rpx;
+      }
+      .arrow {
+        height: 80rpx;
+        width: 80rpx;
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+</style>

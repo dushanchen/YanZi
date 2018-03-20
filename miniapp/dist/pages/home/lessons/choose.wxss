@@ -1,0 +1,21 @@
+.fill-wrap._260d214 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.fill-wrap .title-bg._260d214 {
+  height: 400rpx;
+  width: 100%;
+}
+.fill-wrap .question._260d214 {
+  height: 200rpx;
+  width: 700rpx;
+  padding: 0 25rpx;
+  font-size: 40rpx;
+}
+.fill-wrap .content._260d214 {
+  width: 700rpx;
+  padding: 0 25rpx;
+  font-size: 40rpx;
+}

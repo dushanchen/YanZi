@@ -1,0 +1,160 @@
+<template lang="wxml">
+  <view  
+    style="height: {{windowH + 55 +'px'}};"
+    class="lessons-wrap">
+    <image 
+      src="{{info.lessonSummary.image}}"
+      class="lesson-bg" />
+    <view class="title">
+      <view class="main-title">
+        社交货币
+      </view>
+      <view class="sub-title">
+        为什么有些事物和产品能传播的特别快？口碑传播的秘诀是什么？
+      </view>
+    </view>
+
+    <view class="middle">
+      <view class="middle-left">
+        <view>
+          <view>{{percent}}%</view>
+          <view>准确率</view>
+        </view>
+        <view>
+          <view>{{info.userLessonStatus.exp}}px</view>
+          <view>经验值</view>
+        </view>
+      </view>
+      <view class="middle-right" style="word-break: break-all;">
+        <text decode="true">{{info.lessonPrimer.content}}</text>
+      </view>
+    </view>
+
+    <view class="button">
+      <view class="button-inner" @tap="goFill">
+        <span wx:if="{{info.isStart === true}}">重新闯关</span>
+        <span wx:if="{{info.isStart === false}}">开始闯关</span>
+     </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class LessonsIndex extends wepy.page {
+  data = {
+    windowH: 0,
+    options: {},
+    info: {},
+    loading: true
+  }
+  onLoad(options) {
+    this.windowH = this.$parent.globalData.windowH
+    this.options = options
+    this.getLessonInfo()
+  }
+  computed = {
+    percent() {
+      if (this.loading === false) {
+        return this.info.userLessonStatus.correctPercent * 100
+      }
+    }
+  }
+  goFill() {
+    wepy.redirectTo({
+      url: '/pages/home/lessons/match'
+    })
+  }
+  getLessonInfo() {
+    let url = 'pisces/user/load/lessoninfo'
+    wepy.request({
+      url: this.$parent.globalData.domain + url,
+      data: {
+        token: this.$parent.globalData.token,
+        courseId: this.options.courseId,
+        lessonId: this.options.lessonId
+      }
+    }).then((r) => {
+      console.dir(r)
+      this.info = r.data.message.lessonInfo
+      this.loading = false
+      this.$apply()
+    })
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .lessons-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+      height: 230rpx;
+      width: 670rpx;
+      padding-top: 70rpx;
+      padding-left: 40rpx;
+      padding-right: 40rpx;
+      color: white;
+      .main-title {
+        font-size: 60rpx;
+      }
+      .sub-title {
+        font-size: 30rpx;
+      }
+    }
+    .middle {
+      height: 750rpx;
+      width: 700rpx;
+      padding-left: 50rpx;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .middle-left {
+        width: 140rpx;
+        height: 260rpx;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .middle-right {
+        // height: 710rpx;
+        width: 520rpx;
+        padding: 20rpx;
+        border-top-left-radius: 10rpx;
+        border-bottom-left-radius: 10rpx;
+        background-color: white;
+        color: #000000;
+      }
+    }
+    .button {
+      font-size: 30rpx;
+      color: white;
+      // background-color: transparent;
+      height: 50rpx;
+      width: 180rpx;
+      padding-bottom: 60rpx;
+      text-align: center;
+      .button-inner {
+        height: 50rpx;
+        border: 1px white solid;
+        border-radius: 10rpx;
+        width: 180rpx;
+        background-color: transparent;
+      }
+    }
+    .lesson-bg {
+      filter: blur(8px);  
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+</style>

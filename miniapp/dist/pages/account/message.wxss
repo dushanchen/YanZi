@@ -1,0 +1,6 @@
+.message-root .text-area._61e2b1e {
+  width: 650rpx;
+  height: 400rpx;
+  margin: 50rpx;
+  border: 1px solid #cccccc;
+}

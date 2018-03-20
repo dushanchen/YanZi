@@ -1,0 +1,81 @@
+.root._9b4da9a {
+  width: 650rpx;
+  margin-left: 10rpx;
+  height: 340rpx;
+  border-radius: 4px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 20rpx 0 rgba(51, 51, 51, 0.2);
+  margin-bottom: 60rpx;
+  margin-top: 10rpx;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.root .date._9b4da9a {
+  margin-left: 40rpx;
+  margin-top: 25rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.root .date .order._9b4da9a {
+  width: 88rpx;
+  height: 32rpx;
+  border-radius: 4rpx;
+  border: solid 1rpx #333333;
+  font-size: 20rpx;
+  text-align: center;
+}
+.root .date .time._9b4da9a {
+  width: 164rpx;
+  height: 47rpx;
+  border-top-left-radius: 23.6rpx;
+  border-bottom-left-radius: 23.6rpx;
+  background-color: #ffb400;
+  font-size: 22rpx;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.root .info._9b4da9a {
+  margin-left: 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 160rpx;
+}
+.root .info .title._9b4da9a {
+  font-size: 36rpx;
+  margin-top: 20rpx;
+}
+.root .info .context._9b4da9a {
+  font-size: 22rpx;
+  margin-bottom: 20rpx;
+}
+.root .price._9b4da9a {
+  margin-left: 40rpx;
+  margin-bottom: 32rpx;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.root .price .message .rmb._9b4da9a {
+  font-size: 30rpx;
+  color: #ffb400;
+  text-shadow: 0 1px 0 rgba(255, 180, 0, 0.2);
+}
+.root .price .message .add._9b4da9a {
+  font-size: 20rpx;
+  color: #a8a8a8;
+}
+.root .price .people_num._9b4da9a {
+  font-size: 20rpx;
+  color: #333333;
+  top: 0;
+  padding-right: 40rpx;
+}

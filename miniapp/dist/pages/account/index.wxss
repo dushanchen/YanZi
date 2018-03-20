@@ -1,0 +1,109 @@
+.my._95e63a9 {
+  width: 100%;
+}
+.my .data._95e63a9 {
+  height: 120rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+.my .data .time._95e63a9 {
+  width: 33%;
+}
+.my .data .time .top._95e63a9 {
+  font-size: 30rpx;
+  margin-bottom: 7rpx;
+}
+.my .data .time .bottom._95e63a9 {
+  font-size: 22rpx;
+}
+.my .data .exp._95e63a9 {
+  width: 34%;
+  position: relative;
+}
+.my .data .exp .top._95e63a9 {
+  font-size: 30rpx;
+  margin-bottom: 7rpx;
+}
+.my .data .exp .bottom._95e63a9 {
+  font-size: 22rpx;
+}
+.my .data .exp .line._95e63a9 {
+  position: absolute;
+  top: 36rpx;
+  width: 100%;
+  height: 20rpx;
+  border-left: 4rpx solid black;
+  border-right: 4rpx solid black;
+}
+.my .data .point._95e63a9 {
+  width: 33%;
+}
+.my .data .point .top._95e63a9 {
+  font-size: 30rpx;
+  margin-bottom: 7rpx;
+}
+.my .data .point .bottom._95e63a9 {
+  font-size: 22rpx;
+}
+.my .profile._95e63a9 {
+  height: 480rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.my .profile .detail._95e63a9 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.my .profile .detail .bg._95e63a9 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+.my .profile .detail .avatar._95e63a9 {
+  height: 150rpx;
+  width: 150rpx;
+  padding-bottom: 4rpx;
+  z-index: 2;
+}
+.my .profile .detail .avatar .avatar-inner._95e63a9 {
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+}
+.my .profile .detail .name._95e63a9 {
+  color: white;
+  z-index: 2;
+}
+.my .menu._95e63a9 {
+  height: 94rpx;
+  width: 670rpx;
+  margin-left: 40rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+.my .menu .icon._95e63a9 {
+  height: 40rpx;
+  width: 40rpx;
+  margin-left: 10rpx;
+  margin-right: 40rpx;
+}
+.my .menu .name._95e63a9 {
+  font-size: 32rpx;
+}
+.my .menu .arrow._95e63a9 {
+  height: 80rpx;
+  width: 80rpx;
+  position: absolute;
+  right: 0;
+}

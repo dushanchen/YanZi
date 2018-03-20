@@ -1,0 +1,70 @@
+.lessons-wrap._0478ace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.lessons-wrap .title._0478ace {
+  height: 230rpx;
+  width: 670rpx;
+  padding-top: 70rpx;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  color: white;
+}
+.lessons-wrap .title .main-title._0478ace {
+  font-size: 60rpx;
+}
+.lessons-wrap .title .sub-title._0478ace {
+  font-size: 30rpx;
+}
+.lessons-wrap .middle._0478ace {
+  height: 750rpx;
+  width: 700rpx;
+  padding-left: 50rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.lessons-wrap .middle .middle-left._0478ace {
+  width: 140rpx;
+  height: 260rpx;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.lessons-wrap .middle .middle-right._0478ace {
+  width: 520rpx;
+  padding: 20rpx;
+  border-top-left-radius: 10rpx;
+  border-bottom-left-radius: 10rpx;
+  background-color: white;
+  color: #000000;
+}
+.lessons-wrap .button._0478ace {
+  font-size: 30rpx;
+  color: white;
+  height: 50rpx;
+  width: 180rpx;
+  padding-bottom: 60rpx;
+  text-align: center;
+}
+.lessons-wrap .button .button-inner._0478ace {
+  height: 50rpx;
+  border: 1px white solid;
+  border-radius: 10rpx;
+  width: 180rpx;
+  background-color: transparent;
+}
+.lessons-wrap .lesson-bg._0478ace {
+  filter: blur(8px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}

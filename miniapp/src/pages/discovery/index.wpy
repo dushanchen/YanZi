@@ -1,0 +1,81 @@
+<template lang="wxml">
+  <view class="container">
+    <scroll-view 
+      wx:if="{{!loading}}"
+      bindscroll="scroll" 
+      class="lesson-list" 
+      scroll-y="true" 
+      bindscrolltolower="getData" 
+      style="height: {{windowH+'px'}};">
+        <repeat for="{{list}}" key="index" index="index" item="item">
+          <ClassItem :item.sync="item"></ClassItem>
+        </repeat>
+        <view class="list-bottom">
+        </view>
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import ClassItem from '../../components/discovery/classItem'
+
+export default class DiscoveryIndex extends wepy.page {
+  components = {
+    ClassItem: ClassItem
+  }
+  data = {
+    loading: true,
+    windowH: 0,
+    list: []
+  }
+  config = {
+    backgroundTextStyle: 'light',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTitleText: '课程',
+    navigationBarTextStyle: 'black'
+  }
+  onLoad() {
+    this.windowH = this.$parent.globalData.windowH
+    this.getData()
+  }
+  scroll(e) {
+    // console.log(e)
+  }
+  processStartTime (d) {
+    let date = new Date(d)
+    let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '月'
+    let D = date.getDate() + '日'
+    return M + D + '开课'
+  }
+  getData() {
+    let url = 'http://47.96.6.111:8080/pisces/user/load/terms?token='
+    let token = this.$parent.globalData.token
+    wepy.request(url + token).then(
+      (d) => {
+        console.dir(d)
+        this.list = d.data.message.termInfos
+        this.list.forEach(e => {
+          e.termInfo.startTimeCn = this.processStartTime(e.termInfo.startTime)
+        });
+        this.loading = false
+        this.$apply()
+      }
+    );
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .list {
+    margin-top: 20rpx;
+  }
+  .lesson-list {
+    margin-left: 40rpx;
+    width: 710rpx;
+  }
+  
+  .list-bottom {
+    height: 100px;
+  }
+</style>

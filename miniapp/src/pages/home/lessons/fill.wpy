@@ -1,0 +1,268 @@
+<template lang="wxml">
+  <scorll-view  
+    style="height: {{windowH +'px'}};"
+    class="fill-wrap">
+    <view class="title-bg">
+
+    </view>
+
+    <view class="space"></view>
+
+    <view 
+      class="content" 
+      style="word-break: break-all;">
+      <span 
+        wx:for={{q.questionTexts}} 
+        item={{item}}
+        wx:key={{key}}
+        :class="{'c1002': item.type === 1002, 'c1001': item.type === 1001, 'c1003': item.type === 1003 }"
+        >
+        {{item.text}}
+        <span 
+          wx:if="{{item.type === 5001}}"
+          class="c5001">
+          <text 
+            wx:if="{{a.id === null}}"
+            decode="true"
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>
+          <span
+            wx:if="{{a.id !== null}}">
+            {{a.text}}
+          </span>
+        </span>
+      </span>
+      
+    </view>
+
+    <view class="space"></view>
+
+    <view class="answer-part">
+      <view class="remind">
+        长按选项查看讲解
+      </view>
+      <view class="choose">
+
+         <view 
+          @longpress="handleLongPress(0)"
+          @tap="handleAnswer(0)" 
+          class="button" 
+          >
+          {{q.answers[0].text}}
+        </view>
+
+        <view 
+          class="button" 
+          @tap="handleAnswer(1)"
+          @longpress="handleLongPress(1)">
+          {{q.answers[1].text}}
+        </view>
+
+      </view>
+
+
+
+      <view 
+        class="other"
+        wx:if="{{longtap === true}}">
+        {{remind.breif}}
+
+      </view>
+    </view>
+
+    <view class="space"></view>
+
+    <view 
+      :class="{'tips':a.id !== null }" 
+      wx:if="{{a.id !== null}}">
+      <view class="tips-content">
+        电子商务原本属高度碎片化、难以“赢家通吃”的产业。支付宝的诞生补足了淘宝电子商务的转换成本环节，改变了整个产业格局，第三方支付本书高度“赢家通吃”现象的产业。
+      </view>
+      <view class="next-button">
+        下一节
+      </view>
+    </view>
+
+  </scorll-view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class FillPart extends wepy.page {
+  data = {
+    windowH: 0,
+    options: {},
+    q: {},
+    a: {
+      id: null,
+      value: ''
+    },
+    longtap: false,
+    remind: {}
+  }
+  config = {
+    "backgroundColor": "#ebebeb"
+  }
+  onLoad(options) {
+    this.windowH = this.$parent.globalData.windowH
+    this.getLessonInfo()
+  }
+  methods = {
+    handleAnswer(index) {
+      console.log(index)
+      this.a = this.q.answers[index]
+    },
+    handleLongPress(e) {
+      this.longtap = true
+      this.remind = e
+      console.dir(this.remind)
+    }
+  }
+  getLessonInfo() {
+    wepy.request({
+      url: this.$parent.globalData.domain + 'pisces/load/question?courseId=1&index=1&lessonId=1'
+    }).then((r) => {
+      this.q = r.data.message.question
+      this.$apply()
+    })
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .fill-wrap {
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: flex-start;
+    // background-color: #ebebeb;
+    .title-bg {
+      height: 400rpx;
+      width: 100%;
+      margin-bottom: 10px;
+      background-color: white;
+    }
+    .space {
+      background-color: #ebebeb;
+      height: 30rpx;
+      width: 100%;
+    }
+    .question {
+      padding-top: 50rpx;
+      padding-left: 40rpx;
+      padding-right: 40rpx;
+      width: 700rpx;
+      font-size: 48rpx;
+      font-weight: 900;
+      text-align: left;
+      color: #333333;
+      line-height: 1.5;
+      background-color: white;
+    }
+    .content {
+      width: 700rpx;
+      padding: 40rpx 40rpx;
+      font-size: 40rpx;
+      font-size: 15px;
+      line-height: 1.87;
+      color: #333333;
+      margin-bottom: 10px;
+    }
+    .answer-part {
+      padding: 40rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+
+      .remind {
+        width: 100%;
+        font-size: 15px;
+        color: #cccccc;
+        text-align: center;
+      }
+      .choose {
+        width: 510rpx;
+        padding: 20rpx 120rpx;
+        display: flex;
+        flex-direction: row;
+        height: 80rpx;
+        font-size: 26rpx;
+        color: #021428;
+        justify-content: space-between;
+        .button {
+          line-height: 50rpx;
+          text-align: center;
+          display: inline-block;
+          width: 160rpx;
+          height: 50rpx;
+          border-radius: 2px;
+          background-color: #ffffff;
+          box-shadow: 0px 0.5px 2.5px 0 rgba(148, 148, 148, 0.6);
+        }
+      }
+      .other {
+        text-align: left;
+        color: #808080;
+        line-height: 1.62;
+        font-size: 26rpx;
+      }
+    }
+    .tips {
+      display: flex;
+      flex-direction: column;
+      width: 670rpx;
+      padding: 40rpx;
+      justify-content: flex-start;
+      align-items: center;
+      .tips-content {
+        font-size: 15px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 2;
+        letter-spacing: 1.5px;
+        text-align: left;
+        color: #333333;
+      }
+      .next-button {
+        margin-top: 10px;
+        line-height: 58rpx;
+        text-align: center;
+        color: white;
+        width: 146rpx;
+        height: 58rpx;
+        font-size: 30rpx;
+        border-radius: 3px;
+        background-color: #5671de;
+        box-shadow: 0px 4px 4px 0 rgba(86, 113, 222, 0.3);
+      }
+    }
+  }
+  .c1002 {
+    font-size: 48rpx;
+    font-weight: 900;
+    text-align: left;
+    color: #333333;
+    line-height: 1.5;
+    display: inline-block;
+    width: 100%;
+  }
+  .c1001 {
+    font-size:30rpx;
+    line-height:1.87;
+    color:#333333;
+  }
+  .c5001 {
+    border-radius:2px;
+    border:solid 1px #021428;
+    padding:4rpx;
+    margin:0 4rpx;
+    text-align: center;
+  }
+  .c1003 {
+    font-size:30rpx;
+    line-height:1.87;
+    color:#333333;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,19 @@
+
+  <scorll-view style="height: {{windowH +'px'}};" class="fill-wrap _d0aa62e">
+    <view class="title-bg _d0aa62e">
+
+    </view>
+
+    <view class="question _d0aa62e">
+      习惯降低用户对价格敏感度
+    </view>
+
+    <text class="content _d0aa62e" style="word-break: break-all;">
+      blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla
+    </text>
+
+    <view>
+
+    </view>
+
+  </scorll-view>

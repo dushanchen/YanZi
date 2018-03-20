@@ -1,0 +1,221 @@
+@import "./../../components/home/lessonItem.wxss";
+.root .root-buy .header-root._297a26d {
+  height: 150rpx;
+  width: 750rpx;
+  border-bottom: e5e5e5 1px solid;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+.root .root-buy .header-root .header-bg._297a26d {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
+}
+.root .root-buy .header-root .header-img._297a26d {
+  z-index: 14;
+  position: absolute;
+  top: 0;
+  left: 20rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+}
+.root .root-buy .header-root .header-menu._297a26d {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 440rpx;
+  height: 90rpx;
+  z-index: 13;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50rpx;
+}
+.root .root-buy .header-root .header-menu .menu-item._297a26d {
+  height: 80rpx;
+  width: 80rpx;
+}
+.root .root-buy .header-root .header-page._297a26d {
+  position: absolute;
+  overflow: hidden;
+  margin-top: 85rpx;
+  height: 0rpx;
+  background-color: white;
+  width: 100%;
+  transition: height 0.5s;
+  transition-timing-function: ease;
+}
+.root .root-buy .header-root .header-page .page-course._297a26d {
+  width: 750rpx;
+}
+.root .root-buy .header-root .header-page .page-course .scroll-view-course._297a26d {
+  height: 360rpx;
+  white-space: nowrap;
+}
+.root .root-buy .header-root .header-page .page-course .scroll-view-course .course-item._297a26d {
+  display: inline-block;
+  height: 360rpx;
+  width: 200rpx;
+}
+.root .root-buy .header-root .header-page .page-course .scroll-view-course .course-item .course-inner._297a26d {
+  height: 300rpx;
+  padding: 30rpx 0;
+  font-size: 14px;
+  color: #353535;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.root .root-buy .header-root .header-page .page-course .scroll-view-course .course-item .course-inner .img-border._297a26d {
+  height: 160rpx;
+  width: 160rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 0.5px solid #ececec;
+}
+.root .root-buy .header-root .header-page .page-course .scroll-view-course .course-item .course-inner .img-border .inner_img._297a26d {
+  height: 160rpx;
+  width: 160rpx;
+}
+.root .root-buy .header-root .header-page .page-course .scroll-view-course .course-item-add._297a26d {
+  display: inline-block;
+  height: 360rpx;
+  width: 200rpx;
+  background-color: black;
+}
+.root .root-buy .header-root .header-page .page-time._297a26d {
+  width: 700rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 25rpx;
+}
+.root .root-buy .header-root .header-page .page-time .count._297a26d {
+  width: 100%;
+  height: 320rpx;
+  padding: 40rpx 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.root .root-buy .header-root .header-page .page-time .count .shalou._297a26d {
+  height: 250rpx;
+  width: 250rpx;
+}
+.root .root-buy .header-root .header-page .page-time .count .data._297a26d {
+  height: 200rpx;
+  text-align: center;
+  width: 350rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.root .root-buy .header-root .header-page .page-time .count .data .day._297a26d {
+  font-size: 38rpx;
+}
+.root .root-buy .header-root .header-page .page-time .count .data .point._297a26d {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.root .root-buy .header-root .header-page .page-time .count .data .point .point-item._297a26d {
+  font-size: 28rpx;
+  display: flex;
+  flex-direction: column;
+}
+.root .root-buy .header-root .header-page .page-time .week._297a26d {
+  width: 100%;
+  height: 60rpx;
+}
+.root .root-buy .header-root .header-page .page-time .target._297a26d {
+  height: 68rpx;
+  width: 100%;
+  font-size: 14px;
+}
+.root .root-buy .header-root .header-page .page-medal._297a26d {
+  padding: 50rpx 38rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.root .root-buy .header-root .header-page .page-medal .medal-img._297a26d {
+  height: 260rpx;
+  width: 250rpx;
+}
+.root .root-buy .header-root .header-page .page-medal .medal-data._297a26d {
+  width: 350rpx;
+  text-align: center;
+}
+.root .root-buy .header-root .header-page .page-medal .medal-data .data-count._297a26d {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.root .root-buy .header-root .header-page .page-medal .medal-data .data-count .data-item._297a26d {
+  font-size: 28rpx;
+  display: flex;
+  flex-direction: column;
+}
+.root .root-buy .header-root .header-page .page-store._297a26d {
+  width: 650rpx;
+  padding: 0 50rpx;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.root .root-buy .header-root .header-page .page-store .store-img._297a26d {
+  height: 200rpx;
+  width: 200rpx;
+}
+.root .root-buy .header-root .header-page .page-store .coin-view._297a26d {
+  font-size: 16px;
+  height: 200rpx;
+  width: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.root .root-buy .header-root .header-page .page-store .coin-view .coin-button._297a26d {
+  width: 120rpx;
+  height: 45rpx;
+}
+.root .root-buy .header-root .header-page-show-360._297a26d {
+  height: 360rpx;
+}
+.root .root-buy .header-root .header-page-show-680._297a26d {
+  height: 680rpx;
+}
+.root .root-buy .lessons._297a26d {
+  z-index: 0;
+  position: absolute;
+  width: 610rpx;
+  padding-left: 70rpx;
+  padding-right: 70rpx;
+  top: 90rpx;
+  display: flex;
+  flex-direction: row;
+  display: block;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.root .root-first._297a26d {
+  height: 100%;
+}
+.root .root-first .first-pic._297a26d {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>知识点回顾文字json数据生成</title>
+
+    <style type="text/css">
+        input {
+            width: 800px;
+            height: 25px;
+
+        }
+
+
+    </style>
+</head>
+<body>
+<div style="width: 50%;">
+    <table>
+
+        <tr>标题一<input  id="title1" type="text" ></tr><br>
+        <tr>内容一<input  id="content1" type="text" ></tr><br>
+     
+        <tr>标题二<input  id="title2" type="text" ></tr><br>
+        <tr>内容二<input  id="content2" type="text" ></tr><br>
+
+        <tr>标题三<input  id="title3" type="text" ></tr><br>
+        <tr>内容三<input  id="content3" type="text" ></tr><br>
+
+        <tr>标题四<input  id="title4" type="text" ></tr><br>
+        <tr>内容四<input  id="content4" type="text" ></tr><br>
+
+        <tr>标题五<input  id="title5" type="text" ></tr><br>
+        <tr>内容五<input  id="content5" type="text" ></tr><br>
+
+        <tr>标题六<input  id="title6" type="text" ></tr><br>
+        <tr>内容六<input  id="content6" type="text" ></tr><br>
+
+        <tr>标题七<input  id="title7" type="text" ></tr><br>
+        <tr>内容七<input  id="content7" type="text" ></tr><br>
+
+        <tr>标题八<input  id="title8" type="text" ></tr><br>
+        <tr>内容八<input  id="content8" type="text" ></tr><br>
+
+        <tr><button>生成json</button></tr>
+    </table>
+</div>
+
+<div style="width: 50%;">
+    <textarea id="tarea" rows="20" cols="100"></textarea>
+</div>
+
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+	
+$(function(){
+
+	$("button").click(function(){
+		
+		var title1 = $("#title1").val();
+		var content1 = $("#content1").val();
+
+		var title2 = $("#title2").val();
+		var content2 = $("#content2").val();
+
+		var title3 = $("#title3").val();
+		var content3 = $("#content3").val();
+
+		var title4 = $("#title4").val();
+		var content4 = $("#content4").val();
+
+		var title5 = $("#title5").val();
+		var content5 = $("#content5").val();
+
+		var title6 = $("#title6").val();
+		var content6 = $("#content6").val();
+
+		var title7 = $("#title7").val();
+		var content7 = $("#content7").val();
+
+		var title8 = $("#title8").val();
+		var content8 = $("#content8").val();
+
+		$.ajax({
+			url:"/zongjie/",
+			type:"post",
+			dataType:"json",
+			data:{
+				action:'zongjie',
+				title1:title1,
+				content1:content1,
+
+				title2:title2,
+				content2:content2,
+
+				title3:title3,
+				content3:content3,
+
+				title4:title4,
+				content4:content4,
+
+				title5:title5,
+				content5:content5,
+
+				title6:title6,
+				content6:content6,
+
+				title7:title7,
+				content7:content7,
+
+				title8:title8,
+				content8:content8,
+			},
+			success:function(data){
+				
+				var newJson = [];
+				var txt = '['+
+					'{"title":"'+data.dic1.title+'",'
+					+'"index":'+data.dic1.index+','
+					+'"content":"'+data.dic1.content+'"},'
+
+					+'{"title":"'+data.dic2.title+'",'
+					+'"index":'+data.dic2.index+','
+					+'"content":"'+data.dic2.content+'"},'
+
+					+'{"title":"'+data.dic3.title+'",'
+					+'"index":'+data.dic3.index+','
+					+'"content":"'+data.dic3.content+'"},'
+
+					+'{"title":"'+data.dic4.title+'",'
+					+'"index":'+data.dic4.index+','
+					+'"content":"'+data.dic4.content+'"},'
+
+					+'{"title":"'+data.dic5.title+'",'
+					+'"index":'+data.dic5.index+','
+					+'"content":"'+data.dic5.content+'"},'
+
+					+'{"title":"'+data.dic6.title+'",'
+					+'"index":'+data.dic6.index+','
+					+'"content":"'+data.dic6.content+'"},'
+
+					+'{"title":"'+data.dic7.title+'",'
+					+'"index":'+data.dic7.index+','
+					+'"content":"'+data.dic7.content+'"},'
+
+					+'{"title":"'+data.dic8.title+'",'
+					+'"index":'+data.dic8.index+','
+					+'"content":"'+data.dic8.content+'"}'
+
+					+']';
+					console.info(txt);
+                var context = '';
+                var json = $.parseJSON( txt );
+                for(var i=0;i<json.length;i++){
+                  var ele = json[i];
+                  if(ele.title==''){
+                    continue;
+                  }
+
+                  newJson.push(ele);
+                }
+                console.info(JSON.stringify(newJson));
+
+
+                $("#tarea").val(
+                    JSON.stringify(newJson)
+                    );
+			}
+		})
+	});
+});
+
+</script>
+</body>
+</html>

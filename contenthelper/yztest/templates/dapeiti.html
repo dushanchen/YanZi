@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>json数据生成</title>
+
+    <style type="text/css">
+        input {
+            width: 800px;
+            height: 25px;
+
+        }
+
+    </style>
+</head>
+<body>
+
+
+    <div style="width: 50%;">
+    <table>
+        <tr>搭配题题目<input id="title" type="text" name="title" ></tr><br>
+
+        <tr>第一张题目图片<input  id="qimage1" type="text" ></tr><br>
+        <tr>第二张题目图片<input  id="qimage2" type="text" ></tr><br>
+        <tr>第三张题目图片<input  id="qimage3" type="text" ></tr><br>
+
+        <tr>搭配题所有正文<input id="content" type="text"  style="width: 1000px;height: 50px;"></tr>（++表示填空， ||与||中间的字加粗，文本换行用\r\n）<br>
+        <!-- <tr><input type="text" id="bold1"  placeholder="正文中需要加粗的所有地方，每个用|分开录入"></tr><br> -->
+
+        <tr>正文图片地址1<input id="image1" type="text" ></tr><br>
+        <tr>正文图片地址2<input id="image2" type="text" ></tr><br>
+        <tr>正文图片地址3<input id="image3" type="text" ></tr><br>
+        <tr>正文图片地址4<input id="image4" type="text" ></tr><br>
+
+        <tr>题目一文字<input id="question1" type="text" ></tr><br>
+        <tr>题目一图片地址<input id="questionimage1" type="text" ></tr><br>
+        <tr>题目二文字<input id="question2" type="text" ></tr><br>
+        <tr>题目二图片地址<input id="questionimage2" type="text" ></tr><br>
+        <tr>题目三文字<input id="question3" type="text" ></tr><br>
+        <tr>题目三图片地址<input id="questionimage3" type="text" ></tr><br>
+        <tr>题目四文字<input id="question4" type="text" ></tr><br>
+        <tr>题目四图片地址<input id="questionimage4" type="text" ></tr><br>
+        <tr>题目五文字<input id="question5" type="text" ></tr><br>
+        <tr>题目五图片地址<input id="questionimage5" type="text" ></tr><br>
+        <tr>题目六文字<input id="question6" type="text" ></tr><br>
+        <tr>题目六图片地址<input id="questionimage6" type="text" ></tr><br>
+
+        <tr>题目一答案<input id="answer1" type="text" ></tr><br>
+        <tr>题目二答案<input id="answer2" type="text" ></tr><br>
+        <tr>题目三答案<input id="answer3" type="text" ></tr><br>
+        <tr>题目四答案<input id="answer4" type="text" ></tr><br>
+        <tr>题目五答案<input id="answer5" type="text" ></tr><br>
+        <tr>题目六答案<input id="answer6" type="text" ></tr><br>
+
+        <tr>过渡段／介绍段<input id="intro" type="text" ></tr><br>
+        <tr>解释/知识中需要加粗的所有地方，每个用||分开录入<input id="know" type="text" ></tr><br>
+        <!-- <tr>解释／知识中需要加粗的所有地方，每个用||分开录入<input type="text" id="bold2" ></tr><br> -->
+
+        <tr>解释图片地址1<input id="image5" type="text" ></tr><br>
+        <tr>解释图片地址2<input id="image6" type="text" ></tr><br>
+        <tr>解释图片地址3<input id="image7" type="text" ></tr><br>
+        <tr>解释图片地址4<input id="image8" type="text" ></tr><br>
+
+        <tr><button>生成json</button></tr>
+    </table>
+    </div>
+    <textarea id="tarea" rows="20" cols="100"></textarea>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(function(){
+
+        $("button").click(function(){
+
+        var title = $("#title").val();
+
+        var content = $("#content").val();
+        var bold1 = $("#bold1").val();
+        var image1 = $("#image1").val();
+        var image2 = $("#image2").val();
+        var image3 = $("#image3").val();
+        var image4 = $("#image4").val();
+
+        var question1 = $("#question1").val();
+        var questionimage1 = $("#questionimage1").val();
+        var question2 = $("#question2").val();
+        var questionimage2 = $("#questionimage1").val();
+        var question3 = $("#question3").val();
+        var questionimage3 = $("#questionimage3").val();
+        var question4 = $("#question4").val();
+        var questionimage4 = $("#questionimage4").val();
+        var question5 = $("#question5").val();
+        var questionimage5 = $("#questionimage5").val();
+        var question6 = $("#question6").val();
+        var questionimage6 = $("#questionimage6").val();
+
+        var answer1 = $("#answer1").val();
+        var answer2 = $("#answer2").val();
+        var answer3 = $("#answer3").val();
+        var answer4 = $("#answer4").val();
+        var answer5 = $("#answer5").val();
+        var answer6 = $("#answer6").val();
+
+        var intro = $("#intro").val();
+        var know = $("#know").val();
+        var bold2 = $("#bold2").val();
+
+        var image5 = $("#image5").val();
+        var image6 = $("#image6").val();
+        var image7 = $("#image7").val();
+        var image8 = $("#image8").val();
+
+        var qimage1 = $("#qimage1").val();
+        var qimage2 = $("#qimage2").val();
+        var qimage3 = $("#qimage3").val();
+
+
+    　　 $.ajax({
+
+    　　　　url:"/dapeiti/",
+    　　　　type:"post",
+    　　　　dataType:"json",　　
+    　　　　data:{
+
+            action:'dapeiti',
+            title:title,
+            content:content,
+            bold1:bold1,
+
+            question1:question1,
+            question2:question2,
+            question3:question3,
+            question4:question4,
+            question5:question5,
+            question6:question6,
+
+            questionimage1:questionimage1,
+            questionimage2:questionimage2,
+            questionimage3:questionimage3,
+            questionimage4:questionimage4,
+            questionimage5:questionimage5,
+            questionimage6:questionimage6,
+
+            answer1:answer1,
+            answer2:answer2,
+            answer3:answer3,
+            answer4:answer4,
+            answer5:answer5,
+            answer6:answer6,
+
+            intro:intro,
+            know:know,
+            bold2:bold2,
+            image1:image1,
+            image2:image2,
+            image3:image3,
+            image4:image4,
+            image5:image5,
+            image6:image6,
+            image7:image7,
+            image8:image8,
+
+            qimage1:qimage1,
+            qimage2:qimage2,
+            qimage3:qimage3,
+
+          },
+    　　　　success:function(data){
+                // alert(data.title)
+
+                var newJson = [];
+                var txt = '['+
+                    '{"text":"'+data.dic1.text+'",'
+                    +'"id":'+data.dic1.id+','
+                    +'"block":'+data.dic1.block+','
+                    +'"type":'+data.dic1.type+','
+                    +'"userId":'+data.dic1.userId+'},'
+
+                    +'{"image":"'+data.dic27.image+'",'
+                    +'"id":'+data.dic27.id+','
+                    +'"block":'+data.dic27.block+','
+                    +'"index":'+data.dic27.index+','
+                    +'"type":'+data.dic27.type+','
+                    +'"userId":'+data.dic27.userId+'},'
+
+                    +'{"image":"'+data.dic28.image+'",'
+                    +'"id":'+data.dic28.id+','
+                    +'"block":'+data.dic28.block+','
+                    +'"index":'+data.dic28.index+','
+                    +'"type":'+data.dic28.type+','
+                    +'"userId":'+data.dic28.userId+'},'
+
+                    +'{"image":"'+data.dic29.image+'",'
+                    +'"id":'+data.dic29.id+','
+                    +'"block":'+data.dic29.block+','
+                    +'"index":'+data.dic29.index+','
+                    +'"type":'+data.dic29.type+','
+                    +'"userId":'+data.dic29.userId+'},'
+
+                    +'{"text":"'+data.dic2.text+'",'
+                    +'"id":'+data.dic2.id+','
+                    +'"block":'+data.dic2.block+','
+                    +'"index":'+data.dic2.index+','
+                    +'"type":'+data.dic2.type+','
+                    +'"userId":'+data.dic2.userId+'},'
+
+                    // +'{"text":"'+data.dic3.text+'",'
+                    // +'"id":'+data.dic3.id+','
+                    // +'"block":'+data.dic3.block+','
+                    // +'"index":'+data.dic3.index+','
+                    // +'"type":'+data.dic3.type+','
+                    // +'"userId":'+data.dic3.userId+'},'
+
+                    +'{"image":"'+data.dic4.image+'",'
+                    +'"id":'+data.dic4.id+','
+                    +'"block":'+data.dic4.block+','
+                    +'"index":'+data.dic4.index+','
+                    +'"type":'+data.dic4.type+','
+                    +'"userId":'+data.dic4.userId+'},'
+
+                    +'{"image":"'+data.dic5.image+'",'
+                    +'"id":'+data.dic5.id+','
+                    +'"block":'+data.dic5.block+','
+                    +'"index":'+data.dic5.index+','
+                    +'"type":'+data.dic5.type+','
+                    +'"userId":'+data.dic5.userId+'},'
+
+                    +'{"image":"'+data.dic6.image+'",'
+                    +'"id":'+data.dic6.id+','
+                    +'"block":'+data.dic6.block+','
+                    +'"index":'+data.dic6.index+','
+                    +'"type":'+data.dic6.type+','
+                    +'"userId":'+data.dic6.userId+'},'
+
+                    +'{"image":"'+data.dic7.image+'",'
+                    +'"id":'+data.dic7.id+','
+                    +'"block":'+data.dic7.block+','
+                    +'"index":'+data.dic7.index+','
+                    +'"type":'+data.dic7.type+','
+                    +'"userId":'+data.dic7.userId+'},'
+
+                    +'{"image":"'+data.dic8.image+'",'
+                    +'"id":'+data.dic8.id+','
+                    +'"block":'+data.dic8.block+','
+                    +'"index":'+data.dic8.index+','
+                    +'"text":"'+data.dic8.text+'",'
+                    +'"type":'+data.dic8.type+','
+                    +'"userId":'+data.dic8.userId+'},'
+
+                    +'{"image":"'+data.dic9.image+'",'
+                    +'"id":'+data.dic9.id+','
+                    +'"block":'+data.dic9.block+','
+                    +'"index":'+data.dic9.index+','
+                    +'"text":"'+data.dic9.text+'",'
+                    +'"type":'+data.dic9.type+','
+                    +'"userId":'+data.dic9.userId+'},'
+
+                    +'{"image":"'+data.dic10.image+'",'
+                    +'"id":'+data.dic10.id+','
+                    +'"block":'+data.dic10.block+','
+                    +'"index":'+data.dic10.index+','
+                    +'"text":"'+data.dic10.text+'",'
+                    +'"type":'+data.dic10.type+','
+                    +'"userId":'+data.dic10.userId+'},'
+
+                    +'{"image":"'+data.dic11.image+'",'
+                    +'"id":'+data.dic11.id+','
+                    +'"block":'+data.dic11.block+','
+                    +'"index":'+data.dic11.index+','
+                    +'"text":"'+data.dic11.text+'",'
+                    +'"type":'+data.dic11.type+','
+                    +'"userId":'+data.dic11.userId+'},'
+
+                    +'{"image":"'+data.dic12.image+'",'
+                    +'"id":'+data.dic12.id+','
+                    +'"block":'+data.dic12.block+','
+                    +'"index":'+data.dic12.index+','
+                    +'"text":"'+data.dic12.text+'",'
+                    +'"type":'+data.dic12.type+','
+                    +'"userId":'+data.dic12.userId+'},'
+
+                    +'{"image":"'+data.dic13.image+'",'
+                    +'"id":'+data.dic13.id+','
+                    +'"block":'+data.dic13.block+','
+                    +'"index":'+data.dic13.index+','
+                    +'"text":"'+data.dic13.text+'",'
+                    +'"type":'+data.dic13.type+','
+                    +'"userId":'+data.dic13.userId+'},'
+
+                    +'{"text":"'+data.dic14.text+'",'
+                    +'"correctId":'+data.dic14.correctId+','
+                    +'"id":'+data.dic14.id+','
+                    +'"block":'+data.dic14.block+','
+                    +'"index":'+data.dic14.index+','
+                    +'"type":'+data.dic14.type+','
+                    +'"userId":'+data.dic14.userId+'},'
+
+                    +'{"text":"'+data.dic15.text+'",'
+                    +'"correctId":'+data.dic15.correctId+','
+                    +'"id":'+data.dic15.id+','
+                    +'"block":'+data.dic15.block+','
+                    +'"index":'+data.dic15.index+','
+                    +'"type":'+data.dic15.type+','
+                    +'"userId":'+data.dic15.userId+'},'
+
+                    +'{"text":"'+data.dic16.text+'",'
+                    +'"correctId":'+data.dic16.correctId+','
+                    +'"id":'+data.dic16.id+','
+                    +'"block":'+data.dic16.block+','
+                    +'"index":'+data.dic16.index+','
+                    +'"type":'+data.dic16.type+','
+                    +'"userId":'+data.dic16.userId+'},'
+
+                    +'{"text":"'+data.dic17.text+'",'
+                    +'"correctId":'+data.dic17.correctId+','
+                    +'"id":'+data.dic17.id+','
+                    +'"block":'+data.dic17.block+','
+                    +'"index":'+data.dic17.index+','
+                    +'"type":'+data.dic17.type+','
+                    +'"userId":'+data.dic17.userId+'},'
+
+                    +'{"text":"'+data.dic18.text+'",'
+                    +'"correctId":'+data.dic18.correctId+','
+                    +'"id":'+data.dic18.id+','
+                    +'"block":'+data.dic18.block+','
+                    +'"index":'+data.dic18.index+','
+                    +'"type":'+data.dic18.type+','
+                    +'"userId":'+data.dic18.userId+'},'
+
+                    +'{"text":"'+data.dic19.text+'",'
+                    +'"correctId":'+data.dic19.correctId+','
+                    +'"id":'+data.dic19.id+','
+                    +'"block":'+data.dic19.block+','
+                    +'"index":'+data.dic19.index+','
+                    +'"type":'+data.dic19.type+','
+                    +'"userId":'+data.dic19.userId+'},'
+
+                    +'{"text":"'+data.dic20.text+'",'
+                    +'"id":'+data.dic20.id+','
+                    +'"block":'+data.dic20.block+','
+                    +'"index":'+data.dic20.index+','
+                    +'"type":'+data.dic20.type+','
+                    +'"userId":'+data.dic20.userId+'},'
+
+                    +'{"text":"'+data.dic21.text+'",'
+                    +'"id":'+data.dic21.id+','
+                    +'"block":'+data.dic21.block+','
+                    +'"index":'+data.dic21.index+','
+                    +'"type":'+data.dic21.type+','
+                    +'"userId":'+data.dic21.userId+'},'
+
+                    // +'{"text":"'+data.dic22.text+'",'
+                    // +'"id":'+data.dic22.id+','
+                    // +'"block":'+data.dic22.block+','
+                    // +'"index":'+data.dic22.index+','
+                    // +'"type":'+data.dic22.type+','
+                    // +'"userId":'+data.dic22.userId+'},'
+
+                    +'{"image":"'+data.dic23.image+'",'
+                    +'"id":'+data.dic23.id+','
+                    +'"block":'+data.dic23.block+','
+                    +'"index":'+data.dic23.index+','
+                    +'"type":'+data.dic23.type+','
+                    +'"userId":'+data.dic23.userId+'},'
+
+                    +'{"image":"'+data.dic24.image+'",'
+                    +'"id":'+data.dic24.id+','
+                    +'"block":'+data.dic24.block+','
+                    +'"index":'+data.dic24.index+','
+                    +'"type":'+data.dic24.type+','
+                    +'"userId":'+data.dic24.userId+'},'
+
+                    +'{"image":"'+data.dic25.image+'",'
+                    +'"id":'+data.dic25.id+','
+                    +'"block":'+data.dic25.block+','
+                    +'"index":'+data.dic25.index+','
+                    +'"type":'+data.dic25.type+','
+                    +'"userId":'+data.dic25.userId+'},'
+
+                    +'{"image":"'+data.dic26.image+'",'
+                    +'"id":'+data.dic26.id+','
+                    +'"block":'+data.dic26.block+','
+                    +'"index":'+data.dic26.index+','
+                    +'"type":'+data.dic26.type+','
+                    +'"userId":'+data.dic26.userId+'}'
+
+                    +']';
+                console.info(txt);
+                var context = '';
+                var json = $.parseJSON(txt);
+                for(var i=0;i<json.length;i++){
+                  var ele = json[i];
+                  if(ele.text==''){
+                    continue;
+                  }
+                  if(ele.image==''){
+                    continue;
+                  }
+                  if(ele.type==1001){
+                    var index = 1;
+                    context = ele.text;
+
+                        var boldText = context.split('||');
+                        for(var z=0;z<boldText.length;z++){
+                          if(z == 0 && boldText[0] != ""){
+
+                            var a ={
+                               'type':1001,
+                               'block':2,
+                               'index':index++,
+                               'text':boldText[0]
+                            };
+                            newJson.push(a);
+                          }
+                          if(z != 0 && z%2 == 0 && boldText[z] != ""){
+                              var a ={
+                                'type':1001,
+                               'block':2,
+                               'index':index++,
+                               'text':boldText[z]
+                              };
+                            newJson.push(a);
+                            }
+                          if(z != 0 && z%2 == 1 && boldText[z] != ""){
+                              var a ={
+                                'type':1003,
+                               'block':2,
+                               'index':index++,
+                               'text':boldText[z]
+                              };
+                              newJson.push(a);
+                            }
+                        }
+                      continue;
+                    }
+
+                     // 解释加粗
+                if (ele.type==1111) {
+                    var index = 1;
+                    var id = 12;
+                    context = ele.text;
+                    var boldText = context.split('||');
+                    for(var z=0;z<boldText.length;z++){
+                          if(z == 0 && boldText[0] != ""){
+
+                                    var a ={
+                                       'type':1001,
+                                       'block':4,
+                                       'id':id++,
+                                       'index':index++,
+                                       'userId': 0,
+                                       'text':boldText[0]
+                                    };
+                                    newJson.push(a);
+                                  }
+                                  if(z != 0 && z%2 == 0 && boldText[z] != ""){
+                                      var a ={
+                                        'type':1001,
+                                       'block':4,
+                                       'id':id++,
+                                       'userId': 0,
+                                       'index':index++,
+                                       'text':boldText[z]
+                                      };
+                                    newJson.push(a);
+                                    }
+                                  if(z != 0 && z%2 == 1 && boldText[z] != ""){
+                                      var a ={
+                                        'type':1003,
+                                       'block':4,
+                                       'id':id++,
+                                       'userId': 0,
+                                       'index':index++,
+                                       'text':boldText[z]
+                                      };
+                                      newJson.push(a);
+                                    }
+                    }
+                    continue;
+                }
+                    
+                  newJson.push(ele);
+                }
+
+                console.info(JSON.stringify(newJson));
+
+
+                $("#tarea").val(
+                    JSON.stringify(newJson)
+                    );
+              }
+
+    　　　　})
+
+      });
+});
+
+
+</script>
+</body>
+</html>

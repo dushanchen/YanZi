@@ -1,0 +1,44 @@
+<template>
+  <view class="header-root">
+    <image class="header-bg" src="../assets/img/global/header.png" />
+    <image class="header-img" src="{{ userInfo.avatarUrl }}"/>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class HeaderBar extends wepy.component {
+  data = {
+    userInfo: {
+    },
+  }
+  onLoad() {
+    this.userInfo = this.$parent.globalData.userInfo
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .header-root {
+    height: 150rpx;
+    width: 750rpx;
+    border-bottom: e5e5e5 1px solid;
+    position: relative;
+    .header-bg {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .header-img {
+      z-index: 2;
+      position: absolute;
+      top: 0;
+      left: 20rpx;
+      width: 120rpx;
+      height: 120rpx;
+    }
+  }
+</style>

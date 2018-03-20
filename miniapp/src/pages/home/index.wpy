@@ -1,0 +1,543 @@
+<template lang="wxml">
+  <view class="root">
+
+    <view class="root-buy" wx:if="{{first === false}}">
+
+      <!-- Header -->
+      <view class="header-root">
+
+        <!-- Header Bg -->
+        <image class="header-bg" src="../../assets/img/global/header.png" />
+
+        <!-- Header Menu -->
+        <image 
+          class="header-img" 
+          src="{{ userInfo.avatarUrl }}"
+          @tap="clickMain"/>
+
+        <view class="header-menu">
+
+          <image 
+            wx:if="{{menuStatus[1] === false}}"
+            class="menu-item" 
+            @tap="clickMenuOne"
+            src="../../assets/img/global/sl.png"/>
+
+          <image 
+            class="menu-item" 
+            @tap="clickMenuOne"
+            wx:if="{{menuStatus[1] === true}}"
+            src="../../assets/img/global/sl-selected.png"/>
+
+
+          <image 
+            @tap="clickMenuTwo"
+            wx:if="{{menuStatus[2] === false}}"
+            class="menu-item" 
+            src="../../assets/img/global/medal.png"/>
+
+          <image 
+            @tap="clickMenuTwo"
+            wx:if="{{menuStatus[2] === true}}"
+            class="menu-item" 
+            src="../../assets/img/global/medal-selected.png"/>
+
+          <image 
+            @tap="clickMenuThree"
+            wx:if="{{menuStatus[3] === false}}"
+            class="menu-item" 
+            src="../../assets/img/global/coin.png"/>  
+
+          <image 
+            @tap="clickMenuThree"
+            wx:if="{{menuStatus[3] === true}}"
+            class="menu-item" 
+            src="../../assets/img/global/coin-selected.png"/>  
+        </view>
+
+        <!-- Header Page -->
+        <view 
+          class="header-page" 
+          :class="{'header-page-show-360': menuStatus[0] === true || menuStatus[3] === true || menuStatus[2] === true, 'header-page-show-680': menuStatus[1] === true }" >
+          
+          <view class="page-course">
+
+            <scroll-view 
+              wx:if="{{menuStatus[0] === true}}"
+              class="scroll-view-course" 
+              scroll-x="true"
+              style="width: 750rpx;">
+              <view 
+                class="course-item"
+                wx:for="{{courses}}"
+                wx:key="index">
+                <view class="course-inner" @tap="handleClickCourse({{index}}, 'wepy', 'otherparams')">
+                  <view class="img-border">
+                    <image 
+                    class="inner-img"
+                    src="{{item.courseInfo.image}}" />
+                  </view>
+                  
+                    {{item.courseInfo.title}}
+                </view>
+              </view>
+            </scroll-view>
+
+            
+          </view>
+
+          <view 
+            class="page-time"
+            wx:if="{{menuStatus[1] === true}}"
+            >
+            <view class="count">
+              <image 
+                class="shalou"
+                src="{{url.shalou}}" />
+              <view class="data">
+                <text class="day">已坚持本课程5天</text>
+                <view class="point">
+                  <view class="point-item">
+                    <text class="point-self">62</text>
+                    <text class="point-name">课程知识点</text>
+                  </view>
+                  <view class="point-item">
+                    <text class="point-self">120</text>
+                    <text class="point-name">总知识点</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="week">
+            </view>
+            <view class="target">
+              今日课程目标
+            </view>
+          </view>
+
+          <view 
+            class="page-medal"
+            wx:if="{{menuStatus[2] === true}}">
+            <image 
+              class="medal-img"
+              src="{{url.medal}}" />
+            <view 
+              class="medal-data">
+              <view class="data-other">
+              </view>
+              <view class="data-count">
+                  <view class="data-item">
+                    <text class="data-self">25</text>
+                    <text class="data-name">课程经验值</text>
+                  </view>
+                  <view class="data-item">
+                    <text class="data-self">300</text>
+                    <text class="data-name">总经验值</text>
+                  </view>
+                </view>
+            </view>
+          </view>
+
+
+          <view class="page-store"
+               wx:if="{{menuStatus[3] === true}}">
+              <image
+                src="{{url.store_img}}"
+                class="store-img" />
+              <view
+                class="coin-view">
+                <text>您获得了8雁币作为奖学金</text>
+                <image
+                  class="coin-button"
+                  src="{{url.store_button}}"
+                  />
+
+              </view>
+            </view>
+        </view>
+      </view>
+
+      <!-- Lessons -->
+      <scroll-view 
+        scroll-y="true" 
+        class="lessons" 
+        bindscroll="scroll" 
+        style="height: {{windowH - 45 +'px'}};"
+        >
+        <view style="height: 100rpx">
+        </view>
+        <repeat for="{{lessons}}" key="index" index="index" item="item">
+          <LessonItem :item.sync="item" />
+        </repeat>
+        <view style="height: 100rpx">
+        </view>
+      </scroll-view>
+      
+      
+    </view>
+
+    <view class="root-first" wx:if="{{first === true}}" style="height: {{windowH +'px'}};">
+      <image style="height: 100%; width: 100%;" src="../../assets/img/global/first.jpg" />
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import LessonItem from '../../components/home/lessonItem'
+export default class HomeIndex extends wepy.page {
+  components = {
+    LessonItem: LessonItem
+  }
+  data = {
+    url: {
+      store_img: 'http://qiniu.image.yetter.cn/mini-home-store.png',
+      store_button: 'http://qiniu.image.yetter.cn/mini-home-store-button.png',
+      shalou: 'http://qiniu.image.yetter.cn/mini-shalou.jpg',
+      medal: 'http://qiniu.image.yetter.cn/mini-medal.jpg'
+    },
+    userInfo: {},
+    first: false,
+    windowH: 0,
+    menuStatus: [
+      false,
+      false,
+      false,
+      false
+    ],
+    lessons: [],
+    courses: [
+      {id: 1, title: '节目名称', location: '千寻寿司(新天地店)', distance: '1.2km'},
+      {id: 2, title: '节目名称', location: '新元素(新天地店)', distance: '3.2km'}
+    ]
+  }
+  methods = {
+    handleClickCourse(index) {
+      console.log(index)
+      if (index + 1 === this.courses.length) {
+        wepy.switchTab({
+          url: '/pages/discovery/index'
+        })
+      }
+    }
+  }
+  onLoad() {
+    this.windowH = this.$parent.globalData.windowH
+    this.getUserInfo()
+    this.getLessons()
+  }
+  getCourses() {
+    let url = 'http://47.96.6.111:8080/pisces/user/load/courses?token='
+    let token = this.$parent.globalData.token
+    wepy.request(url + token).then((r) => {
+      console.dir(r)
+      this.courses = r.data.message.courseInfos
+      this.courses.push({
+        image: '',
+        title: ''
+      })
+      this.$apply()
+    })
+  }
+  getUserInfo() {
+    wepy.getUserInfo().then( (d) => {
+      this.userInfo = d.userInfo
+      this.$apply()
+    })
+  }
+  processStartTime (d) {
+    let date = new Date(d)
+    let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '月'
+    let D = date.getDate() + '日'
+    return M + D
+  }
+  getLessons() {
+    wepy.request({
+      url: this.$parent.globalData.domain + 'pisces/user/load/lessons',
+      data: {
+        token: this.$parent.globalData.token,
+        courseId: 1
+      }
+    }).then((r) => {
+      this.lessons = r.data.message.lessonInfos
+      this.lessons.forEach(element => {
+        element.termLesson.startTimeCn = this.processStartTime(element.termLesson.startTime)
+      });
+    })
+  }
+  clickMain() {
+    this.getCourses()
+    for (let i = 0; i <= 3; i++) {
+      if (i === 0) {
+        this.menuStatus[0] = !this.menuStatus[0]
+      } else {
+        this.menuStatus[i] = false
+      }
+    }
+  }
+  clickMenuOne() {
+    for (let i = 0; i <= 3; i++) {
+      if (i === 1) {
+        this.menuStatus[1] = !this.menuStatus[1]
+      } else {
+        this.menuStatus[i] = false
+      }
+    }
+  }
+  clickMenuTwo() {
+    for (let i = 0; i <= 3; i++) {
+      if (i === 2) {
+        this.menuStatus[2] = !this.menuStatus[2]
+      } else {
+        this.menuStatus[i] = false
+      }
+    }
+  }
+  clickMenuThree() {
+    for (let i = 0; i <= 3; i++) {
+      if (i === 3) {
+        this.menuStatus[3] = !this.menuStatus[3]
+      } else {
+        this.menuStatus[i] = false
+      }
+    }
+  }
+  scroll(e) {
+    for (let i = 0; i <= 3; i++) {
+      this.menuStatus[i] = false
+    }
+  }
+  goLesson(e) {
+    // console.log(e)
+  }
+}
+</script>
+<style lang="less" scoped>
+  .root {
+    .root-buy {
+      .header-root {
+        height: 150rpx;
+        width: 750rpx;
+        border-bottom: e5e5e5 1px solid;
+        position: fixed;
+        top: 0;
+        z-index: 10;
+        .header-bg {
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 11;
+        }
+        .header-img {
+          z-index: 14;
+          position: absolute;
+          top: 0;
+          left: 20rpx;
+          width: 120rpx;
+          height: 120rpx;
+          border-radius: 60rpx;
+        }
+        .header-menu {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 440rpx;
+          height: 90rpx;
+          z-index: 13;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 50rpx;
+          .menu-item {
+            height: 80rpx;
+            width: 80rpx;
+          }
+        }
+        .header-page {
+          position: absolute;
+          overflow: hidden;
+          margin-top: 85rpx;
+          height: 0rpx;
+          background-color: white;
+          width: 100%;
+          transition:height 0.5s;
+          transition-timing-function: ease;
+          .page-course {
+            width: 750rpx;
+            // height: 100%;
+            .scroll-view-course {
+              height: 360rpx;
+              white-space: nowrap;
+              .course-item {
+                display: inline-block;
+                height: 360rpx;
+                width: 200rpx;
+                .course-inner {
+                  height: 300rpx;
+                  padding: 30rpx 0;
+                  font-size: 14px;
+                  color: #353535;
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  flex-direction: column;
+                  justify-content: space-around;
+                  .img-border {
+                    height: 160rpx;
+                    width: 160rpx;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    border: 0.5px solid #ececec;
+                    .inner_img {
+                      height: 160rpx;
+                      width: 160rpx;
+                    }
+                  }
+                }
+              }
+              .course-item-add {
+                display: inline-block;
+                height: 360rpx;
+                width: 200rpx;
+                background-color: black;
+              }
+            }
+          }
+          .page-time {
+            width: 700rpx;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20rpx 25rpx;
+            .count {
+              width: 100%;
+              height: 320rpx;
+              padding: 40rpx 0;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              .shalou {
+                height: 250rpx;
+                width: 250rpx;
+              }
+              .data {
+                height: 200rpx;
+                text-align: center;
+                width: 350rpx;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .day {
+                  font-size: 38rpx;
+                }
+                .point {
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                  .point-item {
+                    font-size: 28rpx;
+                    display: flex;
+                    flex-direction: column;
+                  }
+                }
+              }
+            }
+            .week {
+              width: 100%;
+              height: 60rpx;
+            }
+            .target{
+              height: 68rpx;
+              width: 100%;
+              font-size: 14px;
+            }
+          }
+          .page-medal {
+            padding:50rpx 38rpx;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .medal-img {
+              height: 260rpx;
+              width: 250rpx;
+            }
+            .medal-data {
+              width: 350rpx;
+              text-align: center;
+              .data-count {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .data-item {
+                  font-size: 28rpx;
+                  display: flex;
+                  flex-direction: column;
+                } 
+              }
+              
+            }
+          }
+          .page-store {
+            width: 650rpx;
+            padding: 0 50rpx;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .store-img {
+              height: 200rpx;
+              width: 200rpx;
+            }
+            .coin-view {
+              font-size: 16px;
+              height: 200rpx;
+              width: 200rpx;
+              display: flex; 
+              flex-direction: column;
+              align-items: center;
+              justify-content: space-between;
+              .coin-button {
+                width: 120rpx;
+                height: 45rpx;
+              }             
+            }
+          }
+        }
+        .header-page-show-360 {
+          height: 360rpx;
+        }
+        .header-page-show-680 {
+          height: 680rpx;
+        }
+      }
+      .lessons {
+        z-index: 0;
+        position: absolute;
+        width: 610rpx;
+        padding-left: 70rpx;
+        padding-right: 70rpx;
+        top: 90rpx;
+        display: flex;
+        flex-direction: row;
+        display: block;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+  }
+  .root-first {
+    height: 100%;
+    .first-pic {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  }
+  
+</style>
