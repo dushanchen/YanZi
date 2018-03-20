@@ -59,7 +59,7 @@ public class QuestionInfo {
 
         for (QuestionTextInfo textInfo : textInfoList) {
             switch (QuestionTextBlock.getByBlock(textInfo.getBlock())) {
-                case QUESTION_IMAGE:
+                case QUESTION_IMAGE://判空
                     buildQuestionImage(textInfo);
                     break;
                 case QUESTION_TEXT:
@@ -74,7 +74,7 @@ public class QuestionInfo {
                 case ANALYSIS_EXT_TEXT:
                     buildAnalysisExtText(textInfo);
                     break;
-                case ANALYSIS_IMAGE:
+                case ANALYSIS_IMAGE://判空
                     buildAnalysisImage(textInfo);
                     break;
                 case DIALOG:
@@ -89,12 +89,20 @@ public class QuestionInfo {
     }
 
     private void buildIntroduce(QuestionTextInfo textInfo) {
-    	introduce.add(new TextStyle(textInfo));
+    	switch (QuestionTextType.getByType(textInfo.getType())) {
+        case INTRODUCE:
+        	introduce.add(new TextStyle(textInfo));
+            break;
+        default:
+            break;
+    	}
 	}
+    
     private void buildQuestionImage(QuestionTextInfo textInfo) {
         switch (QuestionTextType.getByType(textInfo.getType())) {
             case IMAGE_STYLE_1:
-                questionImages.add(new ImageStyle1(textInfo));
+            	if(!textInfo.getImage().isEmpty())
+            		questionImages.add(new ImageStyle1(textInfo));//判空
                 break;
             default:
                 break;
@@ -163,8 +171,9 @@ public class QuestionInfo {
 
     private void buildAnalysisImage(QuestionTextInfo textInfo) {
         switch (QuestionTextType.getByType(textInfo.getType())) {
-            case IMAGE_STYLE_1:
-                analysisImages.add(new ImageStyle1(textInfo));
+            case IMAGE_STYLE_1://判空
+            	if(!textInfo.getImage().isEmpty())
+            		analysisImages.add(new ImageStyle1(textInfo));
                 break;
             default:
                 break;

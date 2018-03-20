@@ -108,13 +108,14 @@ public class UserController extends BaseController<ViewResponseBase> {
         List<UserTermInfo> userTermInfos = new ArrayList<>();
         for (TermInfo termInfo : saleValidTerms) {
             long termId = termInfo.getId();
+            long courseId = termInfo.getCourseId();
 //            long courseId=userCollegeService.getCourseIdByTermId(termId);
 //            termInfo.setCourseId(courseId);
             TermPrimer termPrimer = termData.getTermPrimer(termId);
             // TODO
             UserTermStatus userStatus = new UserTermStatus();//用户购买状态
             List<Long> userIds =new ArrayList<>();
-            userIds = userService.selectUserIdByTermId(termId);
+            userIds = userService.getUserByCourseIdTermId(courseId,termId);//courseTerm表买了期的用户List
             boolean check = false;
             if (userIds!=null) {
             	 for (Long userIdItem : userIds) {
@@ -215,6 +216,7 @@ public class UserController extends BaseController<ViewResponseBase> {
             @Valid UserLoadLessonsParams params) {
         ViewUserLoadLessonsResponse response = new ViewUserLoadLessonsResponse();
         long userId = paramsUtils.getUserId(params);
+        
         long courseId = params.getCourseId();
         long termId = userCollegeService.loadCourseTermId(userId, courseId); //用户买了该课程哪期
         List<TermLesson> termLessonList = termData.getTermLessonList(termId); //该期下有哪些lessonId
@@ -366,7 +368,7 @@ public class UserController extends BaseController<ViewResponseBase> {
    		 	response.setType(type);
    		 	response.setDes(des);
    		 	//return packageSuccessData(response);
-   		 	return packageSuccessData(response,2,type);//2是SuccesssCode的code参数
+   		 	return packageSuccessData(response,0,type);//0:SuccesssCode的code参数
     	}
         
     }
@@ -395,8 +397,8 @@ public class UserController extends BaseController<ViewResponseBase> {
         //更新课程经验值
         long newExp = userCollegeService.completeLesson(userId, courseId, lessonId, lessonKnowledge,exp);
         ViewSubmitQuestionResponse response = new ViewSubmitQuestionResponse();
-        
         response.setNewExp(newExp);
+        
         userCollegeService.saveLatestLesson(userId,lessonId);//保存用户最近完成的关卡 dusc
         boolean courseTermDayIsComplete = false;
         long termId = userService.selectUserTermIdByUserIdAndCourseId(userId, courseId);

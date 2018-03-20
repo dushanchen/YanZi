@@ -9,7 +9,7 @@ public class ThirdPartyInfo {
     private String thirdPartyId;
 
     @JSONField(serialize=false)
-    private String nickName;
+    private String nickName = "";
 
     private int source = UserSource.PHONE_NO.getSource();
 

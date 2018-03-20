@@ -59,10 +59,17 @@ public class TermIncrLoadJob extends MysqlLoadJob {
                 buildTerm(termInfo);
             }
         }
+        
+        
+       
+        
+        
+        
     }
 
     private void buildTerm(TermInfo termInfo) {
         long termId = termInfo.getId();
+        int valid = termInfo.getValid();
 //        TermPrimer termPrimer = termMapper.selectTermPrimerById(termId);
         TermPrimer termPrimer = new TermPrimer();
         termPrimer.setTermId(termId);
@@ -72,15 +79,18 @@ public class TermIncrLoadJob extends MysqlLoadJob {
         termInfo.setCount(count);
         
         termPrimerMap.put(termId, termPrimer);
+        
         List<TermCourse> termCourseList = termMapper.selectTermCourseById(termId,
-                envUtils.getEnvValid().getValue());
+        		valid);
         if (null != termCourseList && !termCourseList.isEmpty()) {
             termCourseListMap.put(termId, termCourseList);
         }
+        
         List<TermLesson> termLessonList = termMapper.selectTermLessonById(termId,
-                envUtils.getEnvValid().getValue());
+        		valid);
         if (null != termLessonList && !termLessonList.isEmpty()) {
             termLessonListMap.put(termId, termLessonList);
         }
+        
     }
 }

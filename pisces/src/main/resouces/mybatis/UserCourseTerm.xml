@@ -8,6 +8,19 @@
 		<result property="courseId" column="courseId" />
 	</resultMap>
 	
+	<resultMap type="LessonState" id="LessonState">
+		<result property="lessonId" column="lessonId" />
+		<result property="startTime" column="StartTime" />
+	</resultMap>
+	
+	<resultMap type="LessonPrimer" id="LessonPrimer">
+		<result property="lessonId" column="lessonId" />
+		<result property="title" column="PrimerTitle" />
+		<result property="brief" column="PrimerBrief" />
+		<result property="image" column="PrimerImage" />
+		<result property="content" column="PrimerContent" />
+	</resultMap>
+	
 	
 	
 	<resultMap type="BillsInfo" id="BillsInfo">
@@ -82,16 +95,47 @@
 		and `termId` = #{termId}
 	</select>
 	
+	<select id="getStartLessonCount" resultMap="LessonState">
+        <![CDATA[
+		SELECT `lessonId` , unix_timestamp(`StartTime`)*1000 StartTime
+		FROM
+		test.Lesson
+		WHERE `t_Id` = #{termId}
+		AND `Valid` = 0
+		]]>
+	</select>
+	
 	<select id="loadLatestLesson" resultType="java.lang.Long">
         <![CDATA[
 		SELECT `lessonId`
 		FROM
 		test.Lesson
-		WHERE `t_Id` = 2
-		ORDER BY rand() 
-		LIMIT 1 
+		WHERE `t_Id` = #{termId}
+		AND `Valid` = 0
+		order by lessonId desc limit 1
 		]]>
 	</select>
+	
+	<select id="loadFirstLesson" resultType="java.lang.Long">
+        <![CDATA[
+		SELECT MIN(`lessonId`)
+		FROM
+		test.Lesson
+		WHERE `t_Id` = #{termId}
+		]]>
+	</select>
+	
+	<select id="loadLessonPrimer" resultMap="LessonPrimer">
+        <![CDATA[
+		SELECT `lessonId` ,`PrimerTitle` ,`PrimerBrief` ,`PrimerImage` ,`PrimerContent`
+		FROM
+		test.Lesson
+		WHERE `lessonId` = #{lessonId}
+		]]>
+	</select>
+	
+	
+
 	
 
 	<select id="getUserId" resultType="java.lang.Long">

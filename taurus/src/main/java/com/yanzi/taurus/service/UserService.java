@@ -56,5 +56,7 @@ public interface UserService extends CUserService{
     public List<BillsInfo> getUserBillsByUserId(long userId,double number);
 
 	public double getGottenCoins(long userId);
+	
+	public void UpdateThirdPartyInfoUserId(long userId,String thirdPartyId);
 
 }

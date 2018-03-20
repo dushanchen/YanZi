@@ -62,4 +62,10 @@ public interface UserMapper {
     public double getReCoins(@Param(value="userId")long userId);
     
     public double getUsedCoins(@Param(value="userId")long userId);
+    
+    public ThirdPartyInfo loadUserIdByThirdPartInfo(@Param(value="thirdPartyId")String thirdPartyId,@Param(value="source") int source);
+    
+    public void UpdateThirdPartyInfoUserId(@Param(value="userId")long userId,@Param(value="thirdPartyId")String thirdPartyId);
+
+	public ThirdPartyInfo checkThirdParty(@Param(value="thirdPartyId")String thirdPartyId,@Param(value="source") int source);
 }

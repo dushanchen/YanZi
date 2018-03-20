@@ -55,20 +55,24 @@ public class LoginServiceImpl implements LoginService {
             long userId = registerService.registerByThirdPartyId(thirdPartyInfo);
             accountInfo = new AccountInfo();
             accountInfo.setId(userId);
+            thirdPartyInfo.setUserId(userId);
         }
-        return this.login(accountInfo, deviceInfo);
+        return this.login(accountInfo, deviceInfo);//生成token
     }
+    
     public void bindThirdPartInfo(ThirdPartyInfo thirdPartyInfo, long userId){
     	if (null == thirdPartyInfo || (StringUtils.isEmpty(thirdPartyInfo.getThirdPartyId()))) {
             throw new CommonException(ReturnCode.THIRD_PARTY_ID_IS_NULL);
         }
-        AccountInfo accountInfo = userMapper.selectAccountInfoByThirdPartyInfo(thirdPartyInfo);
+        AccountInfo accountInfo = userMapper.selectAccountInfoByThirdPartyInfo(thirdPartyInfo);//绑定该三方的用户
         // registe
-        if (null == accountInfo) {
+        if (null == accountInfo) {//没绑定过的三方
              thirdPartyInfo.setUserId(userId);
              userMapper.insertOrUpdateThirdPartyInfo(thirdPartyInfo);
         }else if(accountInfo.getId() != userId){//已用第三方登陆过,则更新第三方信息对应的userId
-        	 userMapper.updateThirdPartUserId(thirdPartyInfo.getThirdPartyId(), thirdPartyInfo.getSource(), userId);
+        	 
+        	
+        	userMapper.updateThirdPartUserId(thirdPartyInfo.getThirdPartyId(), thirdPartyInfo.getSource(), userId);
         	//Todo   删除最开始第三方登录时注册的用户信息
         }
 //        deviceInfo.setUserId(userId);
@@ -100,5 +104,23 @@ public class LoginServiceImpl implements LoginService {
             userService.removeToken(oldToken);
         }
     }
-
+    
+    
+    public ThirdPartyInfo loadUserIdByThirdPartInfo(String thirdPartyId, int source){
+    	ThirdPartyInfo thirdPartyInfo=userMapper.loadUserIdByThirdPartInfo(thirdPartyId,source);
+    	if(thirdPartyInfo == null){
+    		ThirdPartyInfo tempThirdPartyInfo=new ThirdPartyInfo();
+    		tempThirdPartyInfo.setThirdPartyId(thirdPartyId);
+    		tempThirdPartyInfo.setSource(source);
+    		userMapper.insertOrUpdateThirdPartyInfo(tempThirdPartyInfo);
+    		return tempThirdPartyInfo;
+    	}
+    	else
+    		//
+    		return thirdPartyInfo;
+    }
+    
+    public ThirdPartyInfo checkThirdParty(String thirdPartyId, int source){
+    	return userMapper.checkThirdParty(thirdPartyId,source);
+    }
 }

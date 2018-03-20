@@ -24,8 +24,10 @@ import com.yanzi.taurus.controller.params.LoginTokenParams;
 import com.yanzi.taurus.entity.AccountInfo;
 import com.yanzi.taurus.entity.DeviceInfo;
 import com.yanzi.taurus.entity.ThirdPartyInfo;
+import com.yanzi.taurus.enums.UserSource;
 import com.yanzi.taurus.service.LoginService;
 import com.yanzi.taurus.service.UserService;
+import com.yanzi.taurus.view.ViewCheckThird;
 import com.yanzi.taurus.view.ViewLoginResponse;
 
 @Controller
@@ -54,12 +56,21 @@ public class LoginController extends BaseController<ViewLoginResponse> implement
     @ResponseBody
     public ResponseEntity<ResponseEntityWrapper> loginByThirdPartyParams(
             @Valid LoginThirdPartyParams params) {
-        String loginStr = new String(
-                RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));//BUG来源于decrypt函数
-        ThirdPartyInfo thirdPartyInfo = JSON.parseObject(loginStr, ThirdPartyInfo.class);
+//        String loginStr = new String(
+//                RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));//BUG来源于decrypt函数
+//    	ThirdPartyInfo thirdPartyInfo = JSON.parseObject(loginStr, ThirdPartyInfo.class);
+    	
+        
 
         DeviceInfo deviceInfo = new DeviceInfo();
         deviceInfo.setDeviceId(params.getDeviceId());
+        
+    	String thirdPartyId=params.getThirdPartyId();
+    	int source=params.getSource();//0手机 1微信 2QQ 3微博
+    	ThirdPartyInfo thirdPartyInfo=loginService.loadUserIdByThirdPartInfo(thirdPartyId, source);
+    	thirdPartyInfo.setNickName(params.getNickName());
+    	
+        
         AccountInfo accountInfo = loginService.loginByThirdPartyInfo(thirdPartyInfo, deviceInfo);
         ViewLoginResponse response = new ViewLoginResponse(accountInfo.getId(),
                 accountInfo.getToken());
@@ -72,17 +83,30 @@ public class LoginController extends BaseController<ViewLoginResponse> implement
     public ResponseEntity<ResponseEntityWrapper> bindThirdPartInfo(
             @Valid LoginThirdPartyParams params) {
     	
+    	ThirdPartyInfo thirdPartyInfo=new ThirdPartyInfo();
+    	String thirdPartyId=params.getThirdPartyId();
+    	thirdPartyInfo.setThirdPartyId(thirdPartyId);
+    	int source=params.getSource();
+    	thirdPartyInfo.setSource(source);//0手机 1微信 2QQ 3微博
     	long userId = userService.loadUserId(params.getToken());
-        String loginStr = new String(
-                RSAEncrypt.decrypt(privateKey, Base64.decodeBase64(params.getParam())));
-        ThirdPartyInfo thirdPartyInfo = JSON.parseObject(loginStr, ThirdPartyInfo.class);
+    	thirdPartyInfo.setUserId(userId);
+    	
+    	ThirdPartyInfo isthirdParty=loginService.checkThirdParty(thirdPartyId,source);
+    	
+    	if (isthirdParty != null ) {//库里有三方信息了 （已绑定 绑了其他 独立三方）
+    		
+   		 	int type=25001;
+   		 	return packageSuccessData(new ViewLoginResponse(userId,params.getToken()),0,type);
+    	}
+    	else{
+    		DeviceInfo deviceInfo = new DeviceInfo();
+    		deviceInfo.setDeviceId(params.getDeviceId());
+    		loginService.bindThirdPartInfo(thirdPartyInfo, userId);
+    		return packageSuccessData(new ViewLoginResponse(userId,params.getToken()));
+    		}
+    	}
+    
 
-//        DeviceInfo deviceInfo = new DeviceInfo();
-//        deviceInfo.setDeviceId(params.getDeviceId());
-        loginService.bindThirdPartInfo(thirdPartyInfo, userId);
-       
-        return packageSuccessData(new ViewLoginResponse(userId,params.getToken()));
-    }
     
     
     @RequestMapping(value = "/login/token", method = { RequestMethod.GET, RequestMethod.POST })

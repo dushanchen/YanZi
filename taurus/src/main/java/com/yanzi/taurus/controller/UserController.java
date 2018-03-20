@@ -216,7 +216,7 @@ public class UserController extends BaseController<ViewResponseBase> implements 
         arr[2] = false;
         arr[3] = false;
         String phoneNo = accountInfo.getPhoneNo();
-        if(null!=phoneNo){
+        if(phoneNo!=null&&!phoneNo.isEmpty()){
         	arr[0] = true;
         }
         for(ThirdPartyInfo thirdpartyInfo:thirdPartyInfos){
@@ -253,7 +253,7 @@ public class UserController extends BaseController<ViewResponseBase> implements 
 
         //用户课程相关信息
         if (params.isWithCourseInfo()) {
-            UserCourseInfo userCourseInfo = userService.loadUserCourseInfo2(userId);
+            UserCourseInfo userCourseInfo = userService.loadUserCourseInfo(userId);
             response.setUserCourseInfo(userCourseInfo);
         }
 

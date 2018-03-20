@@ -51,7 +51,7 @@ public enum RedisPrefixCode {
     USER_COLLEGE_COURSE_TERM_DAY_KNOWLEDGE("B00103&&"),              // 用户course 天 knowledge
     USER_COLLEGE_COURSE_TERM_COMPLETE_DAY_COUNT("B00104&&"),         // 用户course 完成的天数 
     USER_COLLEGE_COURSE_TERM_DAY_COMPLETE("B00105&&"),               // 用户course 每天完成状态
-    USER_COLLEGE_COURSE_TERM_WEEK_EXP("B00106&&"),
+    USER_COLLEGE_COURSE_TERM_WEEK_EXP("B00106&&"),					
     USER_COLLEGE_COURSE_TERM_LEVEL("B00107&&"),
     
     USER_COLLEGE_COURSE_TERM_LESSON_MAX_KNOWLEDGE("B00201&&"),       // 用户course lesson最大正确数

@@ -17,18 +17,22 @@ import com.yanzi.common.controller.BaseController;
 import com.yanzi.common.controller.params.UserActionParamsBase;
 import com.yanzi.common.controller.response.ResponseEntityWrapper;
 import com.yanzi.common.controller.view.ViewResponseBase;
+import com.yanzi.common.entity.college.lesson.LessonPrimer;
 import com.yanzi.common.service.CUserCollegeService;
 import com.yanzi.common.utils.ArrayToListUtil;
 import com.yanzi.common.utils.ParamsUtils;
 import com.yanzi.pisces.service.UserCollegeService;
 import com.yanzi.pisces.service.UserService;
+import com.yanzi.pisces.controller.param.ShareRewardParams;
 import com.yanzi.pisces.controller.param.UserLoadPrimerParams;
 import com.yanzi.pisces.controller.param.UserLoadTermInfoParams;
+import com.yanzi.pisces.controller.response.ShareRewardResponse;
 import com.yanzi.pisces.controller.response.ViewShareCurriculumExpResponse;
 import com.yanzi.pisces.controller.response.ViewShareCurriculumKnowledgeResponse;
 import com.yanzi.pisces.controller.response.ViewShareCurriculumLessonResponse;
 import com.yanzi.pisces.data.LessonData;
 import com.yanzi.pisces.data.LevelData;
+import com.yanzi.pisces.entity.LessonState;
 import com.yanzi.pisces.entity.UserRank;
 import com.yanzi.pisces.entity.UserTermInfo;
 @Controller
@@ -70,8 +74,17 @@ public class ShareController extends BaseController<ViewResponseBase> {
         
         //long lessonId = collegeService.loadLatestLesson(userId,courseId);//关卡获取 token+courseId 拉取lessonId最后一行数据
         long termId=userService.selectUserTermIdByUserIdAndCourseId(userId,courseId);
-        long lessonId=userService.loadLatestLesson(termId);
-        response.setLesson(lessonData.getLessonBrief(lessonId));
+        long lessonId;
+        int startLessonCount=userService.getStartLessonCount(termId);
+        if (startLessonCount == 0){
+        	lessonId=userService.loadFirstLesson(termId);//没有开课的 加载第一关
+        }
+        else{
+        	lessonId=userService.loadLatestLesson(termId);// 加载valid为0的最后的一关
+        }
+        LessonPrimer lessonPrimer=userService.loadLessonPrimer(lessonId);
+        response.setLesson(lessonPrimer);
+//        response.setLesson(lessonData.getLessonBrief(lessonId));//redis中没有valid为1的lesson
 //        response.setLessonBackgroud(curriculumData.getLessonBackgroudById(lessonId));
         
         long insistTime=cUserCollegeService.loadCourseTermCompleteDayCount(userId,courseId,termId);//课程坚持天数获取
@@ -96,11 +109,11 @@ public class ShareController extends BaseController<ViewResponseBase> {
 		response.setUserInfo(userService.loadUserInfo(userId));
 		long exp = collegeService.loadExp(userId);
 	    response.setExp(exp);
-	    response.setLevelInfo(levelData.getByCourseIdAndExp(courseId, exp));
+	    response.setLevelInfo(levelData.getByCourseIdAndExp(courseId, exp));//termId,exp锁定level
 	    
 	    //打败好友数获取
 	    long termId = userCollegeService.loadCourseTermId(userId, courseId); //获取termId
-	    List<UserRank> userRanks = userCollegeService.loadCourseTermRankList(userId, courseId,
+	    List<UserRank> userRanks = userCollegeService.loadFCourseTermRankList(userId, courseId,
                 termId);
 	    int all=userRanks.size();
 	    int rank=userCollegeService.loadCourseTermRank(userId, courseId,
@@ -132,5 +145,7 @@ public class ShareController extends BaseController<ViewResponseBase> {
 		response.setMaxKnowledge(collegeService.loadCourseTermLessonMaxKnowledge(userId, courseId, termId, lessonId));
 	    return packageSuccessData(response);
 	}
+	
+	
 	
 }

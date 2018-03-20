@@ -18,6 +18,8 @@
 	    <typeAlias alias="TermCourse" type="com.yanzi.common.entity.term.TermCourse" />
 	    <typeAlias alias="BillsInfo" type="com.yanzi.common.entity.user.BillsInfo" />
 	    <typeAlias alias="UserFriendInfo" type="com.yanzi.pisces.entity.UserFriendInfo"/>
+	    <typeAlias alias="LessonState" type="com.yanzi.pisces.entity.LessonState"/>
+	    <typeAlias alias="LessonPrimer" type="com.yanzi.common.entity.college.lesson.LessonPrimer"/>
 	    
 	    <typeAlias alias="UserTermCourseEntity" type="com.yanzi.pisces.entity.UserTermCourseEntity" />
 	</typeAliases>

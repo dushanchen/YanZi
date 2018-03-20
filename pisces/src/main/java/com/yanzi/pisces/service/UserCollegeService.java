@@ -116,5 +116,7 @@ public interface UserCollegeService extends CUserCollegeService {
     
     public long getCourseIdByTermId(long termId);
 
+	public List<UserRank> loadFCourseTermRankList(long userId, long courseId, long termId);
+
 
 }

@@ -15,8 +15,6 @@
 		SELECT CourseId, `Title`, `EnTitle`, `Image`, `Valid`
 		FROM
 		test.Course
-		WHERE UpdateTime >= #{beginTime}
-		AND UpdateTime < #{endTime}
 		]]>
 	</select>
 	<select id="getAllCourseInfo" resultMap="CourseInfo">

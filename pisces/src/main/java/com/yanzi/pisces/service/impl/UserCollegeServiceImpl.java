@@ -68,7 +68,7 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
         List<UserTermCourseEntity> userCourseTermList = userCourseTermMapper
                 .selectUserCourseTermByUserId(userId);
         List<Long> userCourseIdList = new ArrayList<>();
-        for (UserTermCourseEntity entity : userCourseTermList) {
+        for (UserTermCourseEntity entity : userCourseTermList) {//courseTerm表匹配项 根据课程下term的valid参数筛选
             if (termData.isValid(entity.getTermId())) {
                 userCourseIdList.add(entity.getCourseId());
             }
@@ -110,16 +110,16 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
         // complete day
         if (!this.courseTermDayIsComplete(userId, courseId, termId, date.getDay())) {
             if (todayKnowledge >= DAY_COMPLETE_KNOWLEDGE) {//更新今日目标完成状态
-                this.courseTermDayComplete(userId, courseId, termId, date.getDay());
+                this.courseTermDayComplete(userId, courseId, termId, date.getDay());//redis更新期完成状态
                 long completeDayCount = this.loadCourseTermCompleteDayCount(userId, courseId,
-                        termId);
+                        termId);//坚持天数
                 ++completeDayCount;
                 this.saveCourseTermCompleteDayCount(userId, courseId, termId, completeDayCount);
                 // raise exp TODO judge
                 // if (completeDayCount % SEVEN_DAY == 0) {
                 // newExp += SEVEN_DAY_COMPLETE_EXP;
                 // } else {
-                newExp += DAY_COMPLETE_EXP;
+                newExp += DAY_COMPLETE_EXP;//今日任务经验值增加
                 // }
             }
         }
@@ -343,8 +343,15 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
         // TODO
         //List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());//获取了所有用户的Id
         List<Long> courseTermUserIdList=this.getUserId(courseId,termId);//获取购买了该课程该期的用户们
-        //好友筛选
-        List<Long> fUserIdList=new ArrayList<>();
+        List<Long> expList = this.loadCourseTermExp(courseTermUserIdList, courseId, termId);//获取大家的exp
+        List<RankInfo> rankInfoList = buildRankList(courseTermUserIdList, expList);		//构建排行	
+        return buildUserRankList(rankInfoList);
+    }
+
+    @Override
+    public List<UserRank> loadFCourseTermRankList(long userId, long courseId, long termId){
+    	List<Long> courseTermUserIdList=this.getUserId(courseId,termId);
+    	List<Long> fUserIdList=new ArrayList<>();
 	    for(int i=0;i<courseTermUserIdList.size();i++){
 	    	long tempId=courseTermUserIdList.get(i);//获取每个对象的userId     
 	    	if(userCollegeService.checkFriend(userId,tempId)){ //判断是否好友
@@ -352,9 +359,10 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
 	    	}
 	    }
 	    fUserIdList.add(userId);//用户自身加入list
-        List<Long> expList = this.loadCourseTermExp(fUserIdList, courseId, termId);//获取大家的exp
-        List<RankInfo> rankInfoList = buildRankList(fUserIdList, expList);		//构建排行	
-        return buildUserRankList(rankInfoList);
+	    List<Long> expList = this.loadCourseTermExp(fUserIdList, courseId, termId);//获取大家的exp
+        List<RankInfo> rankInfoList = buildRankList(fUserIdList, expList);		//构建排行
+	    
+	    return buildUserRankList(rankInfoList);
     }
 
     @Override
@@ -372,7 +380,8 @@ public class UserCollegeServiceImpl extends CUserCollegeServiceImpl implements U
     public List<UserRank> loadCourseTermWeekRankList(long userId, long courseId, long termId) {
         Date date = TimeUtils.getDate();
         // TODO
-        List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());
+        //List<Long> courseTermUserIdList = userService.getUserIds(0, userService.getUserCount());
+        List<Long> courseTermUserIdList=this.getUserId(courseId,termId);
         List<Long> expList = this.loadCourseTermWeekExp(courseTermUserIdList, courseId, termId, date.getWeek());
         List<RankInfo> rankInfoList = buildRankList(courseTermUserIdList, expList);
         return buildUserRankList(rankInfoList);

@@ -354,5 +354,7 @@ public class UserServiceImpl extends CUserServiceImpl implements UserService{
     	return nowCoins+usedCoins-reCoins;
     }
     
-    
+    public void UpdateThirdPartyInfoUserId(long userId,String thirdPartyId){
+    	userMapper.UpdateThirdPartyInfoUserId(userId,thirdPartyId);
+    }
 }

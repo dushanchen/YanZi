@@ -86,6 +86,16 @@
 		]]>
 	</insert>
 	
+	<insert id="UpdateThirdPartyInfoUserId">
+		<![CDATA[
+		UPDATE User.ThirdPartyInfo
+		SET `userId` = #{userId}
+		WHERE
+		    `thirdPartyId` = #{thirdPartyId}
+		]]>
+	</insert>
+	
+	
 	<insert id="addUserCoins">
         <![CDATA[
         INSERT INTO
@@ -181,8 +191,23 @@
 		]]>
 	</select>
 		
+	<select id="loadUserIdByThirdPartInfo" resultMap="ThirdPartyInfo">
+        <![CDATA[
+        SELECT `UserId`,`ThirdPartyId`,`Source`
+        FROM User.ThirdPartyInfo
+		WHERE `ThirdPartyId` = #{thirdPartyId}
+		AND `Source` = #{source}
+		]]>
+	</select>
 	
-	
+	<select id="checkThirdParty" resultType="ThirdPartyInfo">
+        <![CDATA[
+         SELECT `UserId`,`ThirdPartyId`,`Source`
+        FROM User.ThirdPartyInfo
+		WHERE `ThirdPartyId` = #{thirdPartyId}
+		AND `Source` = #{source}
+		]]>
+	</select>
 	
 
 	

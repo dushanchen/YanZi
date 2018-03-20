@@ -64,9 +64,16 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public long registerByThirdPartyId(ThirdPartyInfo thirdPartyInfo) {
         AccountInfo accountInfo = new AccountInfo();
-        userMapper.insertAccountInfo(accountInfo);
-        thirdPartyInfo.setUserId(accountInfo.getId());
-        userMapper.insertOrUpdateThirdPartyInfo(thirdPartyInfo);
+        //accountInfo.setPhoneNo(thirdPartyInfo.getThirdPartyId());//三方ID首次做为PhoneID入表
+        
+        userMapper.insertAccountInfo(accountInfo);//生成userId
+        long userId=accountInfo.getId();
+        thirdPartyInfo.setUserId(userId);
+        String thirdPartyId=thirdPartyInfo.getThirdPartyId();
+        
+        userMapper.UpdateThirdPartyInfoUserId(userId,thirdPartyId);//更新数据库
+        
+        
         register(accountInfo, thirdPartyInfo.getNickName());
         return accountInfo.getId();
     }

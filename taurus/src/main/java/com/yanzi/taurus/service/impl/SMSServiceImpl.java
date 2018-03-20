@@ -88,7 +88,7 @@ public class SMSServiceImpl implements SMSService, InitializingBean {
 
     @Override
     public long sendVerifiMessageModifyPhoneNo(String phoneNo, long userId) {
-        phoneService.isNotRegisted(phoneNo);
+        phoneService.isNotRegisted(phoneNo);//不抛已登录的异常就没注册
         return sendVerifiMessage(phoneNo, SMSVerifiCodeType.RESET_PHONENO);
     }
 
@@ -103,7 +103,7 @@ public class SMSServiceImpl implements SMSService, InitializingBean {
         Timestamp beginTime = new Timestamp(TimeUtils.getTodayStartTime().getTime());
         Timestamp endTime = new Timestamp(TimeUtils.getTodayEndTime().getTime());
         int count = smsVerifiCodeMapper.selectCountByPhoneNoAndRangeTime(phoneNo, beginTime,
-                endTime);
+                endTime);    //短信验证码日记录条数
         if (count >= MAX_VERIFI_MSG_NUM) {
             throw new CommonException(ReturnCode.SMS_DAY_MAX_NUM_EXCEED);
         }

@@ -1,7 +1,13 @@
 package com.yanzi.taurus.entity;
 
 public class AccountInfo {
-    public static final AccountInfo DEFAULT = new AccountInfo();
+//    public AccountInfo(){
+//    	this.id=0;
+//    	this.phoneNo="未绑定";
+//    	this.password="未设置";
+//    	this.token="未生成";
+//    }
+	public static final AccountInfo DEFAULT = new AccountInfo();
     
     private long id = 0;
     private String phoneNo = "";

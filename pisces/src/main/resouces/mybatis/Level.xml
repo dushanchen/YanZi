@@ -17,8 +17,6 @@
 		SELECT LevelId, `CourseId`, `Level`, `MinExp`, `Coin`, `Image`, `Valid`
 		FROM
 		test.Level
-		WHERE UpdateTime >= #{beginTime}
-		AND UpdateTime < #{endTime}
 		]]>
 	</select>
 </mapper>

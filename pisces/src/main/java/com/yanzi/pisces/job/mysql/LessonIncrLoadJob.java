@@ -75,8 +75,10 @@ public class LessonIncrLoadJob extends MysqlLoadJob implements InitializingBean{
 
     private void buildLesson(LessonInfo lessonInfo){
         long lessonId = lessonInfo.getId();
+        
         LessonPrimer lessonBrief = lessonMapper.selectPrimerById(lessonId);
         lessonBriefMap.put(lessonId, lessonBrief);
+        
         LessonSummary lessonSummary = lessonMapper.selectSummaryBaseById(lessonId);
 //        List<Summary> summaries = lessonMapper.selectSummaryDetailById(lessonId, envUtils.getEnvValid().getValue());
         String summaryContent = lessonInfo.getSummaryContent();
